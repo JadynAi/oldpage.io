@@ -11,12 +11,9 @@ url: "http://JadynAi.github.io"              # your host, for absolute URL
 
 # SNS settings
 RSS: false
-weibo_username:     一裤鱼
+weibo_username: 一裤鱼
 #zhihu_username:     huxpro
-github_username:    JadynAi
-#twitter_username:  huxpro
-#facebook_username:  huxpro
-
+github_username: JadynAi
 
 
 # Build settings

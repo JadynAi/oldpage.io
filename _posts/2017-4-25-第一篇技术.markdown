@@ -1,0 +1,10 @@
+---
+layout:     post
+title:      "JadynAi的第一篇博客"
+subtitle:   " \"Hello World\""
+date:       2017-04-25
+author:     "JadynAi"
+header-img: "img/post-bg-2015.jpg"
+tags:
+    -技术讨论
+---
