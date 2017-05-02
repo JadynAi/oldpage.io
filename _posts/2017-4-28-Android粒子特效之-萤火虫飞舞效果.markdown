@@ -1,0 +1,24 @@
+---
+layout:     post
+title:      "Android萤火虫飞舞粒子效果"
+subtitle:   "让我们来做一群快乐的萤火虫吧！"
+date:       2017-04-28
+author:     "JadynAi"
+header-img: "img/20170428-blog-header-bg.jpg"
+header-mask: 0.3
+catalog:    true
+tags:
+    - 粒子效果
+    - Android动画
+    - 技术讨论
+---
+
+> 原创文章，转载请注明出处
+
+## 粒子效果
+>实现效果图，如下：
+
+![](http://JadynAi.github.io/img/20170428-blog-particle.gif)
+
+
+## 实现思路

@@ -5,9 +5,37 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 26 Apr 2017 09:47:10 +0800</pubDate>
-    <lastBuildDate>Wed, 26 Apr 2017 09:47:10 +0800</lastBuildDate>
+    <pubDate>Tue, 02 May 2017 10:13:50 +0800</pubDate>
+    <lastBuildDate>Tue, 02 May 2017 10:13:50 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>Android萤火虫飞舞粒子效果</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;原创文章，转载请注明出处&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;粒子效果&quot;&gt;粒子效果&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;实现效果图，如下：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://JadynAi.github.io/img/20170428-blog-particle.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;实现思路&quot;&gt;实现思路&lt;/h2&gt;
+</description>
+        <pubDate>Fri, 28 Apr 2017 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/04/28/Android%E7%B2%92%E5%AD%90%E7%89%B9%E6%95%88%E4%B9%8B-%E8%90%A4%E7%81%AB%E8%99%AB%E9%A3%9E%E8%88%9E%E6%95%88%E6%9E%9C/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/04/28/Android%E7%B2%92%E5%AD%90%E7%89%B9%E6%95%88%E4%B9%8B-%E8%90%A4%E7%81%AB%E8%99%AB%E9%A3%9E%E8%88%9E%E6%95%88%E6%9E%9C/</guid>
+        
+        <category>粒子效果</category>
+        
+        <category>Android动画</category>
+        
+        <category>技术讨论</category>
+        
+        
+      </item>
     
       <item>
         <title>JadynAi的第一篇博客</title>
@@ -17,7 +45,7 @@
         <link>http://localhost:4000/2017/04/25/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%8A%80%E6%9C%AF/</link>
         <guid isPermaLink="true">http://localhost:4000/2017/04/25/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%8A%80%E6%9C%AF/</guid>
         
-        <category>-技术讨论</category>
+        <category>技术讨论</category>
         
         
       </item>
