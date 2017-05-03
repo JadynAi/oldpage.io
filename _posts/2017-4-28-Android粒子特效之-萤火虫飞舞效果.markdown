@@ -20,6 +20,8 @@ tags:
 
 ![](http://JadynAi.github.io/img/20170428-blog-particle.gif)
 
+**先奉上GitHub地址**[戳这里](https://github.com/JadynAi/Particle)
+
 ## 实现原理
 
 Android的粒子效果、粒子动画，已经有很多开源的轮子了。作为一个坚定的轮子主义者，我google了大半天，却没有找到这种类似于萤火虫飞舞的效果。只好自己来实现这种效果。
