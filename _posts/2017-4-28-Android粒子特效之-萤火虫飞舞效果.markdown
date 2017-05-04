@@ -13,6 +13,8 @@ tags:
     - 技术讨论
 ---
 
+[GitHub地址](https://github.com/JadynAi/Particle)
+
 > 原创文章，转载请注明出处
 
 ## 萤火虫飞舞粒子效果
@@ -20,7 +22,7 @@ tags:
 
 ![](http://JadynAi.github.io/img/20170428-blog-particle.gif)
 
-**先奉上GitHub地址**[戳这里](https://github.com/JadynAi/Particle)
+**先奉上GitHub地址**[戳这里](https://github.com/JadynAi/Particle)，有兴趣的同鞋star一下咯
 
 ## 实现原理
 
