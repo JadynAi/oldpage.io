@@ -5,13 +5,15 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 03 May 2017 14:54:56 +0800</pubDate>
-    <lastBuildDate>Wed, 03 May 2017 14:54:56 +0800</lastBuildDate>
+    <pubDate>Fri, 05 May 2017 10:22:41 +0800</pubDate>
+    <lastBuildDate>Fri, 05 May 2017 10:22:41 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
         <title>Android萤火虫飞舞粒子效果</title>
-        <description>&lt;blockquote&gt;
+        <description>&lt;p&gt;&lt;a href=&quot;https://github.com/JadynAi/Particle&quot;&gt;GitHub地址&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
   &lt;p&gt;原创文章，转载请注明出处&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -22,7 +24,7 @@
 
 &lt;p&gt;&lt;img src=&quot;http://JadynAi.github.io/img/20170428-blog-particle.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;先奉上GitHub地址&lt;/strong&gt;&lt;a href=&quot;https://github.com/JadynAi/Particle&quot;&gt;戳这里&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;先奉上GitHub地址&lt;/strong&gt;&lt;a href=&quot;https://github.com/JadynAi/Particle&quot;&gt;戳这里&lt;/a&gt;，有兴趣的同鞋star一下咯&lt;/p&gt;
 
 &lt;h2 id=&quot;实现原理&quot;&gt;实现原理&lt;/h2&gt;
 
