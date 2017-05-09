@@ -11,7 +11,7 @@ url: "http://JadynAi.github.io"              # your host, for absolute URL
 
 # SNS settings
 RSS: false
-weibo_username: 一裤鱼
+weibo_username: ailolime
 #zhihu_username:     huxpro
 github_username: JadynAi
 
@@ -63,8 +63,8 @@ ga_domain: ailoli.me
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "废土之上"
-sidebar-avatar: /img/avatar-hux.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-about-description: "试问哪个程序员不想拥有一只萝莉"
+sidebar-avatar: /img/ailoli-me.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
 
