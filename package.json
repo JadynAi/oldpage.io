@@ -3,7 +3,7 @@
     "title": "JadynAi",
     "version": "1.0.0",
     "homepage": "http://JadynAi.github.io",
-    "author": "JadynAi",
+    "author": "JadynAi <aijt1993@gmail.com>",
     "devDependencies": {
         "grunt": "~0.4.5",
         "grunt-contrib-less": "~0.11.4",
