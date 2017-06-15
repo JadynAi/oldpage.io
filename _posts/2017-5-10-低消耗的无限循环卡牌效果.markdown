@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "低消耗、带回滚动画的可滑动卡牌堆叠效果"
+title:      "低消耗、带回滚动画的仿探探交互效果"
 subtitle:   "给你一沓无限循环的牌"
 date:       2017-05-10
 author:     "JadynAi"
