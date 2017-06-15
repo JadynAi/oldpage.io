@@ -10,9 +10,9 @@
     <meta name="keyword"  content="">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>Android萤火虫飞舞粒子效果 - Ai开发Ai创意</title>
+    <title>Android卡牌大师 - Ai开发Ai创意</title>
 
-    <link rel="canonical" href="http://localhost:4000/2017/05/03/Android%E7%B2%92%E5%AD%90%E7%89%B9%E6%95%88%E4%B9%8B-%E8%90%A4%E7%81%AB%E8%99%AB%E9%A3%9E%E8%88%9E%E6%95%88%E6%9E%9C/">
+    <link rel="canonical" href="http://localhost:4000/2017/05/10/%E4%BD%8E%E6%B6%88%E8%80%97%E7%9A%84%E6%97%A0%E9%99%90%E5%BE%AA%E7%8E%AF%E5%8D%A1%E7%89%8C%E6%95%88%E6%9E%9C/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -125,12 +125,12 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/20170428-blog-header-bg.jpg" width="0" height="0"> -->
+<!-- <img src="/img/20170510-blog-header-bg.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
-        background-image: url('/img/20170428-blog-header-bg.jpg')
+        background-image: url('/img/20170510-blog-header-bg.jpg')
     }
 </style>
 <header class="intro-header" >
@@ -140,19 +140,17 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#粒子效果" title="粒子效果">粒子效果</a>
-                        
-                        <a class="tag" href="/tags/#Android动画" title="Android动画">Android动画</a>
+                        <a class="tag" href="/tags/#Recyclerview" title="Recyclerview">Recyclerview</a>
                         
                         <a class="tag" href="/tags/#技术讨论" title="技术讨论">技术讨论</a>
                         
                     </div>
-                    <h1>Android萤火虫飞舞粒子效果</h1>
+                    <h1>Android卡牌大师</h1>
                     
                     
-                    <h2 class="subheading">让我们来做一群快乐的萤火虫吧！</h2>
+                    <h2 class="subheading">给你一沓无限循环的牌</h2>
                     
-                    <span class="meta">Posted by JadynAi on May 3, 2017</span>
+                    <span class="meta">Posted by JadynAi on May 10, 2017</span>
                 </div>
             </div>
         </div>
@@ -170,179 +168,145 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<p><a href="https://github.com/JadynAi/Particle">GitHub地址</a></p>
-
-<blockquote>
-  <p>原创文章，转载请注明出处</p>
+				<blockquote>
+  <p>前端时间项目中有一个仿探探的交互界面，写代码的过程中，觉得效果还不错。就把思路和原理记录了下来，分享一下。</p>
 </blockquote>
 
-<h2 id="萤火虫飞舞粒子效果">萤火虫飞舞粒子效果</h2>
+<h4 id="套路还是要走一下的先给大家看一下效果图">套路还是要走一下的，先给大家看一下效果图:</h4>
+
 <blockquote>
-  <p>本项目中我提供了两种方案，最终呈现的效果如下：</p>
+  <p>其实Android发展到今时今日，其本身提供的API已经足够解决大部分问题。</p>
+
+  <p>尤其是这种列表（本工程的交互界面应当也算作一种列表吧）类的UI体现，大部分都能使用Recyclerview来解决。当然，话这里不能说死。但Recyclerview这种神兵利器，还是握在手中会好一些。</p>
 </blockquote>
 
-<p><img src="http://JadynAi.github.io/img/20170428-blog-particle.gif" alt="" /></p>
+<h4 id="会用到的知识点">会用到的知识点</h4>
 
-<p><strong>先奉上GitHub地址</strong><a href="https://github.com/JadynAi/Particle">戳这里</a>，有兴趣的同鞋star一下咯</p>
-
-<h2 id="实现原理">实现原理</h2>
-
-<p>Android的粒子效果、粒子动画，已经有很多开源的轮子了。作为一个坚定的轮子主义者，我google了大半天，却没有找到这种类似于萤火虫飞舞的效果。只好自己来实现这种效果。</p>
+<ul>
+  <li>Recyclerview的layoutManager实现布局</li>
+  <li>使用<a href="https://developer.android.com/reference/android/support/v7/widget/helper/ItemTouchHelper.html">ItemTouchHelper</a>处理滑动事件</li>
+  <li>随手指滑动过程中，view的UI变化</li>
+</ul>
 
 <hr />
 
-<p>相比较普通的View，SurfaceView更加适合这种不断变化的画面，所以选择SurfaceView来实现。现在把思路再重新梳理一下：</p>
+<h5 id="1layoutmanger">1、LayoutManger</h5>
 
-<ul>
-  <li>大小不同的粒子在区域内随机分布</li>
-  <li>粒子做无规则运动，然后消失</li>
-</ul>
+  	众所周知，Recyclerview之所以强大，完全在于它百变的适应性。它能实现任何你想要的布局样式，而它的奥秘就在于LayoutManger。
 
-<h5 id="粒子区域内随机分布">粒子区域内随机分布</h5>
+<p>​	本次项目中我们UI效果仿照探探的样式，是卡牌样式的堆叠效果，按照List集合的顺序沿着Z轴纵向深处排列。<strong>这里有一个值得注意的Tip</strong>，子view是按照list集合的顺序去绘制的，也就是在这个我们自定义的LayoutManger里，第二个view会覆盖第一个，第三个会覆盖第二个，以此类推。如果我们想要第一眼就看到List集合的第一个，那么必须将list集合reverse后，再来绘制。</p>
 
-<p>这个简单，我们在callBack的方法内直接循环生成一个粒子的数组即可。方位的话使用Random即可。</p>
+<p>​	好了，我们来看代码。LayoutManger的精髓其实就在于onLayoutChildren（……）这个方法，通过这个方法来实现自定义的布局。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>if (mCircles.size() == 0) {
-    for (int i = 0; i &lt; MAX_NUM; i++) {
-        FloatParticleLine f = new FloatParticleLine(getF() * mMeasuredWidth, getF() * mMeasuredHeight, mMeasuredWidth, mMeasuredHeight);
-        f.setRadius(mRandom.nextInt(2) + 1.2f);
-        mCircles.add(f);
-    }
-}
-private float getF() {
-        float v = mRandom.nextFloat();
-        if (v &lt; 0.2f) {
-            return v + 0.2f;
-        } else if (v &gt;= 0.85f) {
-            return v - 0.2f;
-        } else {
-            return v;
-        }
-    }
-</code></pre>
-</div>
-
-<blockquote>
-  <p>getF（）方法是限制在区域内取值，mMeasuredWidth、mMeasuredHeight为SurfaceView的宽和高。</p>
-
-  <p>这里的宽和高在粒子对象FloatParticleLine，内会用到。</p>
-</blockquote>
-
-<p>然后我们在创建一个线程，在run（）方法内做无线循环的绘制即可，为了避免无意义的绘制，可以使用Thread.sleep方法来控制帧数。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>while (isRun) {
-    try {
-        mCanvas = mHolder.lockCanvas(null);
-        if (mCanvas != null) {
-            synchronized (mHolder) {
-                // 清屏
-                mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-
-                for (FloatParticleLine circle : mCircles) {
-                    circle.drawItem(mCanvas);
-                }
-                // 控制帧数
-                Thread.sleep(25);
-            }
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        if (mCanvas != null) {
-            mHolder.unlockCanvasAndPost(mCanvas);
-        }
-    }
-}
-</code></pre>
-</div>
-
-<p>isRun的变量我们会在SurfaceView内callBack的surfaceDestroyed方法中置为false</p>
-
-<h5 id="粒子做无规则运动">粒子做无规则运动</h5>
-
-<ul>
-  <li>方案一</li>
-</ul>
-
-<p>其实看到这种粒子效果，首先应该想到的就是Canvas了。</p>
-
-<p>在SurfaceView里就是通过不断地循环调用FloatParticleLine类的drawItem（）方法来实现粒子的运动。我第一种方案的实现，就是每一个粒子在被创建出来的时候，就随机选择一个方向开始运动，滑过一定的轨迹之后让其消失就好了。</p>
-
-<p>至于怎么选择随机方向，我这里的做法是，分别随机生成一个x和y轴上的递增或者递减的数值，然后每次在前一次绘制的基础上，x和y分别递增递减，直到运动到屏幕边缘或者是规定的运动距离满足了再消失即可。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>//随机生成参数
-private void setRandomParm() {
-    // 2017/5/2-上午10:47 x和y的方向
-    mIsAddX = mRandom.nextBoolean();
-    mIsAddY = mRandom.nextBoolean();
-
-    // 2017/5/2-上午10:47 x和y的取值
-    mDisX = mRandom.nextInt(2) + 0.2f;
-    mDisY = mRandom.nextInt(2) + 0.3f;
-
-    // 2017/5/2-上午10:47 内部区域的运动最远距离
-    mDistance = mRandom.nextInt((int) (0.25f * mWidth)) + (0.125f * mWidth);
-}
-</code></pre>
-</div>
-
-<p>绘制图形：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>public void drawItem(Canvas canvas) {
-    if (mX == mStartX) {
-        mPaint.setAlpha(ALPHA_MAX);
-    }
-    //绘制
-    canvas.drawCircle(mX += getPNValue(mIsAddX, mDisX), mY += getPNValue(mIsAddY, mDisY), mRadius, mPaint);
-    //内部区域运动到一定距离消失
-    if (judgeInner()) {
-        float gapX = Math.abs(mX - mStartX);
-        float ratio = 1 - (gapX / mDistance);
-        mPaint.setAlpha((int) (255 * ratio));
-        mRadius = mStartRadius * ratio;
-        if (gapX &gt;= mDistance || mY - mStartY &gt;= mDistance) {
-            resetDisXY();
-            return;
-        }
+<div class="highlighter-rouge"><pre class="highlight"><code>@Override
+public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+    int itemCount = getItemCount();
+    // 代码的稳健之道，就在于该保护的地方一定要保护
+    if (itemCount == 0) {
         return;
     }
-    //外部区域运动到屏幕边缘消失
-    if (judgeOutline()) {
-        resetDisXY();
+    detachAndScrapAttachedViews(recycler);
+    for (int position = 0; position &lt; itemCount; position++) {
+        View view = recycler.getViewForPosition(position);
+        addView(view);
+        measureChildWithMargins(view, 0, 0);
+        int widthSpace = getWidth() - getDecoratedMeasuredWidth(view);
+        int heightSpace = getHeight() - getDecoratedMeasuredHeight(view);
+        // recyclerview 布局
+        layoutDecoratedWithMargins(view, widthSpace / 2, heightSpace / 2,
+                widthSpace / 2 + getDecoratedMeasuredWidth(view),
+                heightSpace / 2 + getDecoratedMeasuredHeight(view));
+  }
+</code></pre>
+</div>
+
+<p>​	很多人看到这里，肯定会喷出一句“卧槽！这就完了，就这点代码？”</p>
+
+<p>​	没错，如果不追求精细的话，这点代码确实可以搞定这个布局样式。现在我们来逐行分析一下代码。</p>
+
+<ul>
+  <li><code class="highlighter-rouge">detachAndScrapAttachedViews(recycler)</code>Recyclerview有二级缓存，<strong>scrap</strong>和<strong>Recycle</strong>。使用Detach方式处理的view缓存在<strong>scrap</strong>里，用的时候不需要重新绑定数据。Remove方式处理的view缓存在<strong>Recycle</strong>里，使用的时候会重新绑定数据。这里的这个方法就是将所有的view缓存在<strong>scrap</strong>里。</li>
+  <li>接下来的for循环代码就简单的多了，无非就是获得view的宽高信息，将其布局在Recyclerview内</li>
+</ul>
+
+<blockquote>
+  <p>当然，如果只是以上那些简单的代码，未免也太对不起Recyclerview了。毕竟Recyclerview最强大的地方就是对view的回收和利用了，要不然为什么叫Recycler呢。</p>
+</blockquote>
+
+<h6 id="对子view的回收利用">对子view的回收利用</h6>
+
+<p>​	首先这种卡牌叠层的交互模式，不需要展示那么多的view，也就是我们仅仅需要让前几个view展示出来就可以了。其他的view，放在<strong>scrap</strong>缓存里即可。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>@Override
+public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+    int itemCount = getItemCount();
+    // 代码的稳健之道，就在于该保护的地方一定要保护
+    if (itemCount == 0) {
+        return;
+    }
+    detachAndScrapAttachedViews(recycler);
+    // 测量子view的位置信息并储存
+    for (int position = 0; position &lt; itemCount; position++) {
+        // 根据position获取一个碎片view，可以从回收的view中获取，也可能新构造一个
+        View view = recycler.getViewForPosition(position);
+        Log.d(TAG, "recycler" + view.getTag().toString());
+        addView(view);
+        // 计算此碎片view包含边距的尺寸
+        measureChildWithMargins(view, 0, 0);
+        // getDecoratedMeasuredWidth方法是获取此碎片view包含边距和装饰的宽度width
+        int widthSpace = getWidth() - getDecoratedMeasuredWidth(view);
+        int heightSpace = getHeight() - getDecoratedMeasuredHeight(view);
+
+        if (mViewInfo == null) {
+            mViewInfo = new Rect();
+            int left = widthSpace / 2;
+            int top = heightSpace / 2;
+            int right = widthSpace / 2 + getDecoratedMeasuredWidth(view);
+            int bottom = heightSpace / 2 + getDecoratedMeasuredHeight(view);
+            mViewInfo.set(left, top, right, bottom);
+        }
+        detachAndScrapView(view, recycler);
+    }
+    LayoutItems(recycler, state);
+}
+</code></pre>
+</div>
+
+<ul>
+  <li>我们将view的位置信息使用一个<code class="highlighter-rouge">Rect</code>对象来保存，因为<code class="highlighter-rouge">layoutDecorated(View child, int left, int top, int right, int bottom) </code>这个函数的参数是整型。<code class="highlighter-rouge">Rect</code>和<code class="highlighter-rouge">RecF</code>两个对象最大的区别就是精度区别了。</li>
+  <li>然后将所有的view缓存到<strong>scrap</strong>内</li>
+  <li>最后通过<code class="highlighter-rouge">LayoutItems(recycler, state)</code>方法将需要展示的view展示出来</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/**
+ * 回收不需要的Item，并且将需要显示的Item从缓存中取出
+ */
+private void LayoutItems(RecyclerView.Recycler recycler, RecyclerView.State state) {
+    // 当数量大于临界点才需要回收view
+    boolean isMeetNum = getItemCount() &gt; CardConfig.MAX_SHOW_INDEX + 1;
+    if (isMeetNum) {
+        for (int i = CardConfig.MAX_SHOW_INDEX + 1; i &lt; getItemCount(); i++) {
+            View child = recycler.getViewForPosition(i);
+            removeAndRecycleView(child, recycler);
+        }
+    }
+    // 展示需要展示的view
+    for (int i = isMeetNum ? CardConfig.MAX_SHOW_INDEX : getItemCount() - 1; i &gt;= 0; i--) {
+        View scrap = recycler.getViewForPosition(i);
+        measureChildWithMargins(scrap, 0, 0);
+        addView(scrap);
+        //将这个item布局出来
+        layoutDecorated(scrap, mViewInfo.left, mViewInfo.top, mViewInfo.right, mViewInfo.bottom);
+        int translateY = i * CardConfig.CARD_VERTICAL_GAP;
+        ViewCompat.setTranslationY(scrap, -translateY);
     }
 }
-
-private void resetDisXY() {
-        setRandomParm();
-
-        mPaint.setAlpha(0);
-        mX = mStartX;
-        mY = mStartY;
-        mRadius = mStartRadius;
-    }
 </code></pre>
 </div>
 
 <blockquote>
-  <p>judgeInner()和judgeOutline()是判断区域的方法，内部区域的点和外部区域的店消失时机不同</p>
+  <p>这个方法中，将不需要展示的view全部remove，然后将需要展示的view布局出来。</p>
 </blockquote>
-
-<p>在透明度为0也就是粒子消失时，让粒子回到原点，再重新选择一个方向，进行下一步运动轨迹。</p>
-
-<ul>
-  <li>方案二</li>
-</ul>
-
-<p>方案二粒子做的运动是贝塞尔曲线，函数实在网上找到的一个函数。每当粒子做完一次曲线运动后，再随机生成一段新的贝塞尔曲线即可。</p>
-
-<p>思路和方案一的思路都是一样的，无非就是运动的轨迹不同而已。</p>
-
-<h2 id="总结">总结</h2>
-
-<p>做完之后回头再看，发现这个项目的原理其实并不难，可以说是简单了。但刚开始起步的时候真的还是比较懵的，原因就是没有思路。</p>
-
-<p>所以做任何效果，思路最重要。</p>
-
 
 
                 <hr>
@@ -353,12 +317,12 @@ private void resetDisXY() {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2017/04/25/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%8A%80%E6%9C%AF/" data-toggle="tooltip" data-placement="top" title="JadynAi的第一篇博客">&larr; Previous Post</a>
+                        <a href="/2017/05/03/Android%E7%B2%92%E5%AD%90%E7%89%B9%E6%95%88%E4%B9%8B-%E8%90%A4%E7%81%AB%E8%99%AB%E9%A3%9E%E8%88%9E%E6%95%88%E6%9E%9C/" data-toggle="tooltip" data-placement="top" title="Android萤火虫飞舞粒子效果">&larr; Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2017/05/10/%E4%BD%8E%E6%B6%88%E8%80%97%E7%9A%84%E6%97%A0%E9%99%90%E5%BE%AA%E7%8E%AF%E5%8D%A1%E7%89%8C%E6%95%88%E6%9E%9C/" data-toggle="tooltip" data-placement="top" title="Android卡牌大师">Next Post &rarr;</a>
+                        <a href="/2017/06/01/%E5%B0%8F%E5%BF%83%E8%BD%AE%E5%AD%90/" data-toggle="tooltip" data-placement="top" title="请小心那些‘几行代码搞定……’的文章">Next Post &rarr;</a>
                     </li>
                     
                 </ul>

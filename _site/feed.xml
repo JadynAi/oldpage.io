@@ -5,9 +5,175 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 09 May 2017 16:08:01 +0800</pubDate>
-    <lastBuildDate>Tue, 09 May 2017 16:08:01 +0800</lastBuildDate>
+    <pubDate>Thu, 01 Jun 2017 22:55:45 +0800</pubDate>
+    <lastBuildDate>Thu, 01 Jun 2017 22:55:45 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>请小心那些‘几行代码搞定……’的文章</title>
+        <description>
+</description>
+        <pubDate>Thu, 01 Jun 2017 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/06/01/%E5%B0%8F%E5%BF%83%E8%BD%AE%E5%AD%90/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/01/%E5%B0%8F%E5%BF%83%E8%BD%AE%E5%AD%90/</guid>
+        
+        <category>不值一提的经验</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Android卡牌大师</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;前端时间项目中有一个仿探探的交互界面，写代码的过程中，觉得效果还不错。就把思路和原理记录了下来，分享一下。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;套路还是要走一下的先给大家看一下效果图&quot;&gt;套路还是要走一下的，先给大家看一下效果图:&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;其实Android发展到今时今日，其本身提供的API已经足够解决大部分问题。&lt;/p&gt;
+
+  &lt;p&gt;尤其是这种列表（本工程的交互界面应当也算作一种列表吧）类的UI体现，大部分都能使用Recyclerview来解决。当然，话这里不能说死。但Recyclerview这种神兵利器，还是握在手中会好一些。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;会用到的知识点&quot;&gt;会用到的知识点&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Recyclerview的layoutManager实现布局&lt;/li&gt;
+  &lt;li&gt;使用&lt;a href=&quot;https://developer.android.com/reference/android/support/v7/widget/helper/ItemTouchHelper.html&quot;&gt;ItemTouchHelper&lt;/a&gt;处理滑动事件&lt;/li&gt;
+  &lt;li&gt;随手指滑动过程中，view的UI变化&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h5 id=&quot;1layoutmanger&quot;&gt;1、LayoutManger&lt;/h5&gt;
+
+  	众所周知，Recyclerview之所以强大，完全在于它百变的适应性。它能实现任何你想要的布局样式，而它的奥秘就在于LayoutManger。
+
+&lt;p&gt;​	本次项目中我们UI效果仿照探探的样式，是卡牌样式的堆叠效果，按照List集合的顺序沿着Z轴纵向深处排列。&lt;strong&gt;这里有一个值得注意的Tip&lt;/strong&gt;，子view是按照list集合的顺序去绘制的，也就是在这个我们自定义的LayoutManger里，第二个view会覆盖第一个，第三个会覆盖第二个，以此类推。如果我们想要第一眼就看到List集合的第一个，那么必须将list集合reverse后，再来绘制。&lt;/p&gt;
+
+&lt;p&gt;​	好了，我们来看代码。LayoutManger的精髓其实就在于onLayoutChildren（……）这个方法，通过这个方法来实现自定义的布局。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Override
+public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+    int itemCount = getItemCount();
+    // 代码的稳健之道，就在于该保护的地方一定要保护
+    if (itemCount == 0) {
+        return;
+    }
+    detachAndScrapAttachedViews(recycler);
+    for (int position = 0; position &amp;lt; itemCount; position++) {
+        View view = recycler.getViewForPosition(position);
+        addView(view);
+        measureChildWithMargins(view, 0, 0);
+        int widthSpace = getWidth() - getDecoratedMeasuredWidth(view);
+        int heightSpace = getHeight() - getDecoratedMeasuredHeight(view);
+        // recyclerview 布局
+        layoutDecoratedWithMargins(view, widthSpace / 2, heightSpace / 2,
+                widthSpace / 2 + getDecoratedMeasuredWidth(view),
+                heightSpace / 2 + getDecoratedMeasuredHeight(view));
+  }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;​	很多人看到这里，肯定会喷出一句“卧槽！这就完了，就这点代码？”&lt;/p&gt;
+
+&lt;p&gt;​	没错，如果不追求精细的话，这点代码确实可以搞定这个布局样式。现在我们来逐行分析一下代码。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;detachAndScrapAttachedViews(recycler)&lt;/code&gt;Recyclerview有二级缓存，&lt;strong&gt;scrap&lt;/strong&gt;和&lt;strong&gt;Recycle&lt;/strong&gt;。使用Detach方式处理的view缓存在&lt;strong&gt;scrap&lt;/strong&gt;里，用的时候不需要重新绑定数据。Remove方式处理的view缓存在&lt;strong&gt;Recycle&lt;/strong&gt;里，使用的时候会重新绑定数据。这里的这个方法就是将所有的view缓存在&lt;strong&gt;scrap&lt;/strong&gt;里。&lt;/li&gt;
+  &lt;li&gt;接下来的for循环代码就简单的多了，无非就是获得view的宽高信息，将其布局在Recyclerview内&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;当然，如果只是以上那些简单的代码，未免也太对不起Recyclerview了。毕竟Recyclerview最强大的地方就是对view的回收和利用了，要不然为什么叫Recycler呢。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h6 id=&quot;对子view的回收利用&quot;&gt;对子view的回收利用&lt;/h6&gt;
+
+&lt;p&gt;​	首先这种卡牌叠层的交互模式，不需要展示那么多的view，也就是我们仅仅需要让前几个view展示出来就可以了。其他的view，放在&lt;strong&gt;scrap&lt;/strong&gt;缓存里即可。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Override
+public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+    int itemCount = getItemCount();
+    // 代码的稳健之道，就在于该保护的地方一定要保护
+    if (itemCount == 0) {
+        return;
+    }
+    detachAndScrapAttachedViews(recycler);
+    // 测量子view的位置信息并储存
+    for (int position = 0; position &amp;lt; itemCount; position++) {
+        // 根据position获取一个碎片view，可以从回收的view中获取，也可能新构造一个
+        View view = recycler.getViewForPosition(position);
+        Log.d(TAG, &quot;recycler&quot; + view.getTag().toString());
+        addView(view);
+        // 计算此碎片view包含边距的尺寸
+        measureChildWithMargins(view, 0, 0);
+        // getDecoratedMeasuredWidth方法是获取此碎片view包含边距和装饰的宽度width
+        int widthSpace = getWidth() - getDecoratedMeasuredWidth(view);
+        int heightSpace = getHeight() - getDecoratedMeasuredHeight(view);
+
+        if (mViewInfo == null) {
+            mViewInfo = new Rect();
+            int left = widthSpace / 2;
+            int top = heightSpace / 2;
+            int right = widthSpace / 2 + getDecoratedMeasuredWidth(view);
+            int bottom = heightSpace / 2 + getDecoratedMeasuredHeight(view);
+            mViewInfo.set(left, top, right, bottom);
+        }
+        detachAndScrapView(view, recycler);
+    }
+    LayoutItems(recycler, state);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;我们将view的位置信息使用一个&lt;code class=&quot;highlighter-rouge&quot;&gt;Rect&lt;/code&gt;对象来保存，因为&lt;code class=&quot;highlighter-rouge&quot;&gt;layoutDecorated(View child, int left, int top, int right, int bottom) &lt;/code&gt;这个函数的参数是整型。&lt;code class=&quot;highlighter-rouge&quot;&gt;Rect&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;RecF&lt;/code&gt;两个对象最大的区别就是精度区别了。&lt;/li&gt;
+  &lt;li&gt;然后将所有的view缓存到&lt;strong&gt;scrap&lt;/strong&gt;内&lt;/li&gt;
+  &lt;li&gt;最后通过&lt;code class=&quot;highlighter-rouge&quot;&gt;LayoutItems(recycler, state)&lt;/code&gt;方法将需要展示的view展示出来&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/**
+ * 回收不需要的Item，并且将需要显示的Item从缓存中取出
+ */
+private void LayoutItems(RecyclerView.Recycler recycler, RecyclerView.State state) {
+    // 当数量大于临界点才需要回收view
+    boolean isMeetNum = getItemCount() &amp;gt; CardConfig.MAX_SHOW_INDEX + 1;
+    if (isMeetNum) {
+        for (int i = CardConfig.MAX_SHOW_INDEX + 1; i &amp;lt; getItemCount(); i++) {
+            View child = recycler.getViewForPosition(i);
+            removeAndRecycleView(child, recycler);
+        }
+    }
+    // 展示需要展示的view
+    for (int i = isMeetNum ? CardConfig.MAX_SHOW_INDEX : getItemCount() - 1; i &amp;gt;= 0; i--) {
+        View scrap = recycler.getViewForPosition(i);
+        measureChildWithMargins(scrap, 0, 0);
+        addView(scrap);
+        //将这个item布局出来
+        layoutDecorated(scrap, mViewInfo.left, mViewInfo.top, mViewInfo.right, mViewInfo.bottom);
+        int translateY = i * CardConfig.CARD_VERTICAL_GAP;
+        ViewCompat.setTranslationY(scrap, -translateY);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;这个方法中，将不需要展示的view全部remove，然后将需要展示的view布局出来。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Wed, 10 May 2017 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/05/10/%E4%BD%8E%E6%B6%88%E8%80%97%E7%9A%84%E6%97%A0%E9%99%90%E5%BE%AA%E7%8E%AF%E5%8D%A1%E7%89%8C%E6%95%88%E6%9E%9C/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/05/10/%E4%BD%8E%E6%B6%88%E8%80%97%E7%9A%84%E6%97%A0%E9%99%90%E5%BE%AA%E7%8E%AF%E5%8D%A1%E7%89%8C%E6%95%88%E6%9E%9C/</guid>
+        
+        <category>Recyclerview</category>
+        
+        <category>技术讨论</category>
+        
+        
+      </item>
     
       <item>
         <title>Android萤火虫飞舞粒子效果</title>
