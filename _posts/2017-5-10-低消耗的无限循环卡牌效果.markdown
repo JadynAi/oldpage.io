@@ -23,7 +23,12 @@ tags:
 ![](http://ailoli.me/img/20170510infinite_card.gif)
 
 > 真机上一点都不卡！一点都不卡！不卡！！！
->
+
+### *又学习了一些录制GIF的方法，这次来一张真机的效果！！*
+
+![](http://ailoli.me/img/20170510infinite_card_real_phone.gif)
+
+
 
 #### 会用到的知识点
 
@@ -306,5 +311,7 @@ private boolean isHorizDirection() {
     return CardConfig.sViewholderDirection == ItemTouchHelper.LEFT || CardConfig.sViewholderDirection == ItemTouchHelper.RIGHT;
 }
 ```
+
+
 
 最后感兴趣的可以看看代码，奉上GitHub地址。[**InfinateCard**](https://github.com/JadynAi/InfinateCard)
