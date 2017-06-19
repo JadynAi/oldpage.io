@@ -5,43 +5,50 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 01 Jun 2017 22:55:45 +0800</pubDate>
-    <lastBuildDate>Thu, 01 Jun 2017 22:55:45 +0800</lastBuildDate>
+    <pubDate>Mon, 19 Jun 2017 14:20:10 +0800</pubDate>
+    <lastBuildDate>Mon, 19 Jun 2017 14:20:10 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
-        <title>请小心那些‘几行代码搞定……’的文章</title>
+        <title>H5打开App的正确姿势</title>
         <description>
 </description>
-        <pubDate>Thu, 01 Jun 2017 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2017/06/01/%E5%B0%8F%E5%BF%83%E8%BD%AE%E5%AD%90/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/06/01/%E5%B0%8F%E5%BF%83%E8%BD%AE%E5%AD%90/</guid>
+        <pubDate>Fri, 16 Jun 2017 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/06/16/H5%E5%92%8CAPP%E4%BA%A4%E4%BA%92%E6%A8%A1%E5%BC%8F/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/16/H5%E5%92%8CAPP%E4%BA%A4%E4%BA%92%E6%A8%A1%E5%BC%8F/</guid>
         
-        <category>不值一提的经验</category>
+        <category>技术讨论</category>
         
         
       </item>
     
       <item>
-        <title>Android卡牌大师</title>
+        <title>低消耗、带回滚动画的仿探探交互效果</title>
         <description>&lt;blockquote&gt;
   &lt;p&gt;前端时间项目中有一个仿探探的交互界面，写代码的过程中，觉得效果还不错。就把思路和原理记录了下来，分享一下。&lt;/p&gt;
 &lt;/blockquote&gt;
 
+&lt;p&gt;&lt;strong&gt;先奉上GitHub地址，大家感兴趣可以来个star&lt;/strong&gt;&lt;a href=&quot;https://github.com/JadynAi/InfinateCard&quot;&gt;&lt;strong&gt;InfinateCard&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+
 &lt;h4 id=&quot;套路还是要走一下的先给大家看一下效果图&quot;&gt;套路还是要走一下的，先给大家看一下效果图:&lt;/h4&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;其实Android发展到今时今日，其本身提供的API已经足够解决大部分问题。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://ailoli.me/img/20170510infinite_card.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-  &lt;p&gt;尤其是这种列表（本工程的交互界面应当也算作一种列表吧）类的UI体现，大部分都能使用Recyclerview来解决。当然，话这里不能说死。但Recyclerview这种神兵利器，还是握在手中会好一些。&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;真机上一点都不卡！一点都不卡！不卡！！！&lt;/p&gt;
 &lt;/blockquote&gt;
+
+&lt;h3 id=&quot;又学习了一些录制gif的方法这次来一张真机的效果&quot;&gt;&lt;em&gt;又学习了一些录制GIF的方法，这次来一张真机的效果！！&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ailoli.me/img/20170510infinite_card_real_phone.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;会用到的知识点&quot;&gt;会用到的知识点&lt;/h4&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Recyclerview的layoutManager实现布局&lt;/li&gt;
   &lt;li&gt;使用&lt;a href=&quot;https://developer.android.com/reference/android/support/v7/widget/helper/ItemTouchHelper.html&quot;&gt;ItemTouchHelper&lt;/a&gt;处理滑动事件&lt;/li&gt;
-  &lt;li&gt;随手指滑动过程中，view的UI变化&lt;/li&gt;
+  &lt;li&gt;手指滑动过程中，view的UI渐变（透明度或者其它）&lt;/li&gt;
+  &lt;li&gt;RecyclerView的ItemAnimator实现回滚动画&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;hr /&gt;
@@ -81,7 +88,7 @@ public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State 
 &lt;p&gt;​	没错，如果不追求精细的话，这点代码确实可以搞定这个布局样式。现在我们来逐行分析一下代码。&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;detachAndScrapAttachedViews(recycler)&lt;/code&gt;Recyclerview有二级缓存，&lt;strong&gt;scrap&lt;/strong&gt;和&lt;strong&gt;Recycle&lt;/strong&gt;。使用Detach方式处理的view缓存在&lt;strong&gt;scrap&lt;/strong&gt;里，用的时候不需要重新绑定数据。Remove方式处理的view缓存在&lt;strong&gt;Recycle&lt;/strong&gt;里，使用的时候会重新绑定数据。这里的这个方法就是将所有的view缓存在&lt;strong&gt;scrap&lt;/strong&gt;里。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;detachAndScrapAttachedViews(recycler)&lt;/code&gt;这个方法就是将所有的view缓存在&lt;strong&gt;scrap&lt;/strong&gt;里。Recyclerview有二级缓存，&lt;strong&gt;scrap&lt;/strong&gt;和&lt;strong&gt;Recycle&lt;/strong&gt;。使用Detach方式处理的view缓存在&lt;strong&gt;scrap&lt;/strong&gt;里，用的时候不需要重新绑定数据。Remove方式处理的view缓存在&lt;strong&gt;Recycle&lt;/strong&gt;里，使用的时候会重新绑定数据。&lt;/li&gt;
   &lt;li&gt;接下来的for循环代码就简单的多了，无非就是获得view的宽高信息，将其布局在Recyclerview内&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -107,13 +114,12 @@ public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State 
         View view = recycler.getViewForPosition(position);
         Log.d(TAG, &quot;recycler&quot; + view.getTag().toString());
         addView(view);
-        // 计算此碎片view包含边距的尺寸
-        measureChildWithMargins(view, 0, 0);
-        // getDecoratedMeasuredWidth方法是获取此碎片view包含边距和装饰的宽度width
-        int widthSpace = getWidth() - getDecoratedMeasuredWidth(view);
-        int heightSpace = getHeight() - getDecoratedMeasuredHeight(view);
-
         if (mViewInfo == null) {
+        	// 计算此碎片view包含边距的尺寸
+        	measureChildWithMargins(view, 0, 0);
+        	// getDecoratedMeasuredWidth方法是获取此碎片view包含边距和装饰的宽度width
+        	int widthSpace = getWidth() - getDecoratedMeasuredWidth(view);
+        	int heightSpace = getHeight() - getDecoratedMeasuredHeight(view);
             mViewInfo = new Rect();
             int left = widthSpace / 2;
             int top = heightSpace / 2;
@@ -130,8 +136,8 @@ public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State 
 
 &lt;ul&gt;
   &lt;li&gt;我们将view的位置信息使用一个&lt;code class=&quot;highlighter-rouge&quot;&gt;Rect&lt;/code&gt;对象来保存，因为&lt;code class=&quot;highlighter-rouge&quot;&gt;layoutDecorated(View child, int left, int top, int right, int bottom) &lt;/code&gt;这个函数的参数是整型。&lt;code class=&quot;highlighter-rouge&quot;&gt;Rect&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;RecF&lt;/code&gt;两个对象最大的区别就是精度区别了。&lt;/li&gt;
-  &lt;li&gt;然后将所有的view缓存到&lt;strong&gt;scrap&lt;/strong&gt;内&lt;/li&gt;
-  &lt;li&gt;最后通过&lt;code class=&quot;highlighter-rouge&quot;&gt;LayoutItems(recycler, state)&lt;/code&gt;方法将需要展示的view展示出来&lt;/li&gt;
+  &lt;li&gt;然后将每个子view通过方法&lt;code class=&quot;highlighter-rouge&quot;&gt;detachAndScrapView&lt;/code&gt;缓存到&lt;strong&gt;scrap&lt;/strong&gt;内&lt;/li&gt;
+  &lt;li&gt;最后通过&lt;code class=&quot;highlighter-rouge&quot;&gt;LayoutItems(recycler, state)&lt;/code&gt;方法将需要展示的view展示出来，注释已经很清楚了哈&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/**
@@ -163,6 +169,177 @@ private void LayoutItems(RecyclerView.Recycler recycler, RecyclerView.State stat
 &lt;blockquote&gt;
   &lt;p&gt;这个方法中，将不需要展示的view全部remove，然后将需要展示的view布局出来。&lt;/p&gt;
 &lt;/blockquote&gt;
+
+&lt;h5 id=&quot;2使用itemtouchhelper实现滑动&quot;&gt;2、使用ItemTouchHelper实现滑动&lt;/h5&gt;
+
+&lt;p&gt;​	ItemTouchHelper是一个为Recyclerview提供   &lt;code class=&quot;highlighter-rouge&quot;&gt;Swipe、drag、drop&lt;/code&gt;事件的工具类。使用方法也很简单，推荐大家看&lt;a href=&quot;http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0630/3123.html&quot;&gt;泡网&lt;/a&gt;的这一片入门文章，思路很清晰。&lt;/p&gt;
+
+&lt;p&gt;​	本次项目中使用的是ItemTouchHelper本身提供的一个帮助类   &lt;code class=&quot;highlighter-rouge&quot;&gt;SimpleCallback&lt;/code&gt;，使用方法其实很简单。它的构造参数有两个值，一个是&lt;code class=&quot;highlighter-rouge&quot;&gt;dragDirs&lt;/code&gt;长按的方向，另一个是&lt;code class=&quot;highlighter-rouge&quot;&gt;swipeDirs&lt;/code&gt;滑动的方向。可以看看SImpleCallBack的源码：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public SimpleCallback(int dragDirs, int swipeDirs) {
+    mDefaultSwipeDirs = swipeDirs;
+    mDefaultDragDirs = dragDirs;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;​	而我们只需要滑动，所以构造参数中只需要实现 &lt;code class=&quot;highlighter-rouge&quot;&gt;swipe&lt;/code&gt; 即可：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//不支持长按拖拽，支持swipe，而且四个方向皆可以swipe
+this(0, ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;​	然后应用此 &lt;code class=&quot;highlighter-rouge&quot;&gt;ItemTouchHelper&lt;/code&gt; 即可：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CardItemTouchHelperCallback cardCallback = new CardItemTouchHelperCallback(mRecyclerView, mRecyclerView.getAdapter(), list);
+ItemTouchHelper touchHelper = new ItemTouchHelper(cardCallback);
+touchHelper.attachToRecyclerView(mRecyclerView);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;​	到这里 Recyclerview已经实现了四个方向的滑动了，但滑动之后的操作还需要再实现一下。我们在&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;onSwiped(RecyclerView.ViewHolder viewHolder, int direction)&lt;/code&gt; 方法中实现 swipe之后的操作。这个方法有两个参数，&lt;code class=&quot;highlighter-rouge&quot;&gt;viewHolder&lt;/code&gt;代表的就是此时滑动的viewholder，&lt;code class=&quot;highlighter-rouge&quot;&gt;direction&lt;/code&gt; 代表的是这个view最终滑动的方向。在这个方法里，我们对数据源进行操作，然后刷新列表。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;在Recyclerview的Adapter的数据刷新上，我使用了扩展包提供的 &lt;a href=&quot;http://blog.csdn.net/zxt0601/article/details/52562770&quot;&gt;DiffUtils&lt;/a&gt;,是google提供的替换 &lt;code class=&quot;highlighter-rouge&quot;&gt;notifyDataSetChanged()无脑刷&lt;/code&gt; 的方案。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;​	最后在 &lt;code class=&quot;highlighter-rouge&quot;&gt;onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) &lt;/code&gt; 方法中实现滑动时的动画。这个方法有多达七个参数，我来依次解释一下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;c ，Recyclerview用来绘制children的画笔&lt;/li&gt;
+    &lt;li&gt;recyclerView，额……就是所依赖的Recyclerview&lt;/li&gt;
+    &lt;li&gt;viewHolder，当下滑动的这个view的viewHolder&lt;/li&gt;
+    &lt;li&gt;dX、dY，手指在控制滑动的时候，此view水平X轴和垂直Y轴位移的距离，单位像素&lt;/li&gt;
+    &lt;li&gt;actionState，标明此时是长按拖拽还是单纯的swipe&lt;/li&gt;
+    &lt;li&gt;isCurrentlyActive，标明此时滑动的view是处于手指控制状态，还是手指松开后的回弹动画状态&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;​	了解了参数之后，在这个方法中就可以实现滑动时的动画了。&lt;code class=&quot;highlighter-rouge&quot;&gt;SimpleCallBack&lt;/code&gt; 默认的对滑动距离判断的条件是，水平方向是Recyclerview宽的一半，垂直方向是Recyclerview高的一半。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//这个方法返回的值就是默认的阙值，想要更灵敏的话只需在自定义CallBack中重写这个方法，将值变小。更迟钝的话则反之
+public float getSwipeThreshold(ViewHolder viewHolder) {
+    return .5f;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;​	撸出来的代码如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Override
+    public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+//        Log.d(TAG, &quot;onChildDraw dX : &quot; + dX);
+//        Log.d(TAG, &quot;onChildDraw dY : &quot; + dY);
+        Log.d(TAG, &quot;onChildDraw isCurrentlyActive: &quot; + isCurrentlyActive);
+        if (mItemW == 0) {
+//            Log.d(TAG, &quot;onChildDraw getAdapterPosition : &quot; + viewHolder.getAdapterPosition());
+            mItemW = viewHolder.itemView.getWidth();
+            mHorJudgeDistance = recyclerView.getWidth() * getSwipeThreshold(viewHolder);
+            mVerJudgeDistance = recyclerView.getHeight() * getSwipeThreshold(viewHolder);
+        }
+
+        float ratio;
+        if (Math.abs(dX) &amp;gt; Math.abs(dY)) {
+            //以宽为判定基准
+            ratio = Math.abs(dX) / mHorJudgeDistance;
+        } else {
+            //以高为判定基准
+            ratio = Math.abs(dY) / mVerJudgeDistance;
+        }
+        float realRatio = ratio &amp;gt;= 1f ? 1f : ratio;
+        ViewCompat.setAlpha(viewHolder.itemView, 1 - realRatio);
+
+        boolean isMeetNum = recyclerView.getLayoutManager().getItemCount() &amp;gt; CardConfig.MAX_SHOW_COUNT + 1;
+        int maxJudge = isMeetNum ? CardConfig.MAX_SHOW_COUNT - 1 : (recyclerView.getLayoutManager().getItemCount() - 1);
+        for (int i = 1; i &amp;lt;= maxJudge; i++) {
+            View itemView = recyclerView.findViewHolderForAdapterPosition(i).itemView;
+            float v = i * CardConfig.CARD_VERTICAL_GAP - realRatio * CardConfig.CARD_VERTICAL_GAP;
+            ViewCompat.setTranslationY(itemView, -v);
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h5 id=&quot;3使用itenanimator实现回滚动画&quot;&gt;3、使用ItenAnimator实现回滚动画&lt;/h5&gt;
+
+&lt;p&gt;​	&lt;code class=&quot;highlighter-rouge&quot;&gt;ItemAnimator&lt;/code&gt; 我没有选择实现，而是使用了现成的轮子&lt;a href=&quot;https://github.com/wasabeef/recyclerview-animators&quot;&gt;&lt;strong&gt;recyclerview-animators&lt;/strong&gt;&lt;/a&gt;，没有选择远程库引入。而是将源代码copy进来，再进行了适当性的修改。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mRecyclerView.setItemAnimator(new SlideAnimator());
+mRecyclerView.getItemAnimator().setAddDuration(250);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;​	OK，到这里基本上就大功告成了，只剩下一些小细节和bug处理一下即可。在&lt;code class=&quot;highlighter-rouge&quot;&gt;CallBack&lt;/code&gt; 类的 &lt;code class=&quot;highlighter-rouge&quot;&gt;onSwipe&lt;/code&gt; 方法中将 &lt;code class=&quot;highlighter-rouge&quot;&gt;direction&lt;/code&gt; 赋值到一个静态变量中，然后在 &lt;code class=&quot;highlighter-rouge&quot;&gt;SlideAnimator&lt;/code&gt; 根据不同的方向实现不同的动画。&lt;/p&gt;
+
+&lt;p&gt;​	在实现过程中，我发现回滚动画的那个view居然不是滑走的view，就使用了一个单例来管理数据。动画开始时将数据设置为滑走的view的数据，动画结束后再将动画view的数据还原。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Override
+protected void preAnimateAddImpl(RecyclerView.ViewHolder holder) {
+    Log.d(TAG, &quot;preAnimateAddImpl: &quot; + holder.itemView.getTag().toString());
+    DataExchangeMgr.getInstance().saveOrignData((int) holder.itemView.getTag(R.id.view_data));
+    //根据不同的方向设置不同的初始值
+    if (isHorizDirection()) {
+        int width = holder.itemView.getRootView().getWidth();
+        ViewCompat.setTranslationX(holder.itemView, CardConfig.sViewholderDirection == ItemTouchHelper.LEFT ? -width : width);
+    } else {
+        int height = holder.itemView.getRootView().getHeight();
+        ViewCompat.setTranslationY(holder.itemView, CardConfig.sViewholderDirection == ItemTouchHelper.UP ? -height : height);
+    }
+}
+
+@Override
+protected void animateAddImpl(final RecyclerView.ViewHolder holder) {
+    //根据不同的方向选择不同的动画
+    ViewPropertyAnimatorCompat viewPropertyAnimatorCompat = ViewCompat.animate(holder.itemView)
+            .setDuration(getAddDuration())
+            .setInterpolator(mInterpolator)
+            .setListener(new DefaultAddVpaListener(holder) {
+                @Override
+                public void onAnimationStart(View view) {
+                    super.onAnimationStart(view);
+                    //将此view数据设置为滑开的数据
+                    ((ImageView) mViewHolder.itemView.findViewById(R.id.show_img)).setImageResource(DataExchangeMgr.getInstance().getCurrentData());
+                }
+
+                @Override
+                public void onAnimationCancel(View view) {
+                    super.onAnimationCancel(view);
+                    //数据还原
+                    ((ImageView) mViewHolder.itemView.findViewById(R.id.show_img)).setImageResource(DataExchangeMgr.getInstance().getOrignalData());
+                }
+
+                @Override
+                public void onAnimationEnd(View view) {
+                    super.onAnimationEnd(view);
+                    //数据还原
+                    ((ImageView) mViewHolder.itemView.findViewById(R.id.show_img)).setImageResource(DataExchangeMgr.getInstance().getOrignalData());
+                }
+            })
+            .setStartDelay(50);
+    
+    if (isHorizDirection()) {
+        viewPropertyAnimatorCompat
+                .translationX(0)
+                .start();
+    } else {
+        viewPropertyAnimatorCompat
+                .translationY(0)
+                .start();
+    }
+}
+
+private boolean isHorizDirection() {
+    return CardConfig.sViewholderDirection == ItemTouchHelper.LEFT || CardConfig.sViewholderDirection == ItemTouchHelper.RIGHT;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;最后感兴趣的可以看看代码，奉上GitHub地址。&lt;a href=&quot;https://github.com/JadynAi/InfinateCard&quot;&gt;&lt;strong&gt;InfinateCard&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 10 May 2017 00:00:00 +0800</pubDate>
         <link>http://localhost:4000/2017/05/10/%E4%BD%8E%E6%B6%88%E8%80%97%E7%9A%84%E6%97%A0%E9%99%90%E5%BE%AA%E7%8E%AF%E5%8D%A1%E7%89%8C%E6%95%88%E6%9E%9C/</link>

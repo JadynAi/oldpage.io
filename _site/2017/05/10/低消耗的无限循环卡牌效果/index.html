@@ -10,7 +10,7 @@
     <meta name="keyword"  content="">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>Android卡牌大师 - Ai开发Ai创意</title>
+    <title>低消耗、带回滚动画的仿探探交互效果 - Ai开发Ai创意</title>
 
     <link rel="canonical" href="http://localhost:4000/2017/05/10/%E4%BD%8E%E6%B6%88%E8%80%97%E7%9A%84%E6%97%A0%E9%99%90%E5%BE%AA%E7%8E%AF%E5%8D%A1%E7%89%8C%E6%95%88%E6%9E%9C/">
 
@@ -145,7 +145,7 @@
                         <a class="tag" href="/tags/#技术讨论" title="技术讨论">技术讨论</a>
                         
                     </div>
-                    <h1>Android卡牌大师</h1>
+                    <h1>低消耗、带回滚动画的仿探探交互效果</h1>
                     
                     
                     <h2 class="subheading">给你一沓无限循环的牌</h2>
@@ -172,20 +172,27 @@
   <p>前端时间项目中有一个仿探探的交互界面，写代码的过程中，觉得效果还不错。就把思路和原理记录了下来，分享一下。</p>
 </blockquote>
 
+<p><strong>先奉上GitHub地址，大家感兴趣可以来个star</strong><a href="https://github.com/JadynAi/InfinateCard"><strong>InfinateCard</strong></a></p>
+
 <h4 id="套路还是要走一下的先给大家看一下效果图">套路还是要走一下的，先给大家看一下效果图:</h4>
 
-<blockquote>
-  <p>其实Android发展到今时今日，其本身提供的API已经足够解决大部分问题。</p>
+<p><img src="http://ailoli.me/img/20170510infinite_card.gif" alt="" /></p>
 
-  <p>尤其是这种列表（本工程的交互界面应当也算作一种列表吧）类的UI体现，大部分都能使用Recyclerview来解决。当然，话这里不能说死。但Recyclerview这种神兵利器，还是握在手中会好一些。</p>
+<blockquote>
+  <p>真机上一点都不卡！一点都不卡！不卡！！！</p>
 </blockquote>
+
+<h3 id="又学习了一些录制gif的方法这次来一张真机的效果"><em>又学习了一些录制GIF的方法，这次来一张真机的效果！！</em></h3>
+
+<p><img src="http://ailoli.me/img/20170510infinite_card_real_phone.gif" alt="" /></p>
 
 <h4 id="会用到的知识点">会用到的知识点</h4>
 
 <ul>
   <li>Recyclerview的layoutManager实现布局</li>
   <li>使用<a href="https://developer.android.com/reference/android/support/v7/widget/helper/ItemTouchHelper.html">ItemTouchHelper</a>处理滑动事件</li>
-  <li>随手指滑动过程中，view的UI变化</li>
+  <li>手指滑动过程中，view的UI渐变（透明度或者其它）</li>
+  <li>RecyclerView的ItemAnimator实现回滚动画</li>
 </ul>
 
 <hr />
@@ -225,7 +232,7 @@ public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State 
 <p>​	没错，如果不追求精细的话，这点代码确实可以搞定这个布局样式。现在我们来逐行分析一下代码。</p>
 
 <ul>
-  <li><code class="highlighter-rouge">detachAndScrapAttachedViews(recycler)</code>Recyclerview有二级缓存，<strong>scrap</strong>和<strong>Recycle</strong>。使用Detach方式处理的view缓存在<strong>scrap</strong>里，用的时候不需要重新绑定数据。Remove方式处理的view缓存在<strong>Recycle</strong>里，使用的时候会重新绑定数据。这里的这个方法就是将所有的view缓存在<strong>scrap</strong>里。</li>
+  <li><code class="highlighter-rouge">detachAndScrapAttachedViews(recycler)</code>这个方法就是将所有的view缓存在<strong>scrap</strong>里。Recyclerview有二级缓存，<strong>scrap</strong>和<strong>Recycle</strong>。使用Detach方式处理的view缓存在<strong>scrap</strong>里，用的时候不需要重新绑定数据。Remove方式处理的view缓存在<strong>Recycle</strong>里，使用的时候会重新绑定数据。</li>
   <li>接下来的for循环代码就简单的多了，无非就是获得view的宽高信息，将其布局在Recyclerview内</li>
 </ul>
 
@@ -251,13 +258,12 @@ public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State 
         View view = recycler.getViewForPosition(position);
         Log.d(TAG, "recycler" + view.getTag().toString());
         addView(view);
-        // 计算此碎片view包含边距的尺寸
-        measureChildWithMargins(view, 0, 0);
-        // getDecoratedMeasuredWidth方法是获取此碎片view包含边距和装饰的宽度width
-        int widthSpace = getWidth() - getDecoratedMeasuredWidth(view);
-        int heightSpace = getHeight() - getDecoratedMeasuredHeight(view);
-
         if (mViewInfo == null) {
+        	// 计算此碎片view包含边距的尺寸
+        	measureChildWithMargins(view, 0, 0);
+        	// getDecoratedMeasuredWidth方法是获取此碎片view包含边距和装饰的宽度width
+        	int widthSpace = getWidth() - getDecoratedMeasuredWidth(view);
+        	int heightSpace = getHeight() - getDecoratedMeasuredHeight(view);
             mViewInfo = new Rect();
             int left = widthSpace / 2;
             int top = heightSpace / 2;
@@ -274,8 +280,8 @@ public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State 
 
 <ul>
   <li>我们将view的位置信息使用一个<code class="highlighter-rouge">Rect</code>对象来保存，因为<code class="highlighter-rouge">layoutDecorated(View child, int left, int top, int right, int bottom) </code>这个函数的参数是整型。<code class="highlighter-rouge">Rect</code>和<code class="highlighter-rouge">RecF</code>两个对象最大的区别就是精度区别了。</li>
-  <li>然后将所有的view缓存到<strong>scrap</strong>内</li>
-  <li>最后通过<code class="highlighter-rouge">LayoutItems(recycler, state)</code>方法将需要展示的view展示出来</li>
+  <li>然后将每个子view通过方法<code class="highlighter-rouge">detachAndScrapView</code>缓存到<strong>scrap</strong>内</li>
+  <li>最后通过<code class="highlighter-rouge">LayoutItems(recycler, state)</code>方法将需要展示的view展示出来，注释已经很清楚了哈</li>
 </ul>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>/**
@@ -308,6 +314,177 @@ private void LayoutItems(RecyclerView.Recycler recycler, RecyclerView.State stat
   <p>这个方法中，将不需要展示的view全部remove，然后将需要展示的view布局出来。</p>
 </blockquote>
 
+<h5 id="2使用itemtouchhelper实现滑动">2、使用ItemTouchHelper实现滑动</h5>
+
+<p>​	ItemTouchHelper是一个为Recyclerview提供   <code class="highlighter-rouge">Swipe、drag、drop</code>事件的工具类。使用方法也很简单，推荐大家看<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0630/3123.html">泡网</a>的这一片入门文章，思路很清晰。</p>
+
+<p>​	本次项目中使用的是ItemTouchHelper本身提供的一个帮助类   <code class="highlighter-rouge">SimpleCallback</code>，使用方法其实很简单。它的构造参数有两个值，一个是<code class="highlighter-rouge">dragDirs</code>长按的方向，另一个是<code class="highlighter-rouge">swipeDirs</code>滑动的方向。可以看看SImpleCallBack的源码：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>public SimpleCallback(int dragDirs, int swipeDirs) {
+    mDefaultSwipeDirs = swipeDirs;
+    mDefaultDragDirs = dragDirs;
+}
+</code></pre>
+</div>
+
+<p>​	而我们只需要滑动，所以构造参数中只需要实现 <code class="highlighter-rouge">swipe</code> 即可：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>//不支持长按拖拽，支持swipe，而且四个方向皆可以swipe
+this(0, ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT）
+</code></pre>
+</div>
+
+<p>​	然后应用此 <code class="highlighter-rouge">ItemTouchHelper</code> 即可：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>CardItemTouchHelperCallback cardCallback = new CardItemTouchHelperCallback(mRecyclerView, mRecyclerView.getAdapter(), list);
+ItemTouchHelper touchHelper = new ItemTouchHelper(cardCallback);
+touchHelper.attachToRecyclerView(mRecyclerView);
+</code></pre>
+</div>
+
+<p>​	到这里 Recyclerview已经实现了四个方向的滑动了，但滑动之后的操作还需要再实现一下。我们在</p>
+
+<p><code class="highlighter-rouge">onSwiped(RecyclerView.ViewHolder viewHolder, int direction)</code> 方法中实现 swipe之后的操作。这个方法有两个参数，<code class="highlighter-rouge">viewHolder</code>代表的就是此时滑动的viewholder，<code class="highlighter-rouge">direction</code> 代表的是这个view最终滑动的方向。在这个方法里，我们对数据源进行操作，然后刷新列表。</p>
+
+<blockquote>
+  <p>在Recyclerview的Adapter的数据刷新上，我使用了扩展包提供的 <a href="http://blog.csdn.net/zxt0601/article/details/52562770">DiffUtils</a>,是google提供的替换 <code class="highlighter-rouge">notifyDataSetChanged()无脑刷</code> 的方案。</p>
+</blockquote>
+
+<p>​	最后在 <code class="highlighter-rouge">onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) </code> 方法中实现滑动时的动画。这个方法有多达七个参数，我来依次解释一下：</p>
+
+<blockquote>
+  <ul>
+    <li>c ，Recyclerview用来绘制children的画笔</li>
+    <li>recyclerView，额……就是所依赖的Recyclerview</li>
+    <li>viewHolder，当下滑动的这个view的viewHolder</li>
+    <li>dX、dY，手指在控制滑动的时候，此view水平X轴和垂直Y轴位移的距离，单位像素</li>
+    <li>actionState，标明此时是长按拖拽还是单纯的swipe</li>
+    <li>isCurrentlyActive，标明此时滑动的view是处于手指控制状态，还是手指松开后的回弹动画状态</li>
+  </ul>
+</blockquote>
+
+<p>​	了解了参数之后，在这个方法中就可以实现滑动时的动画了。<code class="highlighter-rouge">SimpleCallBack</code> 默认的对滑动距离判断的条件是，水平方向是Recyclerview宽的一半，垂直方向是Recyclerview高的一半。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>//这个方法返回的值就是默认的阙值，想要更灵敏的话只需在自定义CallBack中重写这个方法，将值变小。更迟钝的话则反之
+public float getSwipeThreshold(ViewHolder viewHolder) {
+    return .5f;
+}
+</code></pre>
+</div>
+
+<p>​	撸出来的代码如下：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>@Override
+    public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+//        Log.d(TAG, "onChildDraw dX : " + dX);
+//        Log.d(TAG, "onChildDraw dY : " + dY);
+        Log.d(TAG, "onChildDraw isCurrentlyActive: " + isCurrentlyActive);
+        if (mItemW == 0) {
+//            Log.d(TAG, "onChildDraw getAdapterPosition : " + viewHolder.getAdapterPosition());
+            mItemW = viewHolder.itemView.getWidth();
+            mHorJudgeDistance = recyclerView.getWidth() * getSwipeThreshold(viewHolder);
+            mVerJudgeDistance = recyclerView.getHeight() * getSwipeThreshold(viewHolder);
+        }
+
+        float ratio;
+        if (Math.abs(dX) &gt; Math.abs(dY)) {
+            //以宽为判定基准
+            ratio = Math.abs(dX) / mHorJudgeDistance;
+        } else {
+            //以高为判定基准
+            ratio = Math.abs(dY) / mVerJudgeDistance;
+        }
+        float realRatio = ratio &gt;= 1f ? 1f : ratio;
+        ViewCompat.setAlpha(viewHolder.itemView, 1 - realRatio);
+
+        boolean isMeetNum = recyclerView.getLayoutManager().getItemCount() &gt; CardConfig.MAX_SHOW_COUNT + 1;
+        int maxJudge = isMeetNum ? CardConfig.MAX_SHOW_COUNT - 1 : (recyclerView.getLayoutManager().getItemCount() - 1);
+        for (int i = 1; i &lt;= maxJudge; i++) {
+            View itemView = recyclerView.findViewHolderForAdapterPosition(i).itemView;
+            float v = i * CardConfig.CARD_VERTICAL_GAP - realRatio * CardConfig.CARD_VERTICAL_GAP;
+            ViewCompat.setTranslationY(itemView, -v);
+        }
+    }
+</code></pre>
+</div>
+
+<h5 id="3使用itenanimator实现回滚动画">3、使用ItenAnimator实现回滚动画</h5>
+
+<p>​	<code class="highlighter-rouge">ItemAnimator</code> 我没有选择实现，而是使用了现成的轮子<a href="https://github.com/wasabeef/recyclerview-animators"><strong>recyclerview-animators</strong></a>，没有选择远程库引入。而是将源代码copy进来，再进行了适当性的修改。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mRecyclerView.setItemAnimator(new SlideAnimator());
+mRecyclerView.getItemAnimator().setAddDuration(250);
+</code></pre>
+</div>
+
+<p>​	OK，到这里基本上就大功告成了，只剩下一些小细节和bug处理一下即可。在<code class="highlighter-rouge">CallBack</code> 类的 <code class="highlighter-rouge">onSwipe</code> 方法中将 <code class="highlighter-rouge">direction</code> 赋值到一个静态变量中，然后在 <code class="highlighter-rouge">SlideAnimator</code> 根据不同的方向实现不同的动画。</p>
+
+<p>​	在实现过程中，我发现回滚动画的那个view居然不是滑走的view，就使用了一个单例来管理数据。动画开始时将数据设置为滑走的view的数据，动画结束后再将动画view的数据还原。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>@Override
+protected void preAnimateAddImpl(RecyclerView.ViewHolder holder) {
+    Log.d(TAG, "preAnimateAddImpl: " + holder.itemView.getTag().toString());
+    DataExchangeMgr.getInstance().saveOrignData((int) holder.itemView.getTag(R.id.view_data));
+    //根据不同的方向设置不同的初始值
+    if (isHorizDirection()) {
+        int width = holder.itemView.getRootView().getWidth();
+        ViewCompat.setTranslationX(holder.itemView, CardConfig.sViewholderDirection == ItemTouchHelper.LEFT ? -width : width);
+    } else {
+        int height = holder.itemView.getRootView().getHeight();
+        ViewCompat.setTranslationY(holder.itemView, CardConfig.sViewholderDirection == ItemTouchHelper.UP ? -height : height);
+    }
+}
+
+@Override
+protected void animateAddImpl(final RecyclerView.ViewHolder holder) {
+    //根据不同的方向选择不同的动画
+    ViewPropertyAnimatorCompat viewPropertyAnimatorCompat = ViewCompat.animate(holder.itemView)
+            .setDuration(getAddDuration())
+            .setInterpolator(mInterpolator)
+            .setListener(new DefaultAddVpaListener(holder) {
+                @Override
+                public void onAnimationStart(View view) {
+                    super.onAnimationStart(view);
+                    //将此view数据设置为滑开的数据
+                    ((ImageView) mViewHolder.itemView.findViewById(R.id.show_img)).setImageResource(DataExchangeMgr.getInstance().getCurrentData());
+                }
+
+                @Override
+                public void onAnimationCancel(View view) {
+                    super.onAnimationCancel(view);
+                    //数据还原
+                    ((ImageView) mViewHolder.itemView.findViewById(R.id.show_img)).setImageResource(DataExchangeMgr.getInstance().getOrignalData());
+                }
+
+                @Override
+                public void onAnimationEnd(View view) {
+                    super.onAnimationEnd(view);
+                    //数据还原
+                    ((ImageView) mViewHolder.itemView.findViewById(R.id.show_img)).setImageResource(DataExchangeMgr.getInstance().getOrignalData());
+                }
+            })
+            .setStartDelay(50);
+    
+    if (isHorizDirection()) {
+        viewPropertyAnimatorCompat
+                .translationX(0)
+                .start();
+    } else {
+        viewPropertyAnimatorCompat
+                .translationY(0)
+                .start();
+    }
+}
+
+private boolean isHorizDirection() {
+    return CardConfig.sViewholderDirection == ItemTouchHelper.LEFT || CardConfig.sViewholderDirection == ItemTouchHelper.RIGHT;
+}
+</code></pre>
+</div>
+
+<p>最后感兴趣的可以看看代码，奉上GitHub地址。<a href="https://github.com/JadynAi/InfinateCard"><strong>InfinateCard</strong></a></p>
+
 
                 <hr>
 
@@ -322,7 +499,7 @@ private void LayoutItems(RecyclerView.Recycler recycler, RecyclerView.State stat
                     
                     
                     <li class="next">
-                        <a href="/2017/06/01/%E5%B0%8F%E5%BF%83%E8%BD%AE%E5%AD%90/" data-toggle="tooltip" data-placement="top" title="请小心那些‘几行代码搞定……’的文章">Next Post &rarr;</a>
+                        <a href="/2017/06/16/H5%E5%92%8CAPP%E4%BA%A4%E4%BA%92%E6%A8%A1%E5%BC%8F/" data-toggle="tooltip" data-placement="top" title="H5打开App的正确姿势">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -348,11 +525,9 @@ private void LayoutItems(RecyclerView.Recycler recycler, RecyclerView.State stat
                     <div class="tags">
         				
                             
-                				<a href="/tags/#技术讨论" title="技术讨论" rel="3">
+                				<a href="/tags/#技术讨论" title="技术讨论" rel="4">
                                     技术讨论
                                 </a>
-                            
-        				
                             
         				
                             

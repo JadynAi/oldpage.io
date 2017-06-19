@@ -1,0 +1,12 @@
+---
+layout:     post
+title:      "H5打开App的正确姿势"
+subtitle:   "当从H5打开Activity，你到底打开了什么"
+date:       2017-06-16
+author:     "JadynAi"
+header-img: "img/post-bg-2015.jpg"
+tags:
+    - 技术讨论
+    - 
+---
+
