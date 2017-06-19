@@ -64,7 +64,7 @@ ga_domain: ailoli.me
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "Angle AI Loli"
+sidebar-about-description: "Angel AI Loli"
 sidebar-avatar: /img/ailoli-me.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
