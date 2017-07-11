@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      "实用性MAX,像View一样使用的粒子效果"
-subtitle:   "升级版的萤火虫粒子效果，可自定义Bitmap"
+title:      "实用性MAX!像普通View一样自由使用的粒子组件"
+subtitle:   "升级版的粒子效果，可自定义Bitmap"
 date:       2017-06-28
 author:     "JadynAi"
 header-img: "img/20170628-blog-header-bg.jpg"
@@ -76,7 +76,13 @@ mParticleAnim.addListener(new AnimatorListenerAdapter() {
 });
 ```
 
-> 这段代码展示出来，你懂得。也不必多说了，如果想要控制速率，那么只要将动画的持续时间调短即可。
+> 这段代码展示出来，你懂得。
+>
+> 在一个无限循环的属性动画里，在Repeat监听事件里，调用`View`的`invalidate`方法重绘。这样每次触发重绘的时间间隔就是属性动画的持续时间。
+>
+> 要是想控制粒子的运动速率，那么只需要调整动画的持续时间即可。
+>
+> 而且如果要对外暴露粒子动画开始或者停止的方法，只需要控制属性动画的`start`和`stop`就行了。
 
 ##### 问题2：粒子的运动轨迹
 
