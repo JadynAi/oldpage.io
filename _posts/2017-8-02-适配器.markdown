@@ -115,6 +115,8 @@ ItemsAdapter.create(this)
                 .build()
 ```
 >需注意的是，ItemBusin默认是不处理点击事件，需要通过`setItemClick`方法设置为true才能在Business内处理点击事件。
+>在这里我需要解释一下这个类。  
+>这个类存在的意义相当于MVP模式里的Presenter，业务处理类。我们项目中目前也大量使用了MVP模式，但一直觉得Presenter这个名称不太适合。于是和朋友讨论了一下，觉得使用Business这个名称来得更恰当一点。
 
 - ItemBusiness内部本身提供了很多方法,方便于一些业务逻辑的处理，譬如点击某个按钮刷新数据，移除数据啊等等。
 
