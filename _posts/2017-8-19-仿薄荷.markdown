@@ -1,0 +1,226 @@
+---
+layout:     post
+title:      "多种姿势花式实现薄荷Loading动画（上）"
+subtitle:   "自定义View用Canvas绘制出薄荷的Loading动画"
+date:       2017-08-19
+author:     "JadynAi"
+header-img: "img/20170819-blog-header-bg.jpg"
+tags:
+    - Android动画
+    - Canvas
+---
+
+*本文属于Android技术论述文章，阅读完大致需要五分钟*  
+**没时间的小伙伴可以直接跳过文章，[点击项目地址](https://github.com/JadynAi/LoadingLovely)，如果喜欢的话，顺手给个star那是极好的【娇羞……】**
+>好吧。先说一下为什么要做这个项目。  
+>事情发生在前几天的一个夜晚，我打开薄荷，并点击播放。随着视频里妹子的动作，我的身体也有规律地摆动了起来，不一会儿就开始喘起了粗气，汗流浃背……  
+>![](http://www.sdbeta.com/uploads/allimg/160523/224444KC-0.png)  
+>随着妹子节奏的加快，我也情不自禁加快了频率，眼看着就要【不可描述的累瘫】的时候。我看到了这个画面。我摔！深蹲还差10个就到600个呢！：  
+![](http://ailoli.me/img/20170819-blog-1.gif)  
+>这~~，就是我要的Loading图！
+
+#### 先上本次最终实现的效果图吧，颜色当然选择今年最流行的原谅色：  
+![](http://ailoli.me/img/20170819-blog-3.gif)
+
+### 思路分析
+- 1、整个图形的形状如何绘制
+- 2、如何让线条动起来
+
+#### 整个图形的形状分析
+ - 好了，首先我们来分析一下这个图案，如果是静态的，那么如何绘制？  
+ 很简单，拆分。我们将图形拆开分解，然后再看。分析细节和步骤，这是要点。  
+ 我这里将这个图分成了三份。
+   - 第一个，也就是叶柄。也就是下面那一条小小的竖线。原Loading图中不甚明显，但还是有的。叶柄没什么说的，直线就可以了。
+   - 第二个，叶子的左轮廓边缘和右轮廓边缘。这是一段下肥上窄的弧线，椭圆截取感觉不妥，我这里采用的是贝塞尔二阶曲线。有关Android贝塞尔相关的知识大家可以看看[这篇文章](http://blog.csdn.net/u013831257/article/details/51281136)。
+   - 第三个，也就是叶片的脉络，线和线交叉连接，没什么可说的。
+- 那么重点其实就是叶子左右轮廓的绘制了，我画了一张草图。大家可以看看：  
+![](http://ailoli.me/img/20170819-blog-4.png)  
+
+> 其中黑色的框作为View的边界。A点是左轮廓曲线的起点，B点事贝塞尔曲线的控制点，我把它定义到了View的左边框那里。C点事整个贝塞尔曲线的终点，D点则是实际上曲线的最高点。  
+> 右轮廓则和左轮廓是镜像存在。  
+> 图有点潦草，不过应该还看得懂。
+
+- 好了，静态图形拆解完毕。接着看，如何让图动起来。
+
+#### 如何让线条动起来
+整个项目中，如何让线条真正的动起来才是要点。刚开始在这里的思路，是想使用`canvas.drawCircle`绘制在一张Bitmap上，以点汇面。后面实现起来发现，这种方式特别不靠谱。  
+为什么不靠谱呢？因为点连接成线，每次移动的速率和距离都得计算，很麻烦。很容易出现断点的情况。  
+最后，我采用的是让`canvas`去绘制一段`Path`路径，然后`Path`路径不停的刷新改变。这样做的好处，是`Path`更加直观易于控制。而且还不用多绘制一张`Bitmap`。  
+整个项目中，自定义的View，`LeafAnimView`做的工作很少，只是在`onDraw`方法内，调起了绘制而已。具体的绘制都交给`LeafAtom`了。面向对象嘛。
+
+- 具体的思路，是我把总时间按比例分成四部分。生成四个属性动画，在属性动画的监听里作`Path`的x和y的变化。在绘制的时候，只需要将这四个动画依次播放，即可得到每个时间段的具体运动值。而且还是均匀变化的。
+
+- `LeafAnimView`内部作为动画引擎的是一个`ValueAnimator`,使用它来触发View的onDraw。同时也使用它来控制整个动画的时间。
+
+```
+ mValueAnimator = ValueAnimator.ofFloat(0, 1);
+        mValueAnimator.setDuration(5000);
+        mValueAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                invalidate();
+            }
+        });
+```
+- `LeafAtom`类内部接受到这个总时长，然后将运动总时间分割，根据比例计算出绘制叶柄、左右轮廓、脉络的动画时间。
+
+```
+-------在LeafAnimView类内部---------
+ @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (null == mLeafAtom) {
+         //传入总时长
+            mLeafAtom = new LeafAtom(getWidth(), getHeight(), mValueAnimator.getDuration());
+        }
+        if (!mValueAnimator.isStarted()) {
+            mValueAnimator.start();
+        }
+        //开始绘制
+        mLeafAtom.drawGraph(canvas, mPaint);
+    }
+    
+-------在LeafAtome类---------------
+public static final float PETIOLE_RATIO = 0.1f;//叶柄所占比例
+public LeafAtom(int width, int height, long duration) {
+
+        mWidth = width;
+        mHeight = height;
+
+        mPetioleTime = (long) (duration * PETIOLE_RATIO);//绘制叶柄的时间
+        mArcTime = (long) (duration * (1 - PETIOLE_RATIO) * 0.4f);//左右轮廓弧线的时间
+        mLastLineTime = duration - mPetioleTime - mArcTime * 2;//最后一段叶脉的时间
+
+        mBezierBottom = new PointF(mWidth * 0.5f, mHeight * (1 - PETIOLE_RATIO));//左侧轮廓底部点
+        mBezierControl = new PointF(0, mHeight * (1 - 3 * PETIOLE_RATIO));//左侧轮廓控制点
+        mBezierTop = new PointF(mWidth * 0.5f, 0);//左侧轮廓顶部结束点
+
+        mVeinBottomY = mHeight * (1 - PETIOLE_RATIO) - 10;//右侧轮廓底部点Y轴坐标，稍稍低一点
+        mOneNodeY = mVeinBottomY * 4 / 5;//第一个节点的Y轴坐标
+        mTwoNodeY = mVeinBottomY * 2 / 5;//第二个节点Y轴坐标
+        initEngine();
+        setOrginalStatus();
+    }
+```
+- 在`LeafAtom`的构造函数中，得到每一个阶段动画的时间，然后生成四个属性动画，在这个属性动画的监听里去做Path的x和y坐标的值变化。
+
+```
+ /**
+     * 初始化path引擎
+     */
+    private void initEngine() {
+         //叶柄动画，Y轴变化由底部运动到叶柄高度的地方
+        mPetioleAnim = ValueAnimator.ofFloat(mHeight, mHeight * (1 - PETIOLE_RATIO)).setDuration(mPetioleTime);
+        //左右轮廓贝塞尔曲线，只需要只奥时间变化是从0~1的。起点、控制点、结束点都知道了
+        mArcAnim = ValueAnimator.ofFloat(0, 1.0f).setDuration(mArcTime);
+        //绘制叶脉的动画
+        mLastAnim = ValueAnimator.ofFloat(mVeinBottomY, 0).setDuration(mLastLineTime);
+
+        mPetioleAnim.setInterpolator(new LinearInterpolator());
+        mArcAnim.setInterpolator(new LinearInterpolator());
+        mLastAnim.setInterpolator(new LinearInterpolator());
+        mArcRightAnim = mArcAnim.clone();
+
+        mPetioleAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mY = (float) animation.getAnimatedValue();
+            }
+        });
+        mArcAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                computeArcPointF(animation, true);
+            }
+        });
+        mArcRightAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                computeArcPointF(animation, false);
+            }
+        });
+        mLastAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mY = (float) animation.getAnimatedValue();
+                float tan = (float) Math.tan(Math.toRadians(30));
+                if (mY <= mOneNodeY && mY > mTwoNodeY) {
+                    mOneLpath.moveTo(mX, mOneNodeY);
+                    mOneRpath.moveTo(mX, mOneNodeY);
+                    //这里的参数x和y代表相对当前位置偏移量，y轴不加偏移量会空一截出来，这里的15是经验值
+                    mMainPath.addPath(mOneLpath, 0, EXPRIENCE_OFFSET);
+                    mMainPath.addPath(mOneRpath, 0, EXPRIENCE_OFFSET);
+                    //第一个节点和第二个节点之间
+                    float gapY = mOneNodeY - mY;
+                    mOneLpath.rLineTo(-gapY * tan, -gapY);
+                    mOneRpath.lineTo(mX + gapY * tan, mY);
+                } else if (mY <= mTwoNodeY) {
+                    mTwoLpath.moveTo(mX, mTwoNodeY);
+                    mTwoRpath.moveTo(mX, mTwoNodeY);
+
+                    //第二个节点，为避免线超出叶子，取此时差值的一半作计算
+                    float gapY = (mTwoNodeY - mY) * 0.5f;
+                    mMainPath.addPath(mTwoLpath, 0, EXPRIENCE_OFFSET);
+                    mMainPath.addPath(mTwoRpath, 0, EXPRIENCE_OFFSET);
+
+                    mTwoLpath.rLineTo(-gapY * tan, -gapY);
+                    mTwoRpath.rLineTo(gapY * tan, -gapY);
+                }
+            }
+        });
+
+        mEngine = new AnimatorSet();
+        mEngine.playSequentially(mPetioleAnim, mArcAnim, mArcRightAnim, mLastAnim);
+        mEngine.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                setOrginalStatus();
+            }
+        });
+    }
+```
+- 计算贝塞尔曲线运动过程中的方法。贝塞尔曲线是有一个函数的，我们知道起点、控制点、终点的话，就可以根据时间计算出此时此刻的x和y的坐标。而这个时间变化是从0~1变化的。谨记。
+
+```
+private void computeArcPointF(ValueAnimator animation, boolean isLeft) {
+        float ratio = (float) animation.getAnimatedValue();
+        //ratio从0~1变化，左右轮廓三个点不一样
+        PointF bezierStart = isLeft ? mBezierBottom : mBezierTop;
+        PointF bezierControl = isLeft ? mBezierControl : new PointF(mWidth, mHeight * (1 - 3 * PETIOLE_RATIO));
+        PointF bezierEnd = isLeft ? mBezierTop : new PointF(mWidth * 0.5f, mVeinBottomY);
+        PointF pointF = calculateCurPoint(ratio, bezierStart, bezierControl, bezierEnd);
+        mX = pointF.x;
+        mY = pointF.y;
+    }
+    private PointF calculateCurPoint(float t, PointF p0, PointF p1, PointF p2) {
+        PointF point = new PointF();
+        float temp = 1 - t;
+        point.x = temp * temp * p0.x + 2 * t * temp * p1.x + t * t * p2.x;
+        point.y = temp * temp * p0.y + 2 * t * temp * p1.y + t * t * p2.y;
+        return point;
+    }
+```
+- 叶脉的绘制，在节点一和节点二，分别加上两个向左和向右伸展开的Path路径即可。
+  -  需要说明的是，`lineTo`和`rLineTo`的区别，`lineTo`的参数代表的就是目标参数，而`rLineTo`的参数代表的是，目标参数和起点参数的差值。
+
+- 最后在`drawGraph`函数中，启动这个动画集合：
+
+```
+public void drawGraph(Canvas canvas, Paint paint) {
+        if (mEngine.isStarted()) {
+            canvas.drawPath(mMainPath, paint);
+            mMainPath.lineTo(mX, mY);
+        } else {
+            mEngine.start();
+        }
+    }
+```
+
+### 以上，就是本次项目的主要思路了。相关注释代码里都写的很清楚了，项目地址在这里。[仿薄荷Loading动画](https://github.com/JadynAi/LoadingLovely)，大家走过路过千万别忘了给个Star啊。
+### 下次还是这个动画，我会尝试一种新的方式来实现这个动画~~  
+![](http://ubq.ubiaoqing.com/ubiaoqing57e8baface2c423152.jpg)
+
+
+
