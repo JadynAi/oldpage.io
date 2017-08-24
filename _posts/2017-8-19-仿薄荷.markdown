@@ -15,11 +15,10 @@ tags:
 
 **没时间的小伙伴可以直接跳过文章，[点击项目地址](https://github.com/JadynAi/LoadingLovely)，如果喜欢的话，顺手给个star那是极好的【娇羞……】**
 >好吧。先说一下为什么要做这个项目。  
->事情发生在前几天的一个夜晚，我打开薄荷，并点击播放。随着视频里妹子的动作，我的身体也有规律地摆动了起来，不一会儿就开始喘起了粗气，汗流浃背……  
->![](http://www.sdbeta.com/uploads/allimg/160523/224444KC-0.png)  
->随着妹子节奏的加快，我也情不自禁加快了频率，眼看着就要【不可描述的累瘫】的时候。我看到了这个画面。我摔！深蹲还差10个就到600个呢！：  
+> 前几天使用薄荷的时候，凑巧看到了这个Loading动画，觉得效果还不错。就想尝试着实现一下。
+>![](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4K2TE-DhDYxAfzBxpt6HFZA18hP4nD6Xc4YQTpgKtCI0MJ8ly)  
+>先看一下原版的效果，GIF录制的比较快，但应该还可以看清楚。  
 ![](http://ailoli.me/img/20170819-blog-1.gif)  
->咦！这个Loading图还挺有意思的。有创意，干脆尝试做一下吧。
 
 #### 先上本次最终实现的效果图吧，颜色当然选择今年最流行的原谅色：  
 ![](http://ailoli.me/img/20170819-blog-3.gif)
