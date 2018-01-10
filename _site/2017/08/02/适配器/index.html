@@ -10,9 +10,9 @@
     <meta name="keyword"  content="">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>Android萤火虫飞舞粒子效果 - Life Is Like A Boat</title>
+    <title>玩转ListView和Recyclerview适配器，轻松切换不是问题！！！ - Life Is Like A Boat</title>
 
-    <link rel="canonical" href="http://localhost:4000/2017/05/03/Android%E7%B2%92%E5%AD%90%E7%89%B9%E6%95%88%E4%B9%8B-%E8%90%A4%E7%81%AB%E8%99%AB%E9%A3%9E%E8%88%9E%E6%95%88%E6%9E%9C/">
+    <link rel="canonical" href="http://localhost:4000/2017/08/02/%E9%80%82%E9%85%8D%E5%99%A8/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -125,12 +125,12 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/20170428-blog-header-bg.jpg" width="0" height="0"> -->
+<!-- <img src="/img/20170802-blog-header-bg.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
-        background-image: url('/img/20170428-blog-header-bg.jpg')
+        background-image: url('/img/20170802-blog-header-bg.jpg')
     }
 </style>
 <header class="intro-header" >
@@ -140,19 +140,19 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#粒子效果" title="粒子效果">粒子效果</a>
-                        
-                        <a class="tag" href="/tags/#Android动画" title="Android动画">Android动画</a>
-                        
                         <a class="tag" href="/tags/#技术讨论" title="技术讨论">技术讨论</a>
                         
+                        <a class="tag" href="/tags/#代码封装" title="代码封装">代码封装</a>
+                        
+                        <a class="tag" href="/tags/#适配器" title="适配器">适配器</a>
+                        
                     </div>
-                    <h1>Android萤火虫飞舞粒子效果</h1>
+                    <h1>玩转ListView和Recyclerview适配器，轻松切换不是问题！！！</h1>
                     
                     
-                    <h2 class="subheading">让我们来做一群快乐的萤火虫吧！</h2>
+                    <h2 class="subheading">一套能够让ListView和Recyclerview无缝切换的适配器</h2>
                     
-                    <span class="meta">Posted by JadynAi on May 3, 2017</span>
+                    <span class="meta">Posted by JadynAi on August 2, 2017</span>
                 </div>
             </div>
         </div>
@@ -170,174 +170,161 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<p><a href="https://github.com/JadynAi/Particle">GitHub地址</a></p>
-
-<blockquote>
-  <p>原创文章，转载请注明出处</p>
+				<blockquote>
+  <p>原创文章，转载请注明出处。</p>
 </blockquote>
 
-<h2 id="萤火虫飞舞粒子效果">萤火虫飞舞粒子效果</h2>
+<p><em>本文属于严肃文学题材，不科幻、不狗血。阅读完大概需要耗时五分钟。</em></p>
 <blockquote>
-  <p>本项目中我提供了两种方案，最终呈现的效果如下：</p>
+  <p>文章初衷：<br />
+因为我现在所开发的项目中，存在着ListView和Recyclerview共存的情况。而且因为种种原因，并不能完全地抛弃ListView奔向Recyclerview的床。<br />
+相信很多人开发过程中也遇到过这种问题，于是乎就诞生了这样一个想法，能不能让这俩组件的适配器“通用”呢？<br />
+需注意：适配器的封装有很多种方法，本文只提供其中一种思路。</p>
 </blockquote>
 
-<p><img src="http://JadynAi.github.io/img/20170428-blog-particle.gif" alt="" /></p>
-
-<p><strong>先奉上GitHub地址</strong><a href="https://github.com/JadynAi/Particle">戳这里</a>，有兴趣的同鞋star一下咯</p>
-
-<h2 id="实现原理">实现原理</h2>
-
-<p>Android的粒子效果、粒子动画，已经有很多开源的轮子了。作为一个坚定的轮子主义者，我google了大半天，却没有找到这种类似于萤火虫飞舞的效果。只好自己来实现这种效果。</p>
-
-<hr />
-
-<p>相比较普通的View，SurfaceView更加适合这种不断变化的画面，所以选择SurfaceView来实现。现在把思路再重新梳理一下：</p>
-
+<p><strong>先奉上项目地址:</strong><a href="https://github.com/JadynAi/Adapter">一个Adapter</a></p>
+<h4 id="用法讲一讲">用法讲一讲</h4>
+<h5 id="1普通列表">1、普通列表</h5>
 <ul>
-  <li>大小不同的粒子在区域内随机分布</li>
-  <li>粒子做无规则运动，然后消失</li>
+  <li>ListView</li>
 </ul>
 
-<h5 id="粒子区域内随机分布">粒子区域内随机分布</h5>
-
-<p>这个简单，我们在callBack的方法内直接循环生成一个粒子的数组即可。方位的话使用Random即可。</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (mCircles.size() == 0) {
-    for (int i = 0; i &lt; MAX_NUM; i++) {
-        FloatParticleLine f = new FloatParticleLine(getF() * mMeasuredWidth, getF() * mMeasuredHeight, mMeasuredWidth, mMeasuredHeight);
-        f.setRadius(mRandom.nextInt(2) + 1.2f);
-        mCircles.add(f);
-    }
-}
-private float getF() {
-        float v = mRandom.nextFloat();
-        if (v &lt; 0.2f) {
-            return v + 0.2f;
-        } else if (v &gt;= 0.85f) {
-            return v - 0.2f;
-        } else {
-            return v;
-        }
-    }
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private ItemsAdapter mListAdapter;
+mListAdapter = ItemsAdapter.create(this).putItemClass(TestItemView.class).build();
 </code></pre></div></div>
-
-<blockquote>
-  <p>getF（）方法是限制在区域内取值，mMeasuredWidth、mMeasuredHeight为SurfaceView的宽和高。</p>
-
-  <p>这里的宽和高在粒子对象FloatParticleLine，内会用到。</p>
-</blockquote>
-
-<p>然后我们在创建一个线程，在run（）方法内做无线循环的绘制即可，为了避免无意义的绘制，可以使用Thread.sleep方法来控制帧数。</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>while (isRun) {
-    try {
-        mCanvas = mHolder.lockCanvas(null);
-        if (mCanvas != null) {
-            synchronized (mHolder) {
-                // 清屏
-                mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-
-                for (FloatParticleLine circle : mCircles) {
-                    circle.drawItem(mCanvas);
-                }
-                // 控制帧数
-                Thread.sleep(25);
-            }
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        if (mCanvas != null) {
-            mHolder.unlockCanvasAndPost(mCanvas);
-        }
-    }
-}
-</code></pre></div></div>
-
-<p>isRun的变量我们会在SurfaceView内callBack的surfaceDestroyed方法中置为false</p>
-
-<h5 id="粒子做无规则运动">粒子做无规则运动</h5>
-
 <ul>
-  <li>方案一</li>
+  <li>Recyclerview</li>
 </ul>
 
-<p>其实看到这种粒子效果，首先应该想到的就是Canvas了。</p>
-
-<p>在SurfaceView里就是通过不断地循环调用FloatParticleLine类的drawItem（）方法来实现粒子的运动。我第一种方案的实现，就是每一个粒子在被创建出来的时候，就随机选择一个方向开始运动，滑过一定的轨迹之后让其消失就好了。</p>
-
-<p>至于怎么选择随机方向，我这里的做法是，分别随机生成一个x和y轴上的递增或者递减的数值，然后每次在前一次绘制的基础上，x和y分别递增递减，直到运动到屏幕边缘或者是规定的运动距离满足了再消失即可。</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//随机生成参数
-private void setRandomParm() {
-    // 2017/5/2-上午10:47 x和y的方向
-    mIsAddX = mRandom.nextBoolean();
-    mIsAddY = mRandom.nextBoolean();
-
-    // 2017/5/2-上午10:47 x和y的取值
-    mDisX = mRandom.nextInt(2) + 0.2f;
-    mDisY = mRandom.nextInt(2) + 0.3f;
-
-    // 2017/5/2-上午10:47 内部区域的运动最远距离
-    mDistance = mRandom.nextInt((int) (0.25f * mWidth)) + (0.125f * mWidth);
-}
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private RecyclerAdapter mRecyclerAdapter;
+mRecyclerAdapter = RecyclerAdapter.create(this).putItemClass(TestItemView.class).build();
 </code></pre></div></div>
-
-<p>绘制图形：</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public void drawItem(Canvas canvas) {
-    if (mX == mStartX) {
-        mPaint.setAlpha(ALPHA_MAX);
-    }
-    //绘制
-    canvas.drawCircle(mX += getPNValue(mIsAddX, mDisX), mY += getPNValue(mIsAddY, mDisY), mRadius, mPaint);
-    //内部区域运动到一定距离消失
-    if (judgeInner()) {
-        float gapX = Math.abs(mX - mStartX);
-        float ratio = 1 - (gapX / mDistance);
-        mPaint.setAlpha((int) (255 * ratio));
-        mRadius = mStartRadius * ratio;
-        if (gapX &gt;= mDistance || mY - mStartY &gt;= mDistance) {
-            resetDisXY();
-            return;
-        }
-        return;
-    }
-    //外部区域运动到屏幕边缘消失
-    if (judgeOutline()) {
-        resetDisXY();
-    }
-}
-
-private void resetDisXY() {
-        setRandomParm();
-
-        mPaint.setAlpha(0);
-        mX = mStartX;
-        mY = mStartY;
-        mRadius = mStartRadius;
-    }
-</code></pre></div></div>
-
-<blockquote>
-  <p>judgeInner()和judgeOutline()是判断区域的方法，内部区域的点和外部区域的店消失时机不同</p>
-</blockquote>
-
-<p>在透明度为0也就是粒子消失时，让粒子回到原点，再重新选择一个方向，进行下一步运动轨迹。</p>
-
 <ul>
-  <li>方案二</li>
+  <li>Recyclerview适配器和ListView适配器通用的TestItemView类代码如下：</li>
 </ul>
 
-<p>方案二粒子做的运动是贝塞尔曲线，函数实在网上找到的一个函数。每当粒子做完一次曲线运动后，再随机生成一段新的贝塞尔曲线即可。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class TestItemView extends AbsItemView&lt;ItemBusiness, TestBean&gt; {
 
-<p>思路和方案一的思路都是一样的，无非就是运动的轨迹不同而已。</p>
+    @Override
+    protected void initView(Activity activity, ViewGroup parent, ItemBusiness itemBusiness, ViewHolderHelper holderHelper) {
 
-<h2 id="总结">总结</h2>
+    }
 
-<p>做完之后回头再看，发现这个项目的原理其实并不难，可以说是简单了。但刚开始起步的时候真的还是比较懵的，原因就是没有思路。</p>
+    @Override
+    protected int getLayoutId() {
+        return R.layout.item_layout;
+    }
 
-<p>所以做任何效果，思路最重要。</p>
+    @Override
+    public void showItem(ViewHolderHelper holderHelper, TestBean itemData) {
+        holderHelper.setText(R.id.test_tv, itemData.s);
+    }
+}
+</code></pre></div></div>
+<blockquote>
+  <p>在initView（……）方法中可以设置View的一些属性，比如宽高、透明度等等；<br />
+设置数据则是在showItem（……）方法中，需要说明的是这两个方法都有一个ViewHolderHelper的参数，这个是我封装的一个工具类。有一些常用的setText或者setAlpha等一些方法，里面用一个Map来管理View，避免了过多的findViewById，同时也不用写那么多View的成员变量。<br />
+getLayoutId（）这个方法不用多讲了，返回布局Id。</p>
+</blockquote>
+
+<p><strong>到这里相信大家也能看出来了，我解决Recyclerview和ListView适配器“通用”的解决方案，是让他们持有相同的ItemView。到时候如果需要更换组件的时候，只需要把代码中RecyclerAdapter.create(this)更换为ItemsAdapter.create(this)，或者反向更换即可。怎么样，是不是很简单呢。</strong>
+<img src="http://pic.qqtn.com/up/2017-3/14883343916120558.jpg" alt="image" /></p>
+
+<p><strong>其实让两个组件适配器“通用”本来就是一个伪命题，需要的参数都不一样。既然此路不通，那么不妨换种思路，让他俩的ItemView通用不就解决问题了吗。</strong></p>
+
+<p><strong>AbsItemView这个类比较重要，后续的一系列操作都会用到它。</strong></p>
+
+<h5 id="2优雅的实现多种item-type数据绑定">2、优雅的实现多种Item Type数据绑定</h5>
+
+<p>处理多Item Type的情况，是采用<code class="highlighter-rouge">数据</code>绑定<code class="highlighter-rouge">AbsItemView</code>的方式。也就是说一种数据类型对应一种<code class="highlighter-rouge">ItemType</code>。
+多item的范例：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ItemsAdapter.create(this)
+                .putItemClass(TestItemView.class)
+                .putItemClass(TestOneItemView.class)
+                .build();
+</code></pre></div></div>
+<p>由于是示例代码，<code class="highlighter-rouge">TestOneItemView</code>的代码和<code class="highlighter-rouge">TestItemView</code>代码差不多相同，唯一区别是：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class TestOneItemView extends AbsItemView&lt;ItemBusiness, TestOneBean&gt;
+</code></pre></div></div>
+<blockquote>
+  <p>TestOneItem绑定的数据类型是TestOneBean,没错你没有看错，数据和ItemView之间的绑定是通过泛型来进行的。
+在<code class="highlighter-rouge">putItemClass</code>这个方法里，通过反射得到泛型的类型，以此类型的hashCode为key，将ItemView的类型存入一个map中。设置数据时根据不同的数据类型生成不同的ItemView。</p>
+</blockquote>
+
+<p>当然，如果你的自定义的ItemView不想依赖泛型，想设置成强绑定类型的话，也是支持的。方法如下：
+<code class="highlighter-rouge">putItemClass(@NonNull Class&lt;? extends D&gt; itemDataClass,
+                                        @NonNull Class&lt;? extends AbsItemView&lt;?, D&gt;&gt; itemViewClass)</code></p>
+
+<h5 id="3点击事件以及itemview所需要处理的业务逻辑">3、点击事件以及itemView所需要处理的业务逻辑</h5>
+<p>点击事件默认Adapter是不进行处理的，你可以通过ListView原生的setOnItemClick来进行设置。<br />
+或者也可以直接在AbsItemView内部直接对根View设置点击事件。</p>
+<ul>
+  <li>点击事件和业务逻辑都通过一个类来实现，就是<code class="highlighter-rouge">ItemBusiness</code></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ItemsAdapter.create(this)
+                .putItemClass(TestItemView.class)
+                .putItemClass(TestOneItemView.class)
+                .setItemBusinessFactory(new ItemBusiness.Factory() {
+                    @Override
+                    public ItemBusiness create(AbsItemView itemView) {
+                    	//itemView方法判断数据类型来返回不同的ItemBusiness
+                        if (itemView.isMatch(TestOneBean.class)) {
+                            return new ItemBusiness(itemView) {
+                                @Override
+                                public void onItemClick() {
+                                    super.onItemClick();
+                                    //点击事件的处理
+                                }
+                            }.setSetItemClick(true);
+                        }
+                        return null;
+                    }
+                })
+                .build()
+</code></pre></div></div>
+<blockquote>
+  <p>需注意的是，ItemBusin默认是不处理点击事件，需要通过<code class="highlighter-rouge">setItemClick</code>方法设置为true才能在Business内处理点击事件。
+在这里我需要解释一下这个类。<br />
+这个类存在的意义相当于MVP模式里的Presenter，业务处理类。我们项目中目前也大量使用了MVP模式，但一直觉得Presenter这个名称不太适合。于是和朋友讨论了一下，觉得使用Business这个名称来得更恰当一点。</p>
+</blockquote>
+
+<ul>
+  <li>ItemBusiness内部本身提供了很多方法,方便于一些业务逻辑的处理，譬如点击某个按钮刷新数据，移除数据啊等等。</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> //刷新列表
+    public final void notifyDataSetChanged() {
+        mAdapter.notifyDataSetChanged();
+    }
+
+    //刷新当前ItemView，只支持Recyclerview
+    public final void notifyItemDataChanged() {
+        setItemData(mPosition, mItemData);
+    }
+    
+    //返回总数据size
+    public final int getCount() {
+        return mAdapter.getItemCount();
+    }
+
+    //返回此项数据
+    public final D getItemData() {
+        return mItemData;
+    }
+
+    //返回当前position
+    public final int getPosition() {
+        return mPosition;
+    }
+</code></pre></div></div>
+<ul>
+  <li>当然你也可以自定义ItemBusiness，因为在项目开发的过程中，有可能也会需要在ItemView内处理不少的业务逻辑。譬如网络请求，交互动画啊等等。</li>
+</ul>
+
+<h4 id="好了一些基本的操作就在这里了本项目设计遵从mvp思想将业务逻辑itembusiness和ui逻辑absitemview分离开来从而使得项目结构更加清晰方便迭代以及测试">好了，一些基本的操作就在这里了。本项目设计遵从MVP思想，将业务逻辑（ItemBusiness）和UI逻辑（AbsItemView）分离开来。从而使得项目结构更加清晰，方便迭代以及测试。</h4>
+
+<h3 id="以上就是这个项目的一些简介了大家要是喜欢的话这里是github地址一个adapter喜欢的话不妨随手点一个赞吧">以上就是这个项目的一些简介了。大家要是喜欢的话，这里是GitHub地址<a href="https://github.com/JadynAi/Adapter">一个Adapter</a>，喜欢的话不妨随手点一个赞吧。</h3>
 
 
 
@@ -349,12 +336,12 @@ private void resetDisXY() {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2017/04/25/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%8A%80%E6%9C%AF/" data-toggle="tooltip" data-placement="top" title="JadynAi的第一篇博客">&larr; Previous Post</a>
+                        <a href="/2017/06/28/%E7%B2%92%E5%AD%90%E5%8D%87%E7%BA%A7/" data-toggle="tooltip" data-placement="top" title="实用性MAX!像普通View一样自由使用的粒子组件">&larr; Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2017/05/10/%E4%BD%8E%E6%B6%88%E8%80%97%E7%9A%84%E6%97%A0%E9%99%90%E5%BE%AA%E7%8E%AF%E5%8D%A1%E7%89%8C%E6%95%88%E6%9E%9C/" data-toggle="tooltip" data-placement="top" title="低消耗、带回滚动画的仿探探交互效果">Next Post &rarr;</a>
+                        <a href="/2017/08/19/%E4%BB%BF%E8%96%84%E8%8D%B7/" data-toggle="tooltip" data-placement="top" title="多种姿势花式实现薄荷Loading动画（上）">Next Post &rarr;</a>
                     </li>
                     
                 </ul>

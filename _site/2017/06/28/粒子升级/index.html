@@ -10,9 +10,9 @@
     <meta name="keyword"  content="">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>Android萤火虫飞舞粒子效果 - Life Is Like A Boat</title>
+    <title>实用性MAX!像普通View一样自由使用的粒子组件 - Life Is Like A Boat</title>
 
-    <link rel="canonical" href="http://localhost:4000/2017/05/03/Android%E7%B2%92%E5%AD%90%E7%89%B9%E6%95%88%E4%B9%8B-%E8%90%A4%E7%81%AB%E8%99%AB%E9%A3%9E%E8%88%9E%E6%95%88%E6%9E%9C/">
+    <link rel="canonical" href="http://localhost:4000/2017/06/28/%E7%B2%92%E5%AD%90%E5%8D%87%E7%BA%A7/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -125,12 +125,12 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/20170428-blog-header-bg.jpg" width="0" height="0"> -->
+<!-- <img src="/img/20170628-blog-header-bg.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
-        background-image: url('/img/20170428-blog-header-bg.jpg')
+        background-image: url('/img/20170628-blog-header-bg.jpg')
     }
 </style>
 <header class="intro-header" >
@@ -140,19 +140,19 @@
                 <div class="post-heading">
                     <div class="tags">
                         
+                        <a class="tag" href="/tags/#技术讨论" title="技术讨论">技术讨论</a>
+                        
                         <a class="tag" href="/tags/#粒子效果" title="粒子效果">粒子效果</a>
                         
                         <a class="tag" href="/tags/#Android动画" title="Android动画">Android动画</a>
                         
-                        <a class="tag" href="/tags/#技术讨论" title="技术讨论">技术讨论</a>
-                        
                     </div>
-                    <h1>Android萤火虫飞舞粒子效果</h1>
+                    <h1>实用性MAX!像普通View一样自由使用的粒子组件</h1>
                     
                     
-                    <h2 class="subheading">让我们来做一群快乐的萤火虫吧！</h2>
+                    <h2 class="subheading">升级版的粒子效果，可自定义Bitmap</h2>
                     
-                    <span class="meta">Posted by JadynAi on May 3, 2017</span>
+                    <span class="meta">Posted by JadynAi on June 28, 2017</span>
                 </div>
             </div>
         </div>
@@ -170,175 +170,176 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<p><a href="https://github.com/JadynAi/Particle">GitHub地址</a></p>
+				<blockquote>
+  <p>原创文章，转载请注明出处。
+之前作过一篇<a href="http://ailoli.me/2017/05/03/Android%E7%B2%92%E5%AD%90%E7%89%B9%E6%95%88%E4%B9%8B-%E8%90%A4%E7%81%AB%E8%99%AB%E9%A3%9E%E8%88%9E%E6%95%88%E6%9E%9C/">萤火虫飞舞粒子效果</a>，当时看还不错。无论是性能还是UI都满足了当时的设计效果，但实际应用到项目中，却发现由于<code class="highlighter-rouge">SurfaceView </code>其本身是绘制在<code class="highlighter-rouge">window</code>层面上的，对<code class="highlighter-rouge">View</code>本身的属性有很多的限制，用起来却不是很实在，还存在着很多不足。</p>
 
-<blockquote>
-  <p>原创文章，转载请注明出处</p>
+  <p>于是便将之前的效果重新写了一下，改用继承View来实现，虽然说和<code class="highlighter-rouge">SurfaceView</code>相比，在绘制性能上有那么一丝丝的不足 。但轮子本质的含义还是为了服务于项目，项目中方便的使用才是最重要的。</p>
 </blockquote>
 
-<h2 id="萤火虫飞舞粒子效果">萤火虫飞舞粒子效果</h2>
-<blockquote>
-  <p>本项目中我提供了两种方案，最终呈现的效果如下：</p>
-</blockquote>
+<h6 id="阅读本文大概需要三分半钟如果需要直观看代码的话请点这里点这里"><em>阅读本文，大概需要三分半钟。如果需要直观看代码的话</em><a href="https://github.com/JadynAi/Particle">请点这里点这里！！</a></h6>
 
-<p><img src="http://JadynAi.github.io/img/20170428-blog-particle.gif" alt="" /></p>
+<h4 id="首先看一下效果图">首先看一下效果图</h4>
 
-<p><strong>先奉上GitHub地址</strong><a href="https://github.com/JadynAi/Particle">戳这里</a>，有兴趣的同鞋star一下咯</p>
+<p><img src="http://ailoli.me/img/20170628-blog_particle.gif" alt="" /></p>
 
-<h2 id="实现原理">实现原理</h2>
+<h4 id="接着分析实现过程中的几个问题">接着分析实现过程中的几个问题</h4>
 
-<p>Android的粒子效果、粒子动画，已经有很多开源的轮子了。作为一个坚定的轮子主义者，我google了大半天，却没有找到这种类似于萤火虫飞舞的效果。只好自己来实现这种效果。</p>
+<ul>
+  <li>如何保持不间断的绘制</li>
+  <li>粒子的运动轨迹控制（随机方向，碰到边界回弹以及旋转）</li>
+</ul>
 
 <hr />
 
-<p>相比较普通的View，SurfaceView更加适合这种不断变化的画面，所以选择SurfaceView来实现。现在把思路再重新梳理一下：</p>
+<h5 id="问题1如何保持不间断的绘制">问题1：如何保持不间断的绘制</h5>
 
-<ul>
-  <li>大小不同的粒子在区域内随机分布</li>
-  <li>粒子做无规则运动，然后消失</li>
-</ul>
+<p>​       <code class="highlighter-rouge">View</code> 的粒子绘制本身实在<code class="highlighter-rouge">onDraw</code>中进行的，所以最开始我的方案是在<code class="highlighter-rouge">canvas</code>绘制完一波之后，继续调用</p>
 
-<h5 id="粒子区域内随机分布">粒子区域内随机分布</h5>
+<p><code class="highlighter-rouge">invalidate()</code>方法，这样就形成了一个死循环，就达到了不间断重复绘制的效果。</p>
 
-<p>这个简单，我们在callBack的方法内直接循环生成一个粒子的数组即可。方位的话使用Random即可。</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (mCircles.size() == 0) {
-    for (int i = 0; i &lt; MAX_NUM; i++) {
-        FloatParticleLine f = new FloatParticleLine(getF() * mMeasuredWidth, getF() * mMeasuredHeight, mMeasuredWidth, mMeasuredHeight);
-        f.setRadius(mRandom.nextInt(2) + 1.2f);
-        mCircles.add(f);
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Override
+protected void onDraw(Canvas canvas) {
+    super.onDraw(canvas);
+    canvas.save();
+    //粒子的一波绘制
+    for (Particle circle : mCircles) {
+        circle.drawItem(canvas);
     }
+    canvas.restore();
+    invalidate();
 }
-private float getF() {
-        float v = mRandom.nextFloat();
-        if (v &lt; 0.2f) {
-            return v + 0.2f;
-        } else if (v &gt;= 0.85f) {
-            return v - 0.2f;
-        } else {
-            return v;
-        }
-    }
 </code></pre></div></div>
 
 <blockquote>
-  <p>getF（）方法是限制在区域内取值，mMeasuredWidth、mMeasuredHeight为SurfaceView的宽和高。</p>
+  <p>这里需要注意的是，canvas的绘制是一个阻塞的过程，也就是从<code class="highlighter-rouge">canvas.save()</code>方法之后，一直到<code class="highlighter-rouge">invalidate()</code>之前，是阻塞的。</p>
 
-  <p>这里的宽和高在粒子对象FloatParticleLine，内会用到。</p>
+  <p>重绘是会一直等到所有的粒子绘制完成之后，才会继续调起的。</p>
 </blockquote>
 
-<p>然后我们在创建一个线程，在run（）方法内做无线循环的绘制即可，为了避免无意义的绘制，可以使用Thread.sleep方法来控制帧数。</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>while (isRun) {
-    try {
-        mCanvas = mHolder.lockCanvas(null);
-        if (mCanvas != null) {
-            synchronized (mHolder) {
-                // 清屏
-                mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-
-                for (FloatParticleLine circle : mCircles) {
-                    circle.drawItem(mCanvas);
-                }
-                // 控制帧数
-                Thread.sleep(25);
-            }
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        if (mCanvas != null) {
-            mHolder.unlockCanvasAndPost(mCanvas);
-        }
-    }
-}
-</code></pre></div></div>
-
-<p>isRun的变量我们会在SurfaceView内callBack的surfaceDestroyed方法中置为false</p>
-
-<h5 id="粒子做无规则运动">粒子做无规则运动</h5>
+<h6 id="tips">Tips：</h6>
 
 <ul>
-  <li>方案一</li>
+  <li>canvas的save和restore方法是搭配使用的。save存储之前的canvas状态，restore恢复save之前的状态。</li>
+  <li>save方法是可以多次使用的，可以搭配使用的是方法restoreToCount(saveCount)。参数saveCount从1开始计数，表示可以恢复到第几次save之前的状态。</li>
 </ul>
 
-<p>其实看到这种粒子效果，首先应该想到的就是Canvas了。</p>
+<p>​      这种方式的缺点在demo完成之后很明显的体现了出来。第一，速度不可控制，譬如有些时候恰恰需要粒子变慢一点呢。使用这种方式就不太好实现了。第二，粒子动画的播放和暂停实现起来不优雅，诚然写一个布尔值来控制也可以，但也难免………………太不优雅了吧。反正我个人是比较不喜欢写这种代码的。</p>
 
-<p>在SurfaceView里就是通过不断地循环调用FloatParticleLine类的drawItem（）方法来实现粒子的运动。我第一种方案的实现，就是每一个粒子在被创建出来的时候，就随机选择一个方向开始运动，滑过一定的轨迹之后让其消失就好了。</p>
+<p>​      那么，最终我的实现方式，是采用了属性动画来实现的，没错——就是<code class="highlighter-rouge">ValueAnimator</code>。来看代码：</p>
 
-<p>至于怎么选择随机方向，我这里的做法是，分别随机生成一个x和y轴上的递增或者递减的数值，然后每次在前一次绘制的基础上，x和y分别递增递减，直到运动到屏幕边缘或者是规定的运动距离满足了再消失即可。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private ValueAnimator mParticleAnim;
+-----------------
+mParticleAnim = ValueAnimator.ofInt(0).setDuration(30);
+mParticleAnim.setRepeatCount(ValueAnimator.INFINITE);
+mParticleAnim.addListener(new AnimatorListenerAdapter() {
+    @Override
+    public void onAnimationRepeat(Animator animation) {
+        super.onAnimationRepeat(animation);
+        Log.d(TAG, "onAnimationRepeat: " + System.currentTimeMillis());
+        invalidate();
+    }
+});
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//随机生成参数
-private void setRandomParm() {
-    // 2017/5/2-上午10:47 x和y的方向
+<blockquote>
+  <p>这段代码展示出来，你懂得。</p>
+
+  <p>在一个无限循环的属性动画里，在Repeat监听事件里，调用<code class="highlighter-rouge">View</code>的<code class="highlighter-rouge">invalidate</code>方法重绘。这样每次触发重绘的时间间隔就是属性动画的持续时间。</p>
+
+  <p>要是想控制粒子的运动速率，那么只需要调整动画的持续时间即可。</p>
+
+  <p>而且如果要对外暴露粒子动画开始或者停止的方法，只需要控制属性动画的<code class="highlighter-rouge">start</code>和<code class="highlighter-rouge">stop</code>就行了。</p>
+</blockquote>
+
+<h5 id="问题2粒子的运动轨迹">问题2：粒子的运动轨迹</h5>
+
+<p>​       在构建轮子的时候，思路其实一直都很清晰。<code class="highlighter-rouge">View</code>层级主要是调起和控制绘制。具体要绘制什么东西和路线的控制都由粒子对象内部来实现。这样就可以贯彻单一原则，各自负责各自的东西，降低耦合性。</p>
+
+<p>​       我们来看一下粒子对象<code class="highlighter-rouge">Particle</code>内的代码：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public Particle(Bitmap drawBitmap, Matrix matrix, Paint paint, float x, float y, int width, int height) {
+	//绘制的bitmap对象和矩阵对象，矩阵用来控制旋转和运动方向
+    mDrawBitmap = drawBitmap;
+    mBitmapMatrix = matrix;
+
+    mDrawBitmapWidth = drawBitmap.getWidth();
+    mDrawBitmapHeight = drawBitmap.getHeight();
+
+    mBitmapCenterX = mDrawBitmapWidth / 2f;
+    mBitmapCenterY = mDrawBitmapHeight / 2f;
+
+	//画笔对象
+    mPaint = paint;
+	//view 的宽和高用来判断边界
+    this.mWidth = width;
+    this.mHeight = height;
+    //粒子运动的坐标
+    this.mX = x;
+    this.mY = y;
+	//粒子的开始坐标
+    mStartX = x;
+    mStartY = y;
+	//x 和y轴的运动方向选择，随机函数
     mIsAddX = mRandom.nextBoolean();
     mIsAddY = mRandom.nextBoolean();
 
-    // 2017/5/2-上午10:47 x和y的取值
-    mDisX = mRandom.nextInt(2) + 0.2f;
-    mDisY = mRandom.nextInt(2) + 0.3f;
+    setRandomParm();
+}
 
-    // 2017/5/2-上午10:47 内部区域的运动最远距离
-    mDistance = mRandom.nextInt((int) (0.25f * mWidth)) + (0.125f * mWidth);
+private void setRandomParm() {
+	//x 和 y轴每次运动的距离和每次旋转的角度，随机值
+     mDisX = mRandom.nextInt(2) + 1.2f;
+     mDisY = mRandom.nextInt(2) + 1.2f;
+     mAddDegree = mRandom.nextInt(5) + 3f;
 }
 </code></pre></div></div>
 
-<p>绘制图形：</p>
+<p>​         运动轨迹这方面只需要随机出来x和y轴的方向，还有每次递增或者递减的值即可。怎么样是不是丝毫没有技术难度啊。好了，看绘制和到边界的处理代码吧。</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public void drawItem(Canvas canvas) {
-    if (mX == mStartX) {
-        mPaint.setAlpha(ALPHA_MAX);
-    }
     //绘制
-    canvas.drawCircle(mX += getPNValue(mIsAddX, mDisX), mY += getPNValue(mIsAddY, mDisY), mRadius, mPaint);
-    //内部区域运动到一定距离消失
-    if (judgeInner()) {
-        float gapX = Math.abs(mX - mStartX);
-        float ratio = 1 - (gapX / mDistance);
-        mPaint.setAlpha((int) (255 * ratio));
-        mRadius = mStartRadius * ratio;
-        if (gapX &gt;= mDistance || mY - mStartY &gt;= mDistance) {
-            resetDisXY();
-            return;
+    mBitmapMatrix.reset();
+    mBitmapMatrix.preTranslate(mX += getPNValue(mIsAddX, mDisX), mY += getPNValue(mIsAddY, mDisY));
+    mBitmapMatrix.preRotate(mDegrees += mAddDegree, mBitmapCenterX, mBitmapCenterY);
+    canvas.drawBitmap(mDrawBitmap, mBitmapMatrix, mPaint);
+    Log.d(TAG, "mX : " + mX);
+    Log.d(TAG, "mY : " + mY);
+    judgeOutline();
+}
+
+private void judgeOutline() {
+    boolean judgeX = mX &lt;= 0 || mX &gt;= (mWidth - mDrawBitmapWidth);
+    boolean judgeY = mY &lt;= 0 || mY &gt;= (mHeight - mDrawBitmapHeight);
+    if (judgeX) {
+        mIsAddX = !mIsAddX;
+        mIsAddY = mRandom.nextBoolean();
+        setRandomParm();
+        if (mX &lt;= 0) {
+            mX = 0;
+        } else {
+            mX = mWidth - mDrawBitmapWidth;
         }
         return;
     }
-    //外部区域运动到屏幕边缘消失
-    if (judgeOutline()) {
-        resetDisXY();
+    if (judgeY) {
+        mIsAddY = !mIsAddY;
+        mIsAddX = mRandom.nextBoolean();
+        setRandomParm();
+        if (mY &lt;= 0) {
+            mY = 0;
+        } else {
+            mY = mHeight - mDrawBitmapHeight;
+        }
     }
 }
-
-private void resetDisXY() {
-        setRandomParm();
-
-        mPaint.setAlpha(0);
-        mX = mStartX;
-        mY = mStartY;
-        mRadius = mStartRadius;
-    }
 </code></pre></div></div>
 
-<blockquote>
-  <p>judgeInner()和judgeOutline()是判断区域的方法，内部区域的点和外部区域的店消失时机不同</p>
-</blockquote>
+<p>​         以上就是粒子对象内部的运动轨迹和边界判断代码了，怎样，是不是超级简单呢？</p>
 
-<p>在透明度为0也就是粒子消失时，让粒子回到原点，再重新选择一个方向，进行下一步运动轨迹。</p>
+<p>​	<img src="http://ubq.ubiaoqing.com/ubiaoqing98134eb63a4fca7ea739c6e566ca71e7.jpg" alt="" /></p>
 
-<ul>
-  <li>方案二</li>
-</ul>
-
-<p>方案二粒子做的运动是贝塞尔曲线，函数实在网上找到的一个函数。每当粒子做完一次曲线运动后，再随机生成一段新的贝塞尔曲线即可。</p>
-
-<p>思路和方案一的思路都是一样的，无非就是运动的轨迹不同而已。</p>
-
-<h2 id="总结">总结</h2>
-
-<p>做完之后回头再看，发现这个项目的原理其实并不难，可以说是简单了。但刚开始起步的时候真的还是比较懵的，原因就是没有思路。</p>
-
-<p>所以做任何效果，思路最重要。</p>
-
+<h3 id="好了如果你喜欢我的文章的话那么请不要犹豫给我一个star吧github地址这里这里">好了，如果你喜欢我的文章的话，那么请不要犹豫，给我一个star吧。GitHub地址：<a href="https://github.com/JadynAi/Particle">这里这里！！</a></h3>
 
 
                 <hr>
@@ -349,12 +350,12 @@ private void resetDisXY() {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2017/04/25/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%8A%80%E6%9C%AF/" data-toggle="tooltip" data-placement="top" title="JadynAi的第一篇博客">&larr; Previous Post</a>
+                        <a href="/2017/05/10/%E4%BD%8E%E6%B6%88%E8%80%97%E7%9A%84%E6%97%A0%E9%99%90%E5%BE%AA%E7%8E%AF%E5%8D%A1%E7%89%8C%E6%95%88%E6%9E%9C/" data-toggle="tooltip" data-placement="top" title="低消耗、带回滚动画的仿探探交互效果">&larr; Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2017/05/10/%E4%BD%8E%E6%B6%88%E8%80%97%E7%9A%84%E6%97%A0%E9%99%90%E5%BE%AA%E7%8E%AF%E5%8D%A1%E7%89%8C%E6%95%88%E6%9E%9C/" data-toggle="tooltip" data-placement="top" title="低消耗、带回滚动画的仿探探交互效果">Next Post &rarr;</a>
+                        <a href="/2017/08/02/%E9%80%82%E9%85%8D%E5%99%A8/" data-toggle="tooltip" data-placement="top" title="玩转ListView和Recyclerview适配器，轻松切换不是问题！！！">Next Post &rarr;</a>
                     </li>
                     
                 </ul>

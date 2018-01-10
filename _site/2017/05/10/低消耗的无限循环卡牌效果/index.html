@@ -10,7 +10,7 @@
     <meta name="keyword"  content="">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>低消耗、带回滚动画的仿探探交互效果 - Ai开发Ai创意</title>
+    <title>低消耗、带回滚动画的仿探探交互效果 - Life Is Like A Boat</title>
 
     <link rel="canonical" href="http://localhost:4000/2017/05/10/%E4%BD%8E%E6%B6%88%E8%80%97%E7%9A%84%E6%97%A0%E9%99%90%E5%BE%AA%E7%8E%AF%E5%8D%A1%E7%89%8C%E6%95%88%E6%9E%9C/">
 
@@ -62,7 +62,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">春意闹</a>
+            <a class="navbar-brand" href="/">夏蝉饮冰</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -169,7 +169,11 @@
                 post-container">
 
 				<blockquote>
-  <p>前端时间项目中有一个仿探探的交互界面，写代码的过程中，觉得效果还不错。就把思路和原理记录了下来，分享一下。</p>
+  <p>原创文章，转载请注明出处。</p>
+</blockquote>
+
+<blockquote>
+  <p>前段时间项目中有一个仿探探的交互界面，写代码的过程中，觉得效果还不错。就把思路和原理记录了下来，分享一下。</p>
 </blockquote>
 
 <p><strong>先奉上GitHub地址，大家感兴趣可以来个star</strong><a href="https://github.com/JadynAi/InfinateCard"><strong>InfinateCard</strong></a></p>
@@ -205,7 +209,7 @@
 
 <p>​	好了，我们来看代码。LayoutManger的精髓其实就在于onLayoutChildren（……）这个方法，通过这个方法来实现自定义的布局。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>@Override
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Override
 public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
     int itemCount = getItemCount();
     // 代码的稳健之道，就在于该保护的地方一定要保护
@@ -224,8 +228,7 @@ public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State 
                 widthSpace / 2 + getDecoratedMeasuredWidth(view),
                 heightSpace / 2 + getDecoratedMeasuredHeight(view));
   }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>​	很多人看到这里，肯定会喷出一句“卧槽！这就完了，就这点代码？”</p>
 
@@ -244,7 +247,7 @@ public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State 
 
 <p>​	首先这种卡牌叠层的交互模式，不需要展示那么多的view，也就是我们仅仅需要让前几个view展示出来就可以了。其他的view，放在<strong>scrap</strong>缓存里即可。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>@Override
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Override
 public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
     int itemCount = getItemCount();
     // 代码的稳健之道，就在于该保护的地方一定要保护
@@ -275,8 +278,7 @@ public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State 
     }
     LayoutItems(recycler, state);
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li>我们将view的位置信息使用一个<code class="highlighter-rouge">Rect</code>对象来保存，因为<code class="highlighter-rouge">layoutDecorated(View child, int left, int top, int right, int bottom) </code>这个函数的参数是整型。<code class="highlighter-rouge">Rect</code>和<code class="highlighter-rouge">RecF</code>两个对象最大的区别就是精度区别了。</li>
@@ -284,7 +286,7 @@ public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State 
   <li>最后通过<code class="highlighter-rouge">LayoutItems(recycler, state)</code>方法将需要展示的view展示出来，注释已经很清楚了哈</li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/**
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/**
  * 回收不需要的Item，并且将需要显示的Item从缓存中取出
  */
 private void LayoutItems(RecyclerView.Recycler recycler, RecyclerView.State state) {
@@ -307,8 +309,7 @@ private void LayoutItems(RecyclerView.Recycler recycler, RecyclerView.State stat
         ViewCompat.setTranslationY(scrap, -translateY);
     }
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <blockquote>
   <p>这个方法中，将不需要展示的view全部remove，然后将需要展示的view布局出来。</p>
@@ -320,27 +321,24 @@ private void LayoutItems(RecyclerView.Recycler recycler, RecyclerView.State stat
 
 <p>​	本次项目中使用的是ItemTouchHelper本身提供的一个帮助类   <code class="highlighter-rouge">SimpleCallback</code>，使用方法其实很简单。它的构造参数有两个值，一个是<code class="highlighter-rouge">dragDirs</code>长按的方向，另一个是<code class="highlighter-rouge">swipeDirs</code>滑动的方向。可以看看SImpleCallBack的源码：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>public SimpleCallback(int dragDirs, int swipeDirs) {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public SimpleCallback(int dragDirs, int swipeDirs) {
     mDefaultSwipeDirs = swipeDirs;
     mDefaultDragDirs = dragDirs;
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>​	而我们只需要滑动，所以构造参数中只需要实现 <code class="highlighter-rouge">swipe</code> 即可：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>//不支持长按拖拽，支持swipe，而且四个方向皆可以swipe
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//不支持长按拖拽，支持swipe，而且四个方向皆可以swipe
 this(0, ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT）
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>​	然后应用此 <code class="highlighter-rouge">ItemTouchHelper</code> 即可：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>CardItemTouchHelperCallback cardCallback = new CardItemTouchHelperCallback(mRecyclerView, mRecyclerView.getAdapter(), list);
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CardItemTouchHelperCallback cardCallback = new CardItemTouchHelperCallback(mRecyclerView, mRecyclerView.getAdapter(), list);
 ItemTouchHelper touchHelper = new ItemTouchHelper(cardCallback);
 touchHelper.attachToRecyclerView(mRecyclerView);
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>​	到这里 Recyclerview已经实现了四个方向的滑动了，但滑动之后的操作还需要再实现一下。我们在</p>
 
@@ -365,16 +363,15 @@ touchHelper.attachToRecyclerView(mRecyclerView);
 
 <p>​	了解了参数之后，在这个方法中就可以实现滑动时的动画了。<code class="highlighter-rouge">SimpleCallBack</code> 默认的对滑动距离判断的条件是，水平方向是Recyclerview宽的一半，垂直方向是Recyclerview高的一半。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>//这个方法返回的值就是默认的阙值，想要更灵敏的话只需在自定义CallBack中重写这个方法，将值变小。更迟钝的话则反之
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//这个方法返回的值就是默认的阙值，想要更灵敏的话只需在自定义CallBack中重写这个方法，将值变小。更迟钝的话则反之
 public float getSwipeThreshold(ViewHolder viewHolder) {
     return .5f;
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>​	撸出来的代码如下：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>@Override
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 //        Log.d(TAG, "onChildDraw dX : " + dX);
@@ -406,23 +403,21 @@ public float getSwipeThreshold(ViewHolder viewHolder) {
             ViewCompat.setTranslationY(itemView, -v);
         }
     }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h5 id="3使用itenanimator实现回滚动画">3、使用ItenAnimator实现回滚动画</h5>
 
 <p>​	<code class="highlighter-rouge">ItemAnimator</code> 我没有选择实现，而是使用了现成的轮子<a href="https://github.com/wasabeef/recyclerview-animators"><strong>recyclerview-animators</strong></a>，没有选择远程库引入。而是将源代码copy进来，再进行了适当性的修改。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>mRecyclerView.setItemAnimator(new SlideAnimator());
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mRecyclerView.setItemAnimator(new SlideAnimator());
 mRecyclerView.getItemAnimator().setAddDuration(250);
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>​	OK，到这里基本上就大功告成了，只剩下一些小细节和bug处理一下即可。在<code class="highlighter-rouge">CallBack</code> 类的 <code class="highlighter-rouge">onSwipe</code> 方法中将 <code class="highlighter-rouge">direction</code> 赋值到一个静态变量中，然后在 <code class="highlighter-rouge">SlideAnimator</code> 根据不同的方向实现不同的动画。</p>
 
 <p>​	在实现过程中，我发现回滚动画的那个view居然不是滑走的view，就使用了一个单例来管理数据。动画开始时将数据设置为滑走的view的数据，动画结束后再将动画view的数据还原。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>@Override
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Override
 protected void preAnimateAddImpl(RecyclerView.ViewHolder holder) {
     Log.d(TAG, "preAnimateAddImpl: " + holder.itemView.getTag().toString());
     DataExchangeMgr.getInstance().saveOrignData((int) holder.itemView.getTag(R.id.view_data));
@@ -480,8 +475,7 @@ protected void animateAddImpl(final RecyclerView.ViewHolder holder) {
 private boolean isHorizDirection() {
     return CardConfig.sViewholderDirection == ItemTouchHelper.LEFT || CardConfig.sViewholderDirection == ItemTouchHelper.RIGHT;
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>最后感兴趣的可以看看代码，奉上GitHub地址。<a href="https://github.com/JadynAi/InfinateCard"><strong>InfinateCard</strong></a></p>
 
@@ -499,7 +493,7 @@ private boolean isHorizDirection() {
                     
                     
                     <li class="next">
-                        <a href="/2017/06/16/H5%E5%92%8CAPP%E4%BA%A4%E4%BA%92%E6%A8%A1%E5%BC%8F/" data-toggle="tooltip" data-placement="top" title="H5打开App的正确姿势">Next Post &rarr;</a>
+                        <a href="/2017/06/28/%E7%B2%92%E5%AD%90%E5%8D%87%E7%BA%A7/" data-toggle="tooltip" data-placement="top" title="实用性MAX!像普通View一样自由使用的粒子组件">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -525,8 +519,20 @@ private boolean isHorizDirection() {
                     <div class="tags">
         				
                             
-                				<a href="/tags/#技术讨论" title="技术讨论" rel="4">
+                				<a href="/tags/#技术讨论" title="技术讨论" rel="5">
                                     技术讨论
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#粒子效果" title="粒子效果" rel="2">
+                                    粒子效果
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Android动画" title="Android动画" rel="4">
+                                    Android动画
                                 </a>
                             
         				
@@ -534,6 +540,12 @@ private boolean isHorizDirection() {
         				
                             
         				
+                            
+        				
+                            
+                				<a href="/tags/#Canvas" title="Canvas" rel="2">
+                                    Canvas
+                                </a>
                             
         				
         			</div>
@@ -634,7 +646,7 @@ private boolean isHorizDirection() {
                     
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; 春意闹 2017
+                    Copyright &copy; 夏蝉饮冰 2018
                     <br>
                     Theme by <a href="https://github.com/JadynAi/JadynAi.github.io">JadynAi</a> |
                     <iframe

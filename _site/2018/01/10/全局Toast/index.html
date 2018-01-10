@@ -10,9 +10,9 @@
     <meta name="keyword"  content="">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>H5打开App的正确姿势 - Ai开发Ai创意</title>
+    <title>手把手教你撸一个全局Toast（对话框、浮动通知栏） - Life Is Like A Boat</title>
 
-    <link rel="canonical" href="http://localhost:4000/2017/06/16/H5%E5%92%8CAPP%E4%BA%A4%E4%BA%92%E6%A8%A1%E5%BC%8F/">
+    <link rel="canonical" href="http://localhost:4000/2018/01/10/%E5%85%A8%E5%B1%80Toast/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -62,7 +62,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">春意闹</a>
+            <a class="navbar-brand" href="/">夏蝉饮冰</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -125,12 +125,12 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-2015.jpg" width="0" height="0"> -->
+<!-- <img src="/img/20180110-blog-header-bg.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
-        background-image: url('/img/post-bg-2015.jpg')
+        background-image: url('/img/20180110-blog-header-bg.jpg')
     }
 </style>
 <header class="intro-header" >
@@ -140,15 +140,17 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#技术讨论" title="技术讨论">技术讨论</a>
+                        <a class="tag" href="/tags/#Android动画" title="Android动画">Android动画</a>
+                        
+                        <a class="tag" href="/tags/#Canvas" title="Canvas">Canvas</a>
                         
                     </div>
-                    <h1>H5打开App的正确姿势</h1>
+                    <h1>手把手教你撸一个全局Toast（对话框、浮动通知栏）</h1>
                     
                     
-                    <h2 class="subheading">当从H5打开Activity，你到底打开了什么</h2>
+                    <h2 class="subheading">当我们解决问题时，脑回路要怎么转？</h2>
                     
-                    <span class="meta">Posted by JadynAi on June 16, 2017</span>
+                    <span class="meta">Posted by JadynAi on January 10, 2018</span>
                 </div>
             </div>
         </div>
@@ -166,7 +168,13 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				
+				<p><em>本文属于Android技术论述文章，阅读完大致需要四分钟</em></p>
+<blockquote>
+  <p>原创文章，转载请注明出处。</p>
+</blockquote>
+
+<p><strong>没时间的小伙伴可以直接跳过文章，<a href="https://github.com/JadynAi/LoadingLovely">点击项目地址</a>，如果喜欢的话，顺手给个star那是极好的【娇羞……】</strong></p>
+
 
 
                 <hr>
@@ -177,7 +185,7 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2017/05/10/%E4%BD%8E%E6%B6%88%E8%80%97%E7%9A%84%E6%97%A0%E9%99%90%E5%BE%AA%E7%8E%AF%E5%8D%A1%E7%89%8C%E6%95%88%E6%9E%9C/" data-toggle="tooltip" data-placement="top" title="低消耗、带回滚动画的仿探探交互效果">&larr; Previous Post</a>
+                        <a href="/2017/08/19/%E4%BB%BF%E8%96%84%E8%8D%B7/" data-toggle="tooltip" data-placement="top" title="多种姿势花式实现薄荷Loading动画（上）">&larr; Previous Post</a>
                     </li>
                     
                     
@@ -204,8 +212,20 @@
                     <div class="tags">
         				
                             
-                				<a href="/tags/#技术讨论" title="技术讨论" rel="4">
+                				<a href="/tags/#技术讨论" title="技术讨论" rel="5">
                                     技术讨论
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#粒子效果" title="粒子效果" rel="2">
+                                    粒子效果
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Android动画" title="Android动画" rel="4">
+                                    Android动画
                                 </a>
                             
         				
@@ -213,6 +233,12 @@
         				
                             
         				
+                            
+        				
+                            
+                				<a href="/tags/#Canvas" title="Canvas" rel="2">
+                                    Canvas
+                                </a>
                             
         				
         			</div>
@@ -313,7 +339,7 @@
                     
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; 春意闹 2017
+                    Copyright &copy; 夏蝉饮冰 2018
                     <br>
                     Theme by <a href="https://github.com/JadynAi/JadynAi.github.io">JadynAi</a> |
                     <iframe
