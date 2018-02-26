@@ -1,0 +1,21 @@
+---
+layout:     post
+title:      "文字动次打次，让文字动态绘制出来"
+subtitle:   ""
+date:       2017-11-2
+author:     "JadynAi"
+header-img: "img/20170819-blog-header-bg.jpg"
+tags:
+    - Android动画
+    - Canvas
+---
+
+*本文属于Android技术论述文章，阅读完大致需要五分钟*   
+>原创文章，转载请注明出处。 
+
+**没时间的小伙伴可以直接跳过文章，[点击项目地址](https://github.com/JadynAi/LoadingLovely)，如果喜欢的话，顺手给个star那是极好的【娇羞……】**
+
+
+
+
+
