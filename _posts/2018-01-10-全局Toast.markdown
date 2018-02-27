@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "手把手教你撸一个全局Toast（对话框、浮动通知栏）"
+title:      "手把手教你撸一个全局（对话框、浮动通知栏）"
 subtitle:   "当我们解决问题时，脑回路要怎么转？"
 date:       2018-01-10
 author:     "JadynAi"
