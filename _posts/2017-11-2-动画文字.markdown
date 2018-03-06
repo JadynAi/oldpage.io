@@ -18,9 +18,11 @@ tags:
 #### 二话不说，效果奉上！
 ![](https://wx3.sinaimg.cn/mw690/a28b91d8gy1fp397j2ow4g20bb0bn1fn.gif)
 
-#### 涉及知识点
+#### 知识点序列：
+- Canvas绘制
 - TextPaint
-- Path以及PathMeasure
+- Path
+- PathMeasure【测量Path】
 
 #### 代码分析
 
