@@ -18,8 +18,9 @@ tags:
   - LinkedHashMap内部是使用双向循环链表来存储数据的。也就是每一个元素都持有他上一个元素的地址和下一个元素的地址。
  
 - 图片加载原理（Glide）
-  - 如何感知activity或者Fragment生命周期的：
-    - 往Activity或者Fragment内部添加一个`SupportRequestManagerFragment`透明的Fragment，用回调的方式感知生命周期。
+	- 这篇文章对几大开源图片加载库做了对比[Android 三大图片缓存原理、特性对比](http://www.trinea.cn/android/android-image-cache-compare/)
+	- 个人使用过ImageLoader和Glide，相对而言对Glide较为熟悉。对Glide这个点可以稍作分析，如何感知activity或者Fragment生命周期的：
+    	- 往Activity或者Fragment内部添加一个`SupportRequestManagerFragment`透明的Fragment，用回调的方式感知生命周期。
 
 - 模块化的好处
    - [模块化的好处以及原因](https://www.jianshu.com/p/376ea8a19a17) 
@@ -158,7 +159,7 @@ tags:
 - synchronized与Lock的区别
     - 从用法、性能、用途来分析，很不错。[深入研究 Java Synchronize 和 Lock 的区别与用法](http://blog.csdn.net/natian306/article/details/18504111) 
     
--  [volatile](http://blog.csdn.net/fuyuwei2015/article/details/71939591)
+-  [volatile](https://www.ibm.com/developerworks/cn/java/j-jtp06197.html)
     - 排他锁，保证了所有线程看到的变量都是一致的
     
 - [Java线程池](https://juejin.im/entry/58fada5d570c350058d3aaad)
@@ -213,6 +214,13 @@ tags:
 ![](https://wx2.sinaimg.cn/mw690/a28b91d8gy1fp8pewk2m1j20ul0geq6h.jpg) 
 	
 - [堆排序实现](https://www.jianshu.com/p/48ebffa146db)
+- [链表反转](http://blog.csdn.net/feliciafay/article/details/6841115)
+- synchronized用法
+	- 写的较为详细，最后的总结面试时可以直接拿来用[Java中Synchronized的用法](http://blog.csdn.net/luoweifu/article/details/46613015)
+	
+- OkHttp是如何处理缓存的
+	- [OkHttp缓存处理](http://blog.csdn.net/briblue/article/details/52920531)
+	- OkHttp还是使用的Http缓存，需要后台配合。当然也可以单纯的在客户端作拦截处理
 
 
 ** 整理不易，大家走过路过看的开心，可以适当给个一毛两毛聊表心意**
