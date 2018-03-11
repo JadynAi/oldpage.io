@@ -1,0 +1,210 @@
+---
+layout:     post
+title:      "吐血整理！17年下半年面试以及答案精华整理（上）"
+subtitle:   "吐血三升，整理不易"
+date:       2018-03-10
+author:     "JadynAi"
+header-img: "img/post-bg-2015.jpg"
+tags:
+    - 开发经验
+---
+前段时间有一篇面试总结，[这里是原文原文](https://mp.weixin.qq.com/s?__biz=MzI2OTQxMTM4OQ==&mid=2247485263&idx=1&sn=519a450c4bd772afd9c0d1cdf810681d&chksm=eae1f21ddd967b0ba9c71d89c25ec9bf7b71205bc4e8e81708df0a8f59c7dd5d2b79890a35ad#rd),奈何只给了考卷没有答案。
+最近又处于金三银四，正是跳槽加薪的大好良机啊。便抽了时间将答案整理了一下。
+**本文章大部分内容整理自网络，Po出来的网页也是经过了一轮筛选的，可读性比较好一点。另，一些主观性比较强的问题就添加了一丢丢个人看法，不算做原创只是整理收纳，欢迎大家大量转载。**
+
+### 2017Android面试总结之答案篇
+- LRUCache原理
+  - LruCache中维护了一个集合LinkedHashMap，该LinkedHashMap是以访问顺序（accessOrder为true，其余非构造函数此值全为false）排序的。当调用put()方法时，就会在集合中添加元素，并调用trimToSize()判断缓存是否已满，如果满了就用LinkedHashMap的迭代器删除队尾元素，即近期最少访问的元素。当调用get()方法访问缓存对象时，就会调用LinkedHashMap的get()方法获得对应集合元素，同时会更新该元素到队头。
+  - LinkedHashMap内部是使用双向循环链表来存储数据的。也就是每一个元素都持有他上一个元素的地址和下一个元素的地址。
+ 
+- 图片加载原理（Glide）
+  - 如何感知activity或者Fragment生命周期的：
+    - 往Activity或者Fragment内部添加一个`SupportRequestManagerFragment`透明的Fragment，用回调的方式感知生命周期。
+
+- 模块化的好处
+   - [模块化的好处以及原因](https://www.jianshu.com/p/376ea8a19a17) 
+   
+- JVM
+  - [JVM的工作原理](https://segmentfault.com/a/1190000002579346) 
+  - [总结的JVM面试题](https://www.jianshu.com/p/54eb60cfa7bd)
+  
+- 视频加密传输
+  - 加密：
+    - DES对整个视频文件进行加密，但耗时较长。
+    - 将视频数据流前n个字节（n>=2）打乱即可达到加密目的，使用到了内存映射文件（对RandomAccessFile和MappedByteBuffer的使用）。[参考这篇文章](http://blog.csdn.net/qq_24636637/article/details/50524243)
+
+  - 数据加密传输：
+    - android上数据加密传输比较麻烦，得不偿失。综合阅读过的几篇文章，觉得还是先加密再传输来得好。
+
+- 统计启动时长，标准
+   - [参考文章](https://www.jianshu.com/p/c967653a9468)
+   - app冷启动的流程如下：
+```
+-> Application 构造函数
+-> Application.attachBaseContext()
+-> Application.onCreate()
+-> Activity 构造函数
+-> Activity.setTheme()
+-> Activity.onCreate()
+-> Activity.onStart
+-> Activity.onResume
+-> Activity.onAttachedToWindow
+-> Activity.onWindowFocusChanged
+```
+- 如何保持应用的稳定性
+  - 经验之谈：性能分析，内存监测，Monkey
+ 
+- ThreadLocal
+  - 用处：针对线程操作对象，其余线程不能进行操作
+  - 原理：ThreadLocal的操作都是针对当前线程持有的一个ThreadLocalMap对象，其内部维护了一个Entry[]（弱引用）数组。所以不同线程操作同一个ThreadLocal对象，内部说白了都是操作各个线程自己的ThreadLocalMap对象而已。
+
+- 谈谈classloader
+  - 主观性比较强，谈一下自己了解的即可。可参考[classloader使用与原理分析](https://liuzhengyang.github.io/2016/09/28/classloader/)
+ 
+- 动态布局
+  - 代码写布局，无他唯手熟尔
+  - 一篇[干货](http://www.cnblogs.com/bugly/p/5833580.html)分享一下
+  
+- 热修复，插件化
+  - 主观性较强，视个人了解程度而区分。[参考](https://www.jianshu.com/p/704cac3eb13d) 
+  
+- HashMap源码，SparseArray原理
+  - [HashMap实现原理](http://wiki.jikexueyuan.com/project/java-collection/hashmap.html)
+  - [简洁对比HashMap和SparseArray](http://jiezhi.github.io/2017/03/30/android-arraymap-vs-sparsearray/)
+- 应用启动优化
+  - [参考Android性能优化](https://www.jianshu.com/p/f5514b1a826c) 
+  - 视觉优化，启动界面设置为特殊样式
+  - 异步初始化组件；
+  - 梳理业务逻辑，延迟初始化组件、操作；
+  - 正确使用线程；
+  - 去掉无用代码、重复逻辑等；
+  
+- 怎么去除重复代码
+  - 抽取成方法，抽取成对象，抽取成Module；
+  - 不要过度设计，及时重构，代码要经常回顾；
+ 
+- SP是进程同步的吗?有什么方法做到同步
+  - 能同步但不建议使用，使用ContentProvider可以做到同步。[ContentProvider多进程共享SP数据](https://juejin.im/entry/5897f042128fe100655fd70c) 
+  
+- SurfaceView介绍
+  - View适用于主动更新的情况，而SurfaceView则适用于被动更新的情况，比如频繁刷新界面。
+  - View在主线程中对页面进行刷新，而SurfaceView则开启一个子线程来对页面进行刷新。
+  - View在绘图时没有实现双缓冲机制，SurfaceView在底层机制中就实现了双缓冲机制
+  
+- HashMap实现原理，ConcurrentHashMap 的实现原理
+  - [参考此篇文章](http://wiki.jikexueyuan.com/project/java-collection/concurrenthashmap.html)
+- BroadcastReceiver，LocalBroadcastReceiver 区别
+    - 应用场景
+        - BroadcastReceiver用于应用之间的传递消息；
+        - 而LocalBroadcastManager用于应用内部传递消息，比broadcastReceiver更加高效
+    - 安全
+        - BroadcastReceiver使用的Content API，所以本质上它是跨应用的，所以在使用它时必须要考虑到不要被别的应用滥用
+        - LocalBroadcastManager不需要考虑安全问题，因为它只在应用内部有效
+- Bundle、Handler、事件传递机制，都是基础
+- [线程间操作List](http://blog.csdn.net/xiao__gui/article/details/51050793)
+- App启动流程，从点击桌面开始
+  - ![](http://img.mp.itc.cn/upload/20170329/ca9567ce3bf04c4abdb4d124cebfee76_th.jpeg)
+  - 这一篇文章总结的好一点，[App启动流程](http://www.sohu.com/a/130814934_675634) 
+ 
+- 动态加载（插件化技术）
+  - 主观性较强，视个人经历的项目而定。个人觉得如果简单介绍的话，这篇文章会好一点。清晰简洁[动态加载简单易懂的介绍方式](https://zhuanlan.zhihu.com/p/20515156) 
+ 
+- GC回收机制
+    - 新生代和旧生代采用不同的垃圾回收机制 
+  - 可参考[Java垃圾回收机制](http://www.cnblogs.com/ywl925/p/3925637.html)
+  
+- 画出Android大体架构图
+    - 经典图 
+![](https://user-gold-cdn.xitu.io/2018/2/26/161d0b2cc51eff90?imageView2/0/w/1280/h/960/format/webp/ignore-error/1) 
+
+- 点击 Android Studio 的 build 按钮后发生了什么
+    - Android使用gradle构建生成的apk关键就是aapt处理资源文件，aidl处理.aidl，javac生成.class文件，proguard混淆后再由dex生成.dex文件，由apkbuilder签名后再经zipalign对齐字节码就可以上线发布了
+    - 这篇文章分析的较为详细，[AS的build做了什么](http://blog.csdn.net/yangxi_pekin/article/details/78612741) 
+
+- 一个应用程序安装到手机上时发生了什么
+    - 安装和卸载都是通过PackageManager，实质上是实现了PackageManager的远程服务PackageManagerService来完成具体的操作，所有细节和逻辑均可以在PackageManagerService中跟踪查看；
+
+    - 所有安装方式殊途同归，最终就回到PackageManagerService中，然后调用底层本地代码的installd来完成。再看apk的安装过程。
+        - 拷贝apk文件到指定目录
+        - 解压apk，拷贝文件，创建应用的数据目录
+        - 解析apk的AndroidManifinest.xml文件
+        - 向Launcher应用申请添加创建快捷方式
+    - [深入探究apk安装过程](http://www.androidchina.net/6667.html)
+    
+- 对 Dalvik、ART 虚拟机有基本的了解
+    - Dalvik虚拟机执行的是dex字节码，ART虚拟机执行的是本地机器码
+    - 可参考这篇文章[JAVA虚拟机、Dalvik虚拟机和ART虚拟机简要对比](http://blog.csdn.net/jason0539/article/details/50440669)
+
+- Android 上的 Inter-Process-Communication 跨进程通信时如何工作的  
+    - 跨进程通信主要靠Binder[详解Binder](http://blog.csdn.net/carson_ho/article/details/73560642) 
+    
+- [Android中App 是如何沙箱化的,为何要这么做](https://juejin.im/post/5a9661d2f265da4e9449e87e)
+    - Android中的沙箱化可以提升系统安全性和效率
+    
+- 权限管理系统
+    - [Android权限机制](https://juejin.im/entry/57a99fba5bbb500064418fc0) 
+    
+- 进程以及Application生命周期
+    - [进程生命周期](http://www.cnblogs.com/mengdd/p/3139934.html) 
+    - [有关Application](http://blog.csdn.net/lilu_leo/article/details/8649941)
+
+- Recyclerview和ListView对比
+    - 相信目前大部分Android开发已经舍弃了ListView而转向Recyclerview的怀抱了吧，无需赘言。
+    
+- 快速排序以及B+树，算法算是我比较薄弱的环节，不敢多言
+- TCP和UDP的区别
+    - TCP是面向连接的协议，提供稳定的双向通信功能，本身提供超时重连机制。UDP是无连接的，提供不稳定的单向通信功能 
+    
+- synchronized与Lock的区别
+    - 从用法、性能、用途来分析，很不错。[深入研究 Java Synchronize 和 Lock 的区别与用法](http://blog.csdn.net/natian306/article/details/18504111) 
+    
+-  [volatile](http://blog.csdn.net/fuyuwei2015/article/details/71939591)
+    - 排他锁，保证了所有线程看到的变量都是一致的
+    
+- [Java线程池](https://juejin.im/entry/58fada5d570c350058d3aaad)
+- java对象生命周期
+    - 经典图例  ![](https://upload-images.jianshu.io/upload_images/6376767-8453e7e3772b227e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/558) 
+
+- 双亲委派模型
+    - 老油条式面试题，这篇文章有一个比较新颖的疑问解答[关于Java类加载双亲委派机制的思考（附一道面试题）](http://www.cnblogs.com/lanxuezaipiao/p/4138511.html) 
+    
+- Android事件分发机制
+    - 基础的基础
+    
+- MVP模式
+    - 组件和业务逻辑相互分离，两不相知。Google提供的Demo里，View层级真是纯是view操作，包括Listener的一部分都由Presenter承担了。
+    - 接口定义清晰明朗
+    - 视个人项目经历而谈，详细了解就仔细说，不太懂就说个大概
+    
+- RxJava
+    - 开发神器，错误处理、线程调度、写出来的代码优雅。 
+    - 可从线程调度以及源码角度剖析剖析。
+    
+- 抽象类和接口的区别
+    - 属性和行为的区别
+    
+- [Android消息机制](https://www.jianshu.com/p/8656bebc27cb)
+- [进程调度](https://juejin.im/post/5a646211f265da3e3f4cc997)
+- 进程与线程
+    - 进程有独立的地址空间，一个进程崩溃后，在保护模式下不会对其它进程产生影响，而线程只是一个进程中的不同执行路径。线程有自己的堆栈和局部变量，但线程之间没有单独的地址空间，一个线程死掉就等于整个进程死掉，所以多进程的程序要比多线程的程序健壮，但在进程切换时，耗费资源较大，效率要差一些。
+  - 另外，进程在执行过程中拥有独立的内存单元，而多个线程共享内存，从而极大地提高了程序的运行效率
+  
+- 死锁
+    - 老问题，[Java 实例 - 死锁及解决方法](http://www.runoob.com/java/thread-deadlock.html) 
+    
+- [进程状态](http://blog.csdn.net/zidan_2011/article/details/7767042)
+    - 图![](http://my.csdn.net/uploads/201207/20/1342763563_2131.png) 
+    
+- [JVM内存模型](https://www.jianshu.com/p/1579aafac60b)
+- Java 常用并发集合有哪些
+    - 非阻塞式列表对应的实现类：ConcurrentLinkedDeque
+    - 阻塞式列表对应的实现类：LinkedBlockingDeque
+    - 用于数据生成或者消费的阻塞式列表对应的实现类：LinkedTransferQueue
+    - 按优先级排序列表元素的阻塞式列表对应的实现类：PriorityBlockingQueue
+    - 带有延迟列表元素的阻塞式列表对应的实现类：DelayQueue
+    - 非阻塞式列表可遍历映射对应的饿实现类：ConcurrentSkipListMap
+    - 随机数字对应的实现类：ThreadLockRandom
+    - 原子变量对应的实现类：AtomicLong和AtomicIntegerArray
+    
+- [ConcurrentHashMap 的实现原理](http://wiki.jikexueyuan.com/project/java-collection/concurrenthashmap.html)
+- [Java线程run和start方式的区别](https://www.jianshu.com/p/1a5c74ae768f)
