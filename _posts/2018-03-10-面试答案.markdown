@@ -12,7 +12,7 @@ tags:
 最近又处于金三银四，正是跳槽加薪的大好良机啊。便抽了时间将答案整理了一下。
 **本文章大部分内容整理自网络，Po出来的网页也是经过了一轮筛选的，可读性比较好一点。另，一些主观性比较强的问题就添加了一丢丢个人看法，不算做原创只是整理收纳，欢迎大家大量转载。**
 
-### 2017Android面试总结之答案篇
+### [2017Android面试总结之答案篇](https://github.com/JadynAi/AndroidStudy/blob/master/17%E5%B9%B4%E4%B8%8B%E5%8D%8A%E5%B9%B4%E9%9D%A2%E8%AF%95%E6%95%B4%E7%90%86.markdown)
 - LRUCache原理
   - LruCache中维护了一个集合LinkedHashMap，该LinkedHashMap是以访问顺序（accessOrder为true，其余非构造函数此值全为false）排序的。当调用put()方法时，就会在集合中添加元素，并调用trimToSize()判断缓存是否已满，如果满了就用LinkedHashMap的迭代器删除队尾元素，即近期最少访问的元素。当调用get()方法访问缓存对象时，就会调用LinkedHashMap的get()方法获得对应集合元素，同时会更新该元素到队头。
   - LinkedHashMap内部是使用双向循环链表来存储数据的。也就是每一个元素都持有他上一个元素的地址和下一个元素的地址。
@@ -208,3 +208,7 @@ tags:
     
 - [ConcurrentHashMap 的实现原理](http://wiki.jikexueyuan.com/project/java-collection/concurrenthashmap.html)
 - [Java线程run和start方式的区别](https://www.jianshu.com/p/1a5c74ae768f)
+
+
+** 整理不易，大家走过路过看的开心，可以适当给个一毛两毛聊表心意**
+![](http://JadynAi.github.io/img/person_wechat.jpg)
