@@ -255,7 +255,7 @@ INSERTINTO Order SELECT id, “”, Age FROM _Order`
 	- 自由度很高的问题，随意发挥。参考这个优化系列的文章[Android 性能优化的方方面面](https://juejin.im/entry/58a121b686b599006b442f32)
 	
 - EventBus实现原理
-	-     
+	- 相比起来，还是更喜欢RxJava自己实现一套Rxbus。[EventBus 3.0 源码分析](https://www.jianshu.com/p/f057c460c77e)   
 
 **下一篇很快就会来临！**
 
