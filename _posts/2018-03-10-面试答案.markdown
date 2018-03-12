@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "吐血整理！17年下半年面试以及答案精华整理（上）"
+title:      "吐血整理！17年下半年面试问题以及解析精华整理（上）"
 subtitle:   "吐血三升，整理不易"
 date:       2018-03-10
 author:     "JadynAi"
@@ -227,6 +227,35 @@ tags:
 	
 - 进程保活
 	- [黑科技保活](https://segmentfault.com/a/1190000006251859)
+	
+- listview图片加载错乱的原理和解决方案
+	- 郭霖大神的解析，拳拳到肉[ListView异步加载图片乱序问题，原因分析及解决方案](http://blog.csdn.net/guolin_blog/article/details/45586553) 
+	
+- [广播小结](https://www.jianshu.com/p/92ccb8ca2ea5)
+- [service生命周期](http://blog.csdn.net/carson_ho/article/details/53160137)
+- 多线程
+	- 用RxJava的话会方便很多。[RxJava中的多线程](https://juejin.im/post/58ff6259da2f60005dd81459)，这篇文章真的太赞了
+	- AsyncTask 缺陷，一部分是使用不当，一部分是其本身存在的缺陷。网上的大部分文章都是看了一遍其实都是使用的问题，推荐看看这篇[详细解读AsyncTask的黑暗面以及一种替代方案](https://www.jianshu.com/p/d83fd0e8a062)【By，AsyncTask真的很难用，因为要注意的地方太多了😒】
+	
+- 数据库数据迁移，把大象装进新冰箱共分几步？
+	- 将表名改成临时表`ALTER TABLE Order RENAME TO _Order`
+	- 创建新表`
+CREATETABLE Test(Id VARCHAR(32) PRIMARY KEY ,CustomName VARCHAR(32) NOTNULL , Country VARCHAR(16) NOTNULL)`
+	- 导入数据`
+INSERTINTO Order SELECT id, “”, Age FROM _Order`
+	- 删除临时表`DROPTABLE _Order`
+	
+- 设计模式
+	- 自由发挥题目。但亦有文章可以参考，这是一个有关Android中常见设计模式解析的一个专栏，推荐指数五颗星[Android常见设计模式](http://blog.csdn.net/column/details/luhao-design.html)
+	
+- Java注解
+	- EventBus、Retrofit等都用到了注解。是一个很强大的东西，关键是代码写起来敲好看。[深入理解Java注解类型(@Annotation)](http://blog.csdn.net/javazejian/article/details/71860633)
+
+- Android优化
+	- 自由度很高的问题，随意发挥。参考这个优化系列的文章[Android 性能优化的方方面面](https://juejin.im/entry/58a121b686b599006b442f32)
+	
+- EventBus实现原理
+	-     
 
 **下一篇很快就会来临！**
 
