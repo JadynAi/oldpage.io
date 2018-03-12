@@ -221,7 +221,14 @@ tags:
 - OkHttp是如何处理缓存的
 	- [OkHttp缓存处理](http://blog.csdn.net/briblue/article/details/52920531)
 	- OkHttp还是使用的Http缓存，需要后台配合。当然也可以单纯的在客户端作拦截处理
+	
+- bitmap如何处理大图，如何预防OOM
+	- 老生常谈的问题，[彻底了解 bitmap 高效加载](https://juejin.im/entry/5937995aa22b9d00580f7891) 
+	
+- 进程保活
+	- [黑科技保活](https://segmentfault.com/a/1190000006251859)
 
+**下一篇很快就会来临！**
 
-** 整理不易，大家走过路过看的开心，可以适当给个一毛两毛聊表心意**
+**整理不易，大家走过路过看的开心，可以适当给个一毛两毛聊表心意**
 ![](http://JadynAi.github.io/img/person_wechat.jpg)
