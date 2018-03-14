@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "多种姿势花式实现薄荷Loading动画（上）"
+title:      "实现薄荷Loading动画"
 subtitle:   "自定义View用Canvas绘制出薄荷的Loading动画"
 date:       2017-08-19
 author:     "JadynAi"
