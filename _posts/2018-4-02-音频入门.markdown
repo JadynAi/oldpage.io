@@ -1,0 +1,10 @@
+---
+layout:     post
+title:      "【闻弦歌】--音频初识"
+subtitle:   "一曲肝肠断"
+date:       2018-04-2
+author:     "JadynAi"
+header-img: "img/post-bg-2015.jpg"
+tags:
+    - 技术讨论
+---
