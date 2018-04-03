@@ -22,8 +22,8 @@ tags:
 
 #### 配置NDK
 - 下载NDK，首先在AS中打开`sdk manager`。然后选择`SDK Tools`，再选择`NDK`即可。AS会自动把ndk相关的东西下载到你`SDK`目录下的`ndk-bundle`文件夹中。
-	![](https://wx4.sinaimg.cn/mw690/a28b91d8gy1fpzi40taccj21f415gqel.jpg)
-	![](https://wx4.sinaimg.cn/mw690/a28b91d8gy1fpzi401dskj219m0jqtb8.jpg)
+	![](https://wx2.sinaimg.cn/mw690/a28b91d8gy1fpzm4nobuyj20ww0qotfv.jpg)
+	![](https://wx4.sinaimg.cn/mw690/a28b91d8gy1fpzm4o650tj219m0jqjtj.jpg)
 
 - 配置NDK开发环境
 	- Mac上配置`NDK`环境很简单，帖上一篇文章[Mac 配置ndk](https://blog.csdn.net/lvxiangan/article/details/52327981)
