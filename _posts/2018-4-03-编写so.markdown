@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "[细节控]--如何编写so库"
+title:      "[细节控]--超详细的编译so库教程"
 subtitle:   "似此星辰非昨夜，为谁风露立中宵"
 date:       2018-04-3
 author:     "JadynAi"
@@ -20,6 +20,8 @@ tags:
 
 *本细节帝主要以本次成功案例为准，详细说明如何使用AS成功编写so库。大道三千，非只有此一条路可走。*
 
+**这里先贴出本次Jni的测试Demo地址，谨供参考：**[JniDemo](https://github.com/JadynAi/JniTest)
+
 #### 配置NDK
 - 下载NDK，首先在AS中打开`sdk manager`。然后选择`SDK Tools`，再选择`NDK`即可。AS会自动把ndk相关的东西下载到你`SDK`目录下的`ndk-bundle`文件夹中。
 	![](https://wx2.sinaimg.cn/mw690/a28b91d8gy1fpzm4nobuyj20ww0qotfv.jpg)
@@ -27,7 +29,7 @@ tags:
 
 - 配置NDK开发环境
 	- Mac上配置`NDK`环境很简单，帖上一篇文章[Mac 配置ndk](https://blog.csdn.net/lvxiangan/article/details/52327981)
-	- 配置完成后，打开终端运行`ndk-build`，显示如下则表示配置成功。![](https://img-blog.csdn.net/20160826141901870?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+	- 配置完成后，打开终端运行`ndk-build`，显示如下则表示配置成功。![](https://wx4.sinaimg.cn/mw690/a28b91d8gy1fpztubwa7zj20fs02rdg3.jpg)
 
 - 打开根目录下的`local.properties`文件，配置sdk以及ndk的路径
 
@@ -47,7 +49,7 @@ android.useDeprecatedNdk=true
 ![](https://wx4.sinaimg.cn/mw690/a28b91d8gy1fpzkx7s24pj20yq0am760.jpg)
 ##### 生成.h文件
 - java类定义好之后，进入`Build --> Rebuild`项目，然后生成class文件。![](https://wx3.sinaimg.cn/mw690/a28b91d8gy1fpzkx8d22hj20u60t6gof.jpg)
-- 然后打开终端，进入到debug目录，执行如下命令，生成.h文件：
+- 然后打开终端，进入到debug目录，执行如下命令，生成`.h`文件：
 
 ```
 javah -classpath . -jni 包名.类名
@@ -65,7 +67,7 @@ javah -classpath . -jni 包名.类名
 - Android.mk
 
 ```
-//固定写法，照抄即可
+//以下两行为固定写法，照抄即可
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
