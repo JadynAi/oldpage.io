@@ -46,7 +46,7 @@ android.useDeprecatedNdk=true
 
 #### 各类相关文件准备
 ##### 带有`native`方法的java类
-![](https://wx4.sinaimg.cn/mw690/a28b91d8gy1fpzkx7s24pj20yq0am760.jpg)
+![](https://wx4.sinaimg.cn/mw690/a28b91d8gy1fq0mx7xez7j20j605v75m.jpg)
 ##### 生成.h文件
 - java类定义好之后，进入`Build --> Rebuild`项目，然后生成class文件。![](https://wx3.sinaimg.cn/mw690/a28b91d8gy1fpzkx8d22hj20u60t6gof.jpg)
 - 然后打开终端，进入到debug目录，执行如下命令，生成`.h`文件：
@@ -63,6 +63,7 @@ javah -classpath . -jni 包名.类名
 
 ##### `Android.mk`和`Application.mk`文件
 - 这两个文件是`ndk-build`的关键所在。当时也是在这里遇到的坑最多。
+- 将这两个文件放到c++和`.h`的文件夹内
 - 其实官方文档这里写的很是详细，但需要梯子，贴出来[Android.mk](https://developer.android.com/ndk/guides/android_mk.html?hl=zh-cn) 以及 [Application.mk](https://developer.android.com/ndk/guides/application_mk.html?hl=zh-cn)
 - Android.mk
 
