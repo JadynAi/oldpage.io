@@ -135,5 +135,5 @@ android {
 ```
 #### 执行`ndk-build`命令
 - 到此为止，所有必须的文件以及配置都已经准备完毕。然后接下来执行ndk的命令即可。但我的AS不知道出什么问题，AS带的终端执行`ndk-build`命令总是提示不存在。
-- 没办法，最后只能打开Mac终端，cd到项目中c++文件的`jni`目录下,执行`ndk-build`命令.![](https://wx2.sinaimg.cn/mw690/a28b91d8gy1fpzltqh7tcj20fu09tdjk.jpg)
+- 没办法，最后只能打开Mac终端，cd到项目中c++文件的`jni`目录下,执行`ndk-build`命令.<br>哒哒，大功告成！<br>![](https://wx2.sinaimg.cn/mw690/a28b91d8gy1fpzltqh7tcj20fu09tdjk.jpg)
  
