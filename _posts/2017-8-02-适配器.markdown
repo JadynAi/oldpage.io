@@ -8,7 +8,6 @@ header-img: "img/20170802-blog-header-bg.jpg"
 tags:
     - 技术讨论
     - 代码封装
-    - 适配器
 ---
 
 >原创文章，转载请注明出处。
