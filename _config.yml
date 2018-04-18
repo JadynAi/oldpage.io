@@ -44,14 +44,19 @@ kramdown:
 
 
 
-# Disqus settings
-#disqus_username: _your_disqus_short_name_
+# 评论系统
+# Disqus（https://disqus.com/）
+# disqus_username: qiubaiying
 
-# Duoshuo settings
-#duoshuo_username: huxblog
-# Share component is depen、d on Comment so we can NOT use share only.
-#duoshuo_share: true                     # set to false if you want to use Comment without Sharing
-
+# Gitalk
+gitalk:
+  enable: true    #是否开启Gitalk评论
+  clientID: b199888872a9ccadaa16                            #生成的clientID
+  clientSecret: 6230f262fc987c09b996cbd106c2a2d651c6486a    #生成的clientSecret
+  repo: JadynAi.github.io    #仓库名称
+  owner: JadynAi    #github用户名
+  admin: JadynAi
+  distractionFreeMode: true #是否启用类似FB的阴影遮罩
 
 
 
