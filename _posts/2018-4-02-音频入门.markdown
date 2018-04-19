@@ -108,7 +108,7 @@ bps 即 bit pro second（位每秒）<br>
 
 **原创不易，大家走过路过看的开心，可以适当给个一毛两毛聊表心意**<br>![](http://JadynAi.github.io/img/person_wechat.jpg)
 
-#### 参考文章：
+#### 参考资料：
 - [Mbps、Kbps、bps、kb、mb的区别，带宽换算
 ](http://blog.51cto.com/1676454/1426376)
 - [AD/DA转换、模拟、数字的扫盲贴](https://www.douban.com/group/topic/27210767/)
