@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "仿京东启动页“跳过”效果"
+title:      "仿ios京东启动页“跳过”效果"
 subtitle:   "寒光亭下水如天，飞起沙鸥一片"
 date:       2018-04-30
 author:     "JadynAi"
