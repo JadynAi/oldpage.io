@@ -11,11 +11,11 @@ tags:
 
 > 天共水，水远与天连<br>天净水平寒月漾，水光月色两相兼
 
-**简单看一下动画效果：**<br>![](https://wx1.sinaimg.cn/mw690/a28b91d8gy1fqums8z9rig205f05wmxe.gif)
+**简单展示一下动画效果：**<br>![](https://wx1.sinaimg.cn/mw690/a28b91d8gy1fqums8z9rig205f05wmxe.gif)
 
 **[项目地址在此](https://github.com/JadynAi/LoadingLovely/blob/master/app/src/main/java/com/example/jadynai/loadinglovely/flicker/TextFlickerView.java)，大家若是喜欢的话，不妨点个赞吧**<br>
 *好了，简单阐述一下本次动画的原理：*
-> 继承`TextView`，通过给`Paint`设置`Shader`来实现闪光效果。<br>以`ValueAnimator`作为引擎，通过监听数值变化触发重绘。使用`Matrix`来控制`Shader`的位置，来实现闪光移动的动效。
+> 光的效果使用`Paint`设置`Shader`来实现，具体则是`LinearGradient`水平渐变渲染。<br>光影的平移依赖于`LinearGradient`的`setLocalMatrix`，通过`Matrix`的`translate`来促使光影移动。
 
 #### 在自定义View的`onSizeChanged(int w, int h, int oldw, int oldh)`方法内初始化引擎：
 
