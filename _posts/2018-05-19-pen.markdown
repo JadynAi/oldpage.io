@@ -17,33 +17,156 @@ tags:
 
 [笔刷项目地址](https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/pen)在此，大家要是喜欢的话，不妨来点个赞吧
 
-前段为作笔刷效果，稍稍接触了`OpenGl`，无奈沉不下心来学习。只好退而求其次，使用`java`l来实现功能。<br>毫无疑问，在图形以及纹理处理上，`OpgnGL`无疑是最好用的接口。但使用`java`来实现此功能也并非一无是处，视情况及个人能力而已。
+之前为作笔刷效果，稍稍接触了`OpenGl`，无奈沉不下心来学习。只好退而求其次，使用`java`来实现功能。<br>毫无疑问，在图形以及纹理处理上，`OpgnGL`无疑是最好用的接口。但使用`java`来实现此功能也并非一无是处，视情况及个人能力而已。
 
 `java`不过是我个人的**舒适区**而已。。。。。。
 
 ### 效果解析
-
-平日里个人接触的App里，用到自定义笔刷效果的，不多，也就美图、有道云笔记里有此种功能。<br>美图……那个暂且不表，有道云笔记的手写功能是`钢笔`字体。所以，本次Demo的实现效果，参考的是`windwos`下的画图应用。
-
-##### 对点的解析
+本次Demo的实现效果，参考的是`windwos`下的画图应用。首先来看下画图板的效果如何：
+- 画点
 
 ![](https://wx4.sinaimg.cn/mw690/a28b91d8gy1frloky8xekj208t07e3ya.jpg)
 
-> 从左至右一次是点击2次，点击8次，点击16次的效果展示<br>当数量趋向更大时，喷漆笔下的点愈发趋向于圆<br>于是就可以定下代码要实现的功能为：在一个圆内生成有限数量的随机点，并且拖着它移动形成线条
+> 从左至右依次是对同一坐标点击2次，点击8次，点击16次的效果展示；<br>当数量趋向更大时，点的密集程度并没有很明显的偏向，基本可以确定要在圆内均匀分布
 
-##### 思路分析
+- 画线
+![](https://wx3.sinaimg.cn/mw690/a28b91d8gy1frmpsgt37kj20h307sq36.jpg)
 
-### 速度变化下的效果区别
+>如图为匀速且缓慢滑过时，由点构成线
 
-### 随机算法问题
+### 具体实现
 
-这个步骤要解决的问题时，圆内均匀生成随机点。**均匀**主要针对的是当数量更大时，点的分布情况。<br>在开发中，主要尝试了以下三种方法：
+#### View
+此项目的承载View为`PenView`，不承担业务逻辑，就是起到一个容器的作用。在`PenView`中唯一的作用就是触发`invalidate（）`方法。
+
+```
+private BasePen mBasePen;
+
+@Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        if (w != 0 && h != 0) {
+            if (mBasePen == null) {
+                mBasePen = new SprayPen(w, h);
+            }
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        MotionEvent event1 = MotionEvent.obtain(event);
+        mBasePen.onTouchEvent(event1);
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+                invalidate();
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        mBasePen.onDraw(canvas);
+    }
+```
+具体的业务逻辑，绘制、数据计算、触摸点移动Move等，全都由`BasePen`以及它的子类来实现了。<br>低耦合性，代表着更多的自由度，对现有项目代码（如果应用到项目中）的冲击更小。在性能方面，如果`View`满足不了要求，可以用更小的代价将其移植到性能更好的`SurfaceView`里去。
+
+#### 业务逻辑
+业务方面，`BasePen`作为基类，承担了一些基础的数据计算、绘制等功能，而具体的画笔效果则交由子类实现。<br>先看看`BasePen`里做了什么：
+- 绘制
+```
+private List<Point> mPoints;
+public void onDraw(Canvas canvas) {
+        if (mPoints != null && !mPoints.isEmpty()) {
+            canvas.drawBitmap(mBitmap, 0, 0, null);
+            drawDetail(canvas);
+        }
+    }	
+```
+先将笔刷绘制到一张`Bitmap`之上，再将这张`Bitmap`交给`PenView`来绘制出来。`Point`是一个只记录了x和y坐标的类。<br>`drawDetail(Canvas canvas)`是一个抽象类，由子类实现具体的绘制。
+
+- 滑动轨迹
+在`BasePen`的`onTouchEvent(MotionEvent event1)`方法里。以每次`DOWN`事件为开始，记录`MOVE`内的所有坐标信息。考虑到喷漆效果基本不用处理**笔锋效果**，暂不考虑记录`UP`信息（后续如果实现其他笔刷效果会优化这里）。
+```
+public void onTouchEvent(MotionEvent event1) {
+        switch (event1.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                clearPoints();
+                handlePoints(event1);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                handlePoints(event1);
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+        }
+    }
+
+    private void handlePoints(MotionEvent event1) {
+        float x = event1.getX();
+        float y = event1.getY();
+        if (x > 0 && y > 0) {
+            mPoints.add(new Point(x, y));
+        }
+    }
+    
+    private void clearPoints() {
+        if (mPoints == null) {
+            return;
+        }
+        mPoints.clear();
+    }
+```
+- 喷漆实现
+```
+protected void drawDetail(Canvas canvas) {
+        if (getPoints().isEmpty()) {
+            return;
+        }
+        mTotalNum = 由自定义粒子密度以及画笔宽度计算而来
+        drawSpray(当前最新坐标点.x, 当前最新坐标点.y, mTotalNum);
+    }
+
+    private void drawSpray(float x, float y, int totalNum) {
+        for (int i = 0; i < totalNum; i++) {
+        	//算法计算出圆内随机点
+            float[] randomPoint = getRandomPoint(x, y, mPenW, true);
+            mCanvas.drawCircle(randomPoint[0], randomPoint[1], mCricleR, mPaint);
+        }
+    }
+```
+>以上是一部分伪代码，`SprayPen`内部定义了一个喷漆粒子密度，会根据画笔的宽度来实时改变。每个粒子的半径则由外部依赖的组件提供的`width`计算而来。<br>在`drawDetail(...)`方法内，每一次`MOVE`和`DOWN`事件都会在相应坐标处，绘制一定数目的圆内随机点。<br>当其串联起来时，就形成了喷漆效果。当然这只是初步完成，还有一些算法需要完善。伪代码表述不全，可参考[SprayPen](https://github.com/JadynAi/LoadingLovely/blob/master/app/src/main/java/com/example/jadynai/loadinglovely/pen/SprayPen.java)，在代码中有比较完善的注释。
+
+接下来会说一些有关喷漆算法方面的问题。
+
+### 喷漆算法的几个问题
+在实现功能的过程中，有两个问题是值得记录的。<br>一是圆内均匀随机点的分布问题；二是滑动速度快时，笔画的连接处理问题。
+
+#### 如何均匀的在圆内生成随机点
+
+为了解决这个问题，主要尝试了三种方法：
 
 ##### x在(-R,R)范围内随机取值，由圆解析式![](https://images0.cnblogs.com/blog/517264/201410/142127248732998.png)求解得y。然后对y在(-y,y)内随机取值，得到的点即为圆内点。同理，也可由y计算出x。
+java代码如下：
+```
+		float[] ints = new float[2];
+        float x = mRandom.nextInt(r);
+        float y = (float) Math.sqrt(Math.pow(r, 2) - Math.pow(x, 2));
+        y = mRandom.nextInt((int) y);
 
+        x = 对值随即取正负(x);
+        y = 对值随即取正负(y);
+        ints[0] = x;
+        ints[1] = y;
+```
+最终呈现效果如下：
 ![](https://wx3.sinaimg.cn/mw690/a28b91d8gy1frmg43t3iwj207q07sjs7.jpg)
 
->当样本数量达到2000时，形状如上所示<br>可以很明显的看到，在x轴方向，左右两端的密集程度明显高于圆心
+>当样本数量达到2000时，形状如上所示<br>可以很明显的看到，在x轴方向，左右两端的密集程度明显高于圆心<br>随机值在大量数据下会具有规律性，可以理解为当数据很多时，x的取值在(-r,r)大致为均匀分布的，y的取值亦是。当处于左右两端时，y的取值范围变小，视觉效果就显得紧凑了些。<br>当然如果用概率论数理统计公式来验证会更有说服力，但可惜不会。。。（耸肩）
 
 ##### 第二种算法，在[0,360]内随机取得角度，然后在[0,r]范围内随机取值，然后使用`sin`和`cos`来求解x和y。
 
