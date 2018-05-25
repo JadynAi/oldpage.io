@@ -13,7 +13,7 @@ tags:
 
 > 软草平莎过雨新，轻沙走马路无尘。<br>何时收拾耦耕身？
 
-先上效果图：
+先上效果图：<br>![](https://wx3.sinaimg.cn/mw690/a28b91d8gy1frno53vg91g207y0bn772.gif)
 
 [笔刷项目地址](https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/pen)在此，大家要是喜欢的话，不妨来点个赞吧
 
@@ -152,6 +152,7 @@ protected void drawDetail(Canvas canvas) {
 
 ##### x在(-R,R)范围内随机取值，由圆解析式![](https://images0.cnblogs.com/blog/517264/201410/142127248732998.png)求解得y。然后对y在(-y,y)内随机取值，得到的点即为圆内点。同理，也可由y计算出x。
 java代码如下：
+
 ```
 		float[] ints = new float[2];
         float x = mRandom.nextInt(r);
@@ -176,6 +177,8 @@ java代码如下：
 ![](https://wx2.sinaimg.cn/mw690/a28b91d8gy1frkiz6hhn9j204q04qaa4.jpg)
 - 使用[0,1]开根号，利用增函数属性生成<br>
 ![](https://wx4.sinaimg.cn/mw690/a28b91d8gy1frkiz6hp88j204p04pglp.jpg)
+
+### 处理滑动速度过快时的线条 
 
 ### 总结
 
