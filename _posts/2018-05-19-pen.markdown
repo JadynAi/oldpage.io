@@ -4,7 +4,7 @@ title:      "基于Java代码实现的喷漆笔刷"
 subtitle:   "解耦、附赠kotlin代码"
 date:       2018-05-19
 author:     "JadynAi"
-header-img: "img/20180519-blog-header-bg.png"
+header-img: "img/20180519-blog-header-bg.jpg"
 tags:
     - Canvas
 ---
