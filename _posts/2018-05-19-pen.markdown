@@ -227,7 +227,7 @@ for (int i = 1; i <= v; i++) {
 本项目在写的时候，顺便也写了一个`Kotlin`版本的。注意，并不是用AS自带的代码转换的。所以`Kotlin`版本会有很多不必要的测试体验代码，不要在意这些细节。<br>[Kotlin版本](https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/pen/kotlin)这里这里，喜欢的不妨点个赞吧
 
 ### 总结
-以上就是本次`Demo`的思路、以及一些算法的解析。数学之美，令人沉醉*（数学学渣留下了悔恨的泪水。。。）*<br>**数学才是本体啊**
+以上就是本次`Demo`的思路、以及一些算法的解析。数学之美，令人沉醉*（数学学渣留下了悔恨的泪水。。。）*<br>**数学才是本体啊**<br>[笔刷项目地址](https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/pen)在此，大家要是喜欢的话，不妨来点个赞吧
 
 **原创不易，大家走过路过看的开心，可以适当给个一毛两毛聊表心意**<br>![](http://JadynAi.github.io/img/person_wechat.jpg)
 
