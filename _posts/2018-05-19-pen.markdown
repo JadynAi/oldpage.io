@@ -133,7 +133,7 @@ protected void drawDetail(Canvas canvas) {
         }
     }
 ```
->以上是一部分伪代码，`SprayPen`内部定义了一个喷漆粒子密度，会根据画笔的宽度来实时改变。每个粒子的半径则由外部依赖的组件提供的`width`计算而来。<br>在`drawDetail(...)`方法内，每一次`MOVE`和`DOWN`事件都会在相应坐标处，绘制一定数目的圆内随机点。<br>当其串联起来时，就形成了喷漆效果。当然这只是初步完成，还有一些算法需要完善。伪代码表述不全，可参考[SprayPen](https://github.com/JadynAi/LoadingLovely/blob/master/app/src/main/java/com/example/jadynai/loadinglovely/pen/SprayPen.java)，在代码中有比较完善的注释。
+>以上是一部分伪代码，`SprayPen`内部定义了一个喷漆粒子密度，会根据画笔的宽度来实时改变粒子数量。每个粒子的半径则由外部依赖的组件提供的`width`计算而来。<br>在`drawDetail(...)`方法内，每一次`MOVE`和`DOWN`事件都会在相应坐标处，绘制一定数目的圆内随机点。<br>当其串联起来时，就形成了喷漆效果。当然这只是初步完成，还有一些算法需要完善。伪代码表述不全，可参考[SprayPen](https://github.com/JadynAi/LoadingLovely/blob/master/app/src/main/java/com/example/jadynai/loadinglovely/pen/SprayPen.java)，在代码中有比较完善的注释。
 
 接下来会说一些有关喷漆算法方面的问题。
 
