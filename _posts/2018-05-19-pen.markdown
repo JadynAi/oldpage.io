@@ -17,7 +17,7 @@ tags:
 
 [笔刷项目地址](https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/pen)在此，大家要是喜欢的话，不妨来点个赞吧
 ### 效果解析
-因为最终要实现的是`windwos`下的画板喷漆笔刷，所以首先要对它做一个较为详细的效果解析。因为是笔刷，所以会分析一下**点**和**线**的效果细节。
+因为最终要实现的是`windwos`下的画板喷漆笔刷，所以首先要对它做一个较为详细的效果解析。考虑到笔一般情况下笔刷的使用点，故此会分析一下**点**和**线**的效果细节。
 
 - 画点<br>
 ![](https://wx4.sinaimg.cn/mw690/a28b91d8gy1frloky8xekj208t07e3ya.jpg)
