@@ -1,0 +1,13 @@
+---
+layout:     post
+title:      "Kotlin实践日记"
+subtitle:   "如何一步一步搭建Recyclerview适配器"
+date:       2018-06-05
+author:     "JadynAi"
+header-img: "img/20170425-blog-header-bg.png"
+tags:
+
+---
+阅读完此文，你可能会学到：
+1. 扩展函数
+2. Kotlin泛型
