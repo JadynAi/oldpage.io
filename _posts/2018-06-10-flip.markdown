@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "仿FlipBoard垂直翻页效果"
-subtitle:   ""
+subtitle:   "矩阵世界"
 date:       2018-06-10
 author:     "JadynAi"
 header-img: "img/20170425-blog-header-bg.png"
@@ -13,6 +13,6 @@ tags:
 >梧桐落，又还秋色，又还寂寞。
 
 ##前言
-动画，数学的艺术。<br>
+为什么会觉得二维图画是立体的？<br>
 视觉暂留现象，人眼会因为视觉残象产生错觉，误以为画面在活动。这就是动画，某种程度上而言，它和魔术拥有一样的本质————**欺骗**。<br>![](https://wx1.sinaimg.cn/mw690/a28b91d8gy1fs7bhfqngxj208w05aad6.jpg)<br>
 通过数学的加工再制，在二维平面上我们也可以展示出一些三维的画面。
