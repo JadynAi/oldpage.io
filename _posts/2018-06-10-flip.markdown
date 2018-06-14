@@ -1,14 +1,13 @@
 ---
 layout:     post
-title:      "仿FlipBoard垂直翻页效果"
+title:      "仿FlipBoard直板翻页效果"
 subtitle:   "矩阵世界，烟波浩渺"
-date:       2018-06-10
+date:       2017-08-19
 author:     "JadynAi"
-header-img: "img/20170425-blog-header-bg.png"
+header-img: "img/20170819-blog-header-bg.jpg"
 tags:
-	- Canvas
-	- Android动画
-
+    - Android动画
+    - Canvas
 ---
 
 **原创文章，转载请联系作者**
