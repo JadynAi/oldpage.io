@@ -2,7 +2,7 @@
 layout:     post
 title:      "仿FlipBoard直板翻页效果"
 subtitle:   "矩阵世界，烟波浩渺"
-date:       2017-08-19
+date:       2016-06-10
 author:     "JadynAi"
 header-img: "img/20170819-blog-header-bg.jpg"
 tags:
