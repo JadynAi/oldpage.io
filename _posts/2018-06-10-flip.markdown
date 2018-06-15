@@ -6,8 +6,8 @@ date:       2018-06-10
 author:     "JadynAi"
 header-img: "img/20170819-blog-header-bg.jpg"
 tags:
-    - Android动画
-    - Canvas
+    - 交互体验
+    - Canvas动画
 ---
 
 **原创文章，转载请联系作者**

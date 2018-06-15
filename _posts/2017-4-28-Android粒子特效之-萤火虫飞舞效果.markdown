@@ -8,9 +8,7 @@ header-img: "img/20170428-blog-header-bg.jpg"
 header-mask: 0.3
 catalog:    true
 tags:
-    - 粒子效果
-    - Android动画
-    - 技术讨论
+    - Canvas动画
 ---
 
 [GitHub地址](https://github.com/JadynAi/Particle)

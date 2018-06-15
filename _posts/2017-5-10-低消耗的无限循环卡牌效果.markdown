@@ -8,8 +8,7 @@ header-img: "img/20170510-blog-header-bg.jpg"
 header-mask: 0.3
 catalog:    true
 tags:
-    - Recyclerview
-    - 技术讨论
+    - 交互体验
 ---
 
 >原创文章，转载请注明出处。

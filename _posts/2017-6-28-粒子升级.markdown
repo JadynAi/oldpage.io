@@ -6,9 +6,7 @@ date:       2017-06-28
 author:     "JadynAi"
 header-img: "img/20170628-blog-header-bg.jpg"
 tags:
-    - 技术讨论
-    - 粒子效果
-    - Android动画
+    - Canvas动画
 ---
 
 >原创文章，转载请注明出处。
