@@ -236,13 +236,14 @@ fun drawSecondShadow(canvas: Canvas?, rotate: Float) {
         }
 ```
 还是得区分一下状态，当下翻时，我们得先绘制上一页的上半部分，而且是静态的。然后再绘制当前页下翻产生的阴影。再绘制当前页，然后在当前页顶上再绘制一层固定淡淡透明度的阴影层，让页面层次更加明显。
-
-### 结语
+#### 4、效果修正
 到这里主要的逻辑业已完成，但我注意到还是有一些小瑕疵。就是旋转角度和缩放比，变化不明显。通常要角度变化到超过45度，才会有很明显的缩放效果展现出来。<br>最开始我以为是缩放比的算法问题，后来才发现是`camera`的机位问题，`camera`默认的拍摄角度是`[0,0,-8]`，当距离屏幕很近时，变化自然不是很明显。<br>当然，`camera`提供了设置机位的方法`setLocation(x,y,z)`。
 >下图，我给出了，默认机位和[0，0，-20]机位的效果区别。
 
 ![](https://wx1.sinaimg.cn/mw690/a28b91d8gy1fse6lr7y0kj20j60hwn0q.jpg)
 
+### 结语
+Demo里的实现方式并非是唯一，分享出来是为了提供一种思路。路有很多条，选择即是正确。<br>
 **以上**<br>[项目代码](https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/flipboard)在此，大家要是喜欢的话不妨点个赞吧
 
 
