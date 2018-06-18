@@ -4,7 +4,7 @@ title:      "仿FlipBoard直板翻页效果"
 subtitle:   "矩阵世界，烟波浩渺"
 date:       2018-06-10
 author:     "JadynAi"
-header-img: "img/20170819-blog-header-bg.jpg"
+header-img: "img/20180610-blog-header-bg.png"
 tags:
     - 交互体验
     - Canvas动画
@@ -18,8 +18,7 @@ tags:
 
 ### 前言
 首先，首先！`Demo`只是对`FliBoard`的`立体感`直板翻页式交互效果作了模仿，**只是效果只是效果**。那种翻页组件挺麻烦的，以后可能会抽时间做一下(￣▽￣)"<br>
-`立体感`是一种模仿，在二维平面上，合理地利用光影、透视（远小近大）等方式，塑造一种近似现实三维世界的感jio。为什么会产生**立体感**? 是因为人的视网膜接受到的，全是三维世界的投影。是你的大脑以及经验，脑补出了**三维世界**。<br>举栗子，下面这张图片，你会把它看作一个弯曲三角吗<br>![](https://wx4.sinaimg.cn/mw690/a28b91d8gy1fse15nzxp1j20ty0a2jvs.jpg)<br>同理，动画也无非是利用了人眼的[视觉暂留](https://zh.wikipedia.org/zh/%E8%A6%96%E8%A6%BA%E6%9A%AB%E7%95%99)而已。某种程度，它和魔术拥有相同的本质————欺骗。
-<br>![](https://wx1.sinaimg.cn/mw690/a28b91d8gy1fs7bhfqngxj208w05aad6.jpg)<br>
+`立体感`是一种模仿，在二维平面上，合理地利用光影、透视（远小近大）等方式，塑造一种近似现实三维世界的感jio。为什么会产生**立体感**? 是因为人的视网膜接受到的，全是三维世界的投影。是你的大脑以及经验，脑补出了**三维世界**。<br>举栗子，下面这张图片，你会把它看作一个弯曲三角吗<br>![](https://wx4.sinaimg.cn/mw690/a28b91d8gy1fse15nzxp1j20ty0a2jvs.jpg)<br>同理，动画也无非是利用了人眼的[视觉暂留](https://zh.wikipedia.org/zh/%E8%A6%96%E8%A6%BA%E6%9A%AB%E7%95%99)而已。某种程度，它和魔术拥有相同的本质————*欺骗*。
 
 ### 效果解析
 
