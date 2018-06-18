@@ -246,6 +246,8 @@ fun drawSecondShadow(canvas: Canvas?, rotate: Float) {
 Demo里的实现方式并非是唯一，分享出来是为了提供一种思路。路有很多条，选择即是正确。<br>
 **以上**<br>[项目代码](https://github.com/JadynAi/LoadingLovely/tree/master/app/src/main/java/com/example/jadynai/loadinglovely/flipboard)在此，大家要是喜欢的话不妨点个赞吧
 
+有一个公众号，会记录一些开发的经验，也会发一些自己的学习日记。欢迎大家关注。<br>![](http://JadynAi.github.io/img/wechat_ official.png)
+
 
 
 
