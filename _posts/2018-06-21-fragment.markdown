@@ -1,0 +1,21 @@
+---
+layout:     post
+title:      "提供一种Fragment可见状态监测的方案"
+subtitle:   ""
+date:       2018-06-21
+author:     "JadynAi"
+header-img: ""
+tags:
+
+---
+### 前言
+Fragment，这个让人又爱又恨“碎片”。<br>使用它可以让项目更加轻便--我们可以将功能分割、复用，但其复杂的生命周期和`Transaction`，在极端操作【某些测试人员有一手绝活，三指甚至六指同时触屏乱弹】下会出现一些不可预期的错误--`Fragment`嵌套`Fragment`,横竖屏切换等等。<br>但无论怎样，面对解决问题，才是关键。这篇文章就是针对`Fragment`监测可见状态，提供一种解决方案。
+
+### 问题分析
+`Fragment`自带的生命周期函数以及`LifeCircle`,在复杂的交互和使用环境下，完全不够用。首先列一下这次经过测试的交互环境：
+- Tab搭配Fragment，使用`Transaction`的`hide`和`show`方法，来实现切换
+- ViewPager搭配Fragment
+- Fragment跳转到Activity
+- Fragment嵌套Fragment
+- 按下Home键时
+- 在Fragment界面，退出APP
