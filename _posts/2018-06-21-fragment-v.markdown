@@ -4,12 +4,10 @@ title:      "提供一种Fragment可见性改变的监测方案"
 subtitle:   "Fragment相关"
 date:       2018-06-21
 author:     "JadynAi"
-header-img: "img/20180610-blog-header-bg.png"
+header-img: "img/post-bg-2015.jpg"
 tags:
     - 技术讨论
 ---
-
-
 **原创文章，转载请联系作者**
 ### 前言
 Fragment，这个让人又爱又恨“碎片”。<br>使用它可以让项目更加轻便--我们可以将功能分割、复用，但其复杂的生命周期和`Transaction事务`，在极端操作【某些测试人员有一手绝活，三指甚至六指同时触屏乱弹】下会出现一些不可预期的错误--`Fragment`嵌套`Fragment`,横竖屏切换等等。<br>但无论怎样，面对解决问题，才是关键。这篇文章就是针对`Fragment`监测可见状态改变，提供一种解决方案。
