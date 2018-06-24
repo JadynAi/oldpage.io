@@ -4,9 +4,9 @@ title:      "提供一种Fragment可见性改变的监测方案"
 subtitle:   "Fragment相关"
 date:       2018-06-21
 author:     "JadynAi"
-header-img: "img/20180410-blog-header-bg.png"
+header-img: "img/20180610-blog-header-bg.png"
 tags:
-	- 技术讨论
+    - 技术讨论
 ---
 
 ### 前言
