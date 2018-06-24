@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "提供一种Fragment可见性改变的监测方案"
-subtitle:   ""
+subtitle:   "Fragment相关"
 date:       2018-06-21
 author:     "JadynAi"
 header-img: "img/20180410-blog-header-bg.png"
