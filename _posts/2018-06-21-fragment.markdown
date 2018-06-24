@@ -4,10 +4,11 @@ title:      "提供一种Fragment可见性改变的监测方案"
 subtitle:   ""
 date:       2018-06-21
 author:     "JadynAi"
-header-img: ""
+header-img: "img/20180410-blog-header-bg.png"
 tags:
 	- 技术讨论
 ---
+
 ### 前言
 Fragment，这个让人又爱又恨“碎片”。<br>使用它可以让项目更加轻便--我们可以将功能分割、复用，但其复杂的生命周期和`Transaction事务`，在极端操作【某些测试人员有一手绝活，三指甚至六指同时触屏乱弹】下会出现一些不可预期的错误--`Fragment`嵌套`Fragment`,横竖屏切换等等。<br>但无论怎样，面对解决问题，才是关键。这篇文章就是针对`Fragment`监测可见状态改变，提供一种解决方案。
 
@@ -50,7 +51,7 @@ ViewPager搭配Fragment，也是常见的交互模式了。此时左右滑动时
 **以上几个方法，就是常见的交互下，会被触发的方法了。可见性的监测，主要也依赖于这个方法的相互配合。<br>这里还需要说明一下，可见性的监测，监测的是*“改变”*。也就是当Fragment被创建出来时，不会触发监测方法，不管它是可见还是不可见的状态。**
 
 ### 代码实现
-代码实现相当简单，就是一连串逻辑代码而已。<br>主要在`onResume`方法里，需要判断一下是否已经触发了`onHiddenChanged`或是`setuserVisibleHint`方法而已。<br>代码很短，不到100行。这里直接贴出来。不方便的小可爱们，可以直接去[GitHub地址](https://github.com/JadynAi/KotlinDiary/blob/master/app/src/main/java/com/motong/cm/kotlintest/BaseFragment.kt).如果你喜欢的话，不妨点个赞吧。
+在BaseFragment内，提供了一个`onVisibleToUserChanged(boolean isVisibleToUser)`方法作为内部回调。参数`isVisibleToUser`如字面所示，**True**表示可见，**false**不可见。当你需要在界面不可见，取消网络请求或是释放一些东西，你就可以使用此方案。<br>代码实现相当简单，就是一连串逻辑代码而已。只是在`onResume`方法里，需要判断一下是否已经触发了`onHiddenChanged`或是`setuserVisibleHint`方法。<br>代码很短，不到100行。这里直接贴出来。不方便的小可爱们，可以直接去[GitHub地址](https://github.com/JadynAi/KotlinDiary/blob/master/app/src/main/java/com/motong/cm/kotlintest/BaseFragment.kt).如果你喜欢的话，不妨点个赞吧。
 
 ```
 abstract class BaseFragment : Fragment(){
