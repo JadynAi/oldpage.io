@@ -14,9 +14,11 @@ tags:
 ### 前言
 这是**Kotlin实践日记**的第一章，使用Kotlin构建一个，使用方便、多功能的Recyclerview适配器——`AcrobatAdapter`。<br>
 
-不用写ViewHolder，也不用再特意为Recyclerview的Item添加点击事件。`AcrobatAdapter`让开发者专注于配置Item的UI和数据显示。仅仅需要几行有效代码，就能成功构建一个列表。
+`AcrobatAdapter`让开发者专注于Item的配置，包括`Item`的UI和数据显示，以及单击、双击、长按事件【且不会影响子View的事件传递】。而且不仅仅是`单Item Style`列表,还是`多Item Style`列表，`AcrobatAdapter`的使用都是一样方便简单。
 
-`AcrobatAdapter`的设计灵感来自于[夜叉](https://github.com/ssseasonnn/Yaksa)，我的函数名称也沿用**夜叉**的函数名，因为`itemDSL`这个名称是在太贴切了。夜叉这个项目是从另一个角度去构建Recyclerview，推荐小可爱们去看看。
+`AcrobatAdapter`的设计灵感来自于[夜叉](https://github.com/ssseasonnn/Yaksa)，我的函数名称也沿用**夜叉**的函数名，因为`itemDSL`这个名称是在太贴切了。夜叉这个项目是针对Recyclerview整体来构建，推荐小可爱们去看看。
+
+下面将展示使用文档。
 
 ### 使用文档
 
