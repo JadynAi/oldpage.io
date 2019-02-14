@@ -14,7 +14,7 @@ tags:
 >时光只解催人老，不信多情，长恨离亭，泪滴春衫酒易醒。
 
 ### 前言
-最近接触了一个挺有意思的小课题，跟大家分享一下。就是利用`A*`算法，来计算迷宫可行路径。有关这个算法的知识，大家可以看看[A*算法维基百科](https://zh.wikipedia.org/wiki/A*%E6%90%9C%E5%B0%8B%E6%BC%94%E7%AE%97%E6%B3%95)以及[A星算法详解](https://blog.csdn.net/hitwhylz/article/details/23089415)来稍作了解。<br>代码地址在此[Maze](https://github.com/JadynAi/Python_D/blob/master/venv/include/maze/AStarRobot.py),喜欢`Python`的小可爱们可以拿去练练手。
+最近接触了一个挺有意思的小课题，跟大家分享一下。就是利用`A*`算法，来计算迷宫可行路径。有关这个算法的知识，大家可以看看[A星算法维基百科](https://zh.wikipedia.org/wiki/A*%E6%90%9C%E5%B0%8B%E6%BC%94%E7%AE%97%E6%B3%95)以及[A星算法详解](https://blog.csdn.net/hitwhylz/article/details/23089415)来稍作了解。<br>代码地址在此[Maze](https://github.com/JadynAi/Python_D/blob/master/venv/include/maze/AStarRobot.py),喜欢`Python`的小可爱们可以拿去练练手。
 
 ### 提要说明
 本题中的迷宫，是以宫格类型呈现的，在代码中的呈现为`二维数组`。其次在迷宫中的移动，也只有**上、下、左、右**四个动作可选。如下所示：
