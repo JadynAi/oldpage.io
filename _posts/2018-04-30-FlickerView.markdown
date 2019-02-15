@@ -7,6 +7,7 @@ author:     "JadynAi"
 header-img: "img/20180430-blog-header-bg.jpg"
 tags:
     - Canvas动画
+    - Android
 ---
 
 > 天共水，水远与天连<br>天净水平寒月漾，水光月色两相兼

@@ -8,6 +8,7 @@ header-img: "img/20180610-blog-header-bg.png"
 tags:
     - 交互体验
     - Canvas动画
+    - Android
 ---
 
 **原创文章，转载请联系作者**

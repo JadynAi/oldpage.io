@@ -8,6 +8,7 @@ header-img: "img/20180519-blog-header-bg.jpg"
 tags:
     - Canvas动画
     - 视觉设计
+    - Android
 ---
 
 **原创文章，转载请联系作者**

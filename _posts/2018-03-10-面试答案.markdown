@@ -7,6 +7,7 @@ author:     "JadynAi"
 header-img: "img/post-bg-2015.jpg"
 tags:
     - 开发经验
+    - Android
 ---
 前段时间有一篇面试总结，[这里是原文原文](https://mp.weixin.qq.com/s?__biz=MzI2OTQxMTM4OQ==&mid=2247485263&idx=1&sn=519a450c4bd772afd9c0d1cdf810681d&chksm=eae1f21ddd967b0ba9c71d89c25ec9bf7b71205bc4e8e81708df0a8f59c7dd5d2b79890a35ad#rd),奈何只给了考卷没有答案。
 最近又处于金三银四，正是跳槽加薪的大好良机啊。便抽了时间将答案整理了一下。

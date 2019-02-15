@@ -7,6 +7,7 @@ author:     "JadynAi"
 header-img: "img/post-bg-2015.jpg"
 tags:
     - 技术讨论
+    - Android
 ---
 **原创文章，转载请联系作者**
 ### 前言

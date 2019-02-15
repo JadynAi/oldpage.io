@@ -7,6 +7,7 @@ author:     "JadynAi"
 header-img: "img/20180402-blog-header-bg.jpg"
 tags:
     - 科普向
+    - 音频
 ---
 
 **学习的目的在于掌握以及更好地使用，学习的第一步就是认知。在音频学习时，我们首先要认知的就是声音**。

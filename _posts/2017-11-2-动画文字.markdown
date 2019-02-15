@@ -7,6 +7,7 @@ author:     "JadynAi"
 header-img: "img/20170819-blog-header-bg.jpg"
 tags:
     - Canvas动画
+    - Android
 ---
 
 *本文属于Android技术论述文章，阅读完大致需要五分钟*   

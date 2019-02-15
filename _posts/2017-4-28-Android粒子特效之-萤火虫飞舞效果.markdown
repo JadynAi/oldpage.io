@@ -9,6 +9,7 @@ header-mask: 0.3
 catalog:    true
 tags:
     - Canvas动画
+    - Android
 ---
 
 [GitHub地址](https://github.com/JadynAi/Particle)
