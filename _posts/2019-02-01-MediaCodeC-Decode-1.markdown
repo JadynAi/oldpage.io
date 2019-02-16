@@ -28,7 +28,7 @@ tags:
 - OpenGL的处理方式，当然是最出名的[BigFlake](https://bigflake.com/mediacodec/ExtractMpegFramesTest_egl14.java.txt)，硬编码相关的示例代码很是详细
 
 ### 解码效率分析
-- 参考对象为一段约为13.8s，H.264编码，FPS为24，72*1280的MPEG-4的视频文件
+- 参考对象为一段约为13.8s，H.264编码，FPS为24，72*1280的MPEG-4的视频文件。[鸭鸭戏水视频](https://raw.githubusercontent.com/JadynAi/MediaLearn/master/pic/yazi.mp4)
 	- 此视频的视频帧数为332	
 - 略好点的设备解码时间稍短一点。但两种解码方式的效率对比下来，`OpenGl渲染`耗费的时间比`YUV转JPEG`多。
 	- 另：差一点的设备上，这个差值会被提高，约为一倍多。较好的设备，则小于一倍。
