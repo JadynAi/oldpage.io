@@ -8,7 +8,6 @@ header-img: "img/post-bg-2015.jpg"
 tags:
     - Android
     - 视频
-    - YUV
 ---
 
 **原创文章，转载请联系作者**
