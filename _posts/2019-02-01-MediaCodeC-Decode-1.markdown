@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      "Android:MediaCodeC使用两种方式解码视频并存储为文件"
-subtitle:   "YUV格式存储JPEG文件，以及OpenGL渲染"
+title:      "MediaCodeC硬解码视频，并将视频帧存储为图片文件"
+subtitle:   "使用两种不同的方法"
 date:       2019-02-01
 author:     "JadynAi"
 header-img: "img/post-bg-2015.jpg"
