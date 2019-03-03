@@ -2,7 +2,7 @@
 layout:     post
 title:      "MediaCodeC硬解码视频，并将视频帧存储为图片文件"
 subtitle:   "使用两种不同的方法"
-date:       2019-02-01
+date:       2019-01-25
 author:     "JadynAi"
 header-img: "img/post-bg-2015.jpg"
 tags:
