@@ -29,7 +29,6 @@ val videoDecoder2 = VideoDecoder2(dataSource)
 ```
 videoDecoder2.getFrame(time, { it->
 					//成功回调，it为对应帧Bitmap对象
-                  
                 }, {
                  //失败回调
               })
