@@ -179,6 +179,4 @@ LruCache自不用多说，磁盘缓存使用的是著名的[DiskLruCache](https:
 ### 结语
 [此处有项目地址，点击传送](https://github.com/JadynAi/MediaLearn/blob/master/mediakit/src/main/java/com/jadyn/mediakit/video/decode/VideoDecoder2.kt)
 
-<br>**以上**<br>**原创不易，大家走过路过看的开心，可以适当给个一毛两毛聊表心意**<br>![](http://JadynAi.github.io/img/person_wechat.jpg)
-
 
