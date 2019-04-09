@@ -246,6 +246,6 @@ fun saveFrame(fileName: String) {
 ### 结语
 [此处有项目地址，点击传送](https://github.com/JadynAi/MediaLearn/tree/master/app/src/main/java/com/jadyn/ai/medialearn/decode)
 
-<br>**以上**<br>**原创不易，大家走过路过看的开心，可以适当给个一毛两毛聊表心意**<br>![](http://JadynAi.github.io/img/person_wechat.jpg)
+<br>**以上**<br>**扫码支持作者**<br>![](http://JadynAi.github.io/img/person_wechat.jpg)
 
 
