@@ -12,7 +12,6 @@ url: "http://JadynAi.github.io"              # your host, for absolute URL
 # SNS settings
 RSS: false
 weibo_username: ailolime
-#zhihu_username:     huxpro
 github_username: JadynAi
 jianshu_username: 2ff60198ecd3
 
@@ -85,8 +84,4 @@ featured-condition-size: 1              # 相同标签数量大于这个数，�
 
 # Friends
 friends: [
-    {
-        title: "前端舞王",
-        href: "http://www.ganother.com"
-    }
 ]
